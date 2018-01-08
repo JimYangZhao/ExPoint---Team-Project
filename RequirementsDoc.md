@@ -1,8 +1,8 @@
 # Game Design Document
 
-##1. Game Overview
+## 1. Game Overview
 
-###1.1. Game Concept / Genre
+### 1.1. Game Concept / Genre
 1.2. Game Flow Summary – At a high level, how does the game progress?
 1.3. Look and Feel – What is the basic look and feel of the game? What is the visual style?
 2. Gameplay and Mechanics
