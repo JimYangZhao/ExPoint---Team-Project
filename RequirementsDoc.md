@@ -45,15 +45,27 @@ reader can get an idea of how one looks / plays.
 ### 5.2. Control System – How does the game player control the game? What are the specific commands?
 ### 5.3. Audio, music, sound effects – When is music playing? When do sound effects play?
 ## 6. Artificial Intelligence
-### 6.1. Enemy AI – Describe some behaviors that enemy objects and characters will have. (ex: move toward player,
-shoot at player, run away, etc.)
+### 6.1. Common Enemy AI
+   Enemies move from left to right. When they hit an edge, or move to far, they reverse direction.
+### 6.2. Boss Enemy AI
+   Bosses target the player. They move in the direction of the player, and when the player is within attack range, the boss attacks.
 ## 7. Game Art
-### 7.1. Key assets, how they are being developed. Intended style.
+*Style: Pixel Art
+*Source: https://finalbossblues.itch.io/pixel-platformer-pack
+*Key Assets:
+   1.Player
+   2.Stone Block
+   3.Totem Enemy
+   4.Skeleton Enemy
 ## 8. Level Editor
-### 8.1. Overview of level editor (scope, purpose)
-### 8.2. Interface – How will the user interact with the editor?
+### 8.1. Overview of level editor
+   The editor includes all tiles, enemies, and items from the core game. A user can use this editor to create their own levels. These levels can then be saved and loaded for later play.
+### 8.2. Interface
+   Insert Link To Drawing
 ### 8.3. Menu System – What will the menu system look like?
-### 8.4. Transition – How will you test the levels made in the editor?
+   Insert Link To Drawing
+### 8.4. Transition 
+   During the creation of a level, the user can click the play button at anytime to start and test the level after setting the initial player spawn point.
 ## 9. Player Account
 ### 9.1. Player Login / Profile – Stores / displays save games, levels, scores, achievements, etc.
 ### 9.2. Save Game – Quick Save vs. Save Points vs. Checkpoints
