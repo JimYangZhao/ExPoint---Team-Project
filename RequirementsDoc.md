@@ -50,13 +50,13 @@ reader can get an idea of how one looks / plays.
 ### 6.2. Boss Enemy AI
    Bosses target the player. They move in the direction of the player, and when the player is within attack range, the boss attacks.
 ## 7. Game Art
-*Style: Pixel Art
-*Source: https://finalbossblues.itch.io/pixel-platformer-pack
-*Key Assets:
-   1.Player
-   2.Stone Block
-   3.Totem Enemy
-   4.Skeleton Enemy
+- Style: Pixel Art
+- Source: https://finalbossblues.itch.io/pixel-platformer-pack
+- Key Assets:
+  - Player
+  - Stone Block
+  - Totem Enemy
+  - Skeleton Enemy
 ## 8. Level Editor
 ### 8.1. Overview of level editor
    The editor includes all tiles, enemies, and items from the core game. A user can use this editor to create their own levels. These levels can then be saved and loaded for later play.
