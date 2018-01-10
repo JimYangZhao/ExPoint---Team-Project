@@ -7,7 +7,7 @@
 ### 1.3. Look and Feel – What is the basic look and feel of the game? What is the visual style?
 ## 2. Gameplay and Mechanics
 ### 2.1 gameplay
-####  2.1.1-the player is greeted by the introduction screen which includes a “login” button , a “play” to start pre-made levels in the #### game , a “build” button to access the level editor , and an “options” button for configuration
+####  2.1.1-the player is greeted by the introduction screen which includes a “login” button , a “play” to start pre-made levels in the game , a “build” button to access the level editor , and an “options” button for configuration
 ####  2.1.2- the player will move left , right , up or down to reach and complete objectives that in turn help progress the main mission
 #### 2.1.3- each level will have mission that includes 1 or more objectives , the level is completed after required objectives are finished.
 #### 2.1.4- puzzles can include “ placing blocks  on pressure points to unlock a door” , “ timed jumps to reach certain areas” or “ defeat enemies in a set amount of time”
