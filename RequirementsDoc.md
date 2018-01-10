@@ -6,25 +6,24 @@
 ### 1.2. Game Flow Summary – At a high level, how does the game progress?
 ### 1.3. Look and Feel – What is the basic look and feel of the game? What is the visual style?
 ## 2. Gameplay and Mechanics
-### 2.1. Gameplay
-#### 2.1.1. Game Start / Login (How does the user start playing the game)
-#### 2.1.2. Game Progression
-#### 2.1.3. Mission/challenge Structure
-#### 2.1.4. Puzzle Structure
-#### 2.1.5. Objectives – What are the objectives of the game?
-#### 2.1.6. Play Flow – How does the game flow for the game player
-#### 2.1.7. Save Progress – Save Points? Quick Save? Checkpoints? Explain why
-### 2.2. Mechanics – What are the rules to the game? This is the model of the universe that the game works under.
-Think of it as a simulation of a world, how do all the pieces interact?
-#### 2.2.1. Physics – How does the physical universe work? (ex: gravity, collisions)
-#### 2.2.2. Movement in the game (limits/types of movement, controls)
-#### 2.2.3. Objects – How to pick them up and move them (ex: walk over, press button, etc.)
-#### 2.2.4. Actions – Switches / buttons / object interaction
-#### 2.2.5. Combat – How does the player do combat with enemies?
-#### 2.2.6. Economy – What is the economy of the game? How does it work?
-#### 2.2.7. Screen Flow -- A graphical description of how each screen is related to every other and a description of the
-purpose of each screen. (example: mega man, sometimes screen flows smoothly to the right, sometimes it
-transitions a full screen at a time)
+### 2.1 gameplay
+####  2.1.1-the player is greeted by the introduction screen which includes a “login” button , a “play” to start pre-made levels in the #### game , a “build” button to access the level editor , and an “options” button for configuration
+####  2.1.2- the player will move left , right , up or down to reach and complete objectives that in turn help progress the main mission
+#### 2.1.3- each level will have mission that includes 1 or more objectives , the level is completed after required objectives are finished.
+#### 2.1.4- puzzles can include “ placing blocks  on pressure points to unlock a door” , “ timed jumps to reach certain areas” or “ defeat enemies in a set amount of time”
+#### 2.1.5- objectives will depend on the level , they can be “ collect all coins” , “ reach a certain area” , “ complete a puzzle” or “ defeat boss” .
+#### 2.1.6- the player progresses through the game by completing the set objectives of the level , the challenge aspect will depend on how the level is made  , it is possible for the player to level up within the level and access more abilities to help complete the level , levels are considered  a full game experience so they are intended to be long so the player can get a sense of progress , and for the levelling system to not be trivial. 
+#### 2.1.7- checkpoints will be used  to save progress , unlike quicksave  , checkpoints help us avoid errors that can happen if a player saves at a point in the game where saving is not expected , it also helps the player by not having them return to the game in an inconvenient position and checkpoints also work as an auto-saving system that makes sure the player doesn’t need to remember to save every few minutes.
+### 2.2 mechanics
+#### 2.2.1- most objects in the game will be ”pulled down by gravity” unless they have a float or fly attribute  , jumps for instance work as a temporary fly  before being pulled down , the player can’t move through walls , except with certain abilities or through transparent walls , the player and NPCs will be able to move through each other.
+#### 2.2.2- movement in the game includes moving left or right , jumping or flying up  , and falling down , the player will either be in a running state or a walking state  which determine the speed of movement , movement  in water is slowed down and  movement animation is changed.
+#### 2.2.3- there will be multiple interactable object in the game  , interaction will be mostly initiated through hitting the X key , objects can be doors , portals, NPCs with dialogue .
+####    Helpful items like power-ups , will have to be picked up by interacting with them and they’ll be stored        in the inventory until used by the user.
+#### 2.2.4- actions performed by the player includes movement , interaction and combat , there are also other buttons that will open up the menu , inventory or ability customization.
+#### 2.2.5- combat is done through  activating some of the player’s abilities , with the starting ability being a no-cooldown short-range hit  , with the player unlocking more as they progress , enemies  are  harmful themselves (touching them lowers health) they can also fire hostile projectiles  ,  the damage differs depending on the hostile object , reaching 0 health ends the level.
+#### 2.2.6- the player collects coins or items throughout the level either by finding them and picking them up or by dropping them from enemies  , they can then sell or buy items in a hub that is usually at the start of the level but can be in different areas, currency drops become less frequent as the player’s wealth increases .
+#### 2.2.7- the screen will follow the player throughout the level , the entire level will be one screen with the view focusing on the player and cropping out the rest of the level , transitions will be used when the player activates a portal or a teleport “ability” that requires instance relocation of the view of the screen.
+
 ### 2.3. Game Options – What are the options and how do they affect game play and mechanics?
 ### 2.4. Cheats and Easter Eggs – (Including cheat codes? What are the input method and their effects?)
 ## 3. Story, Setting and Character
