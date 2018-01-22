@@ -3,7 +3,7 @@ This is a Use case for the menu.
 
 When the user in the game editor platform. 
 
-1.Users attempt to create stuff for the environment
+1.Users attempt to create stuff for the environment\n
     1.a. Users press A1, then C1(Sub-menu) will be opened, which shows all the environmental things that the user can create in the game.
     1.b. Users hover on the A1 button, nothing happen, unless users press the A1 button.
     1.c. Users press A1 and move the mouse to A2/A3/A4 button, C1 will not be changed, unless user press the A2/A3/A4 button.
