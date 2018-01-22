@@ -40,32 +40,3 @@ When the user in the game editor platform.
     8.a. After save the game, if users want to share the game they just created, users can press the B4 to publish the game in to the whole game community. 
     8.b. After the user press B4, C2 area will have a message pop up to tell the user “Publish already!”. 
 
-
-
-
-This is Use Case X Level Editor, which Scott wrote. I fixed some format.
-
-1.User attempts to places on the grid 
-    1.a User has object selected - Places the selected object on the grid, 'ready to publish' is set to false 
-    1.b User has not yet selected an object - Places the default object, 'ready to publish' is set to false 
-    1.c User tried to place an object on an occupied grid - Object does not get placed, nothing Happens
-2.User selects option from category toolbar 
-    2.a User selects a category different from the current category: Object menu updated to appropriate category 
-    2.b User selects the same category as the current category: Object menu does not update, nothing happens
-3.User attempts to save level 
-    3.a User connects to database successfully - Level is saved under player's Profile 
-    3.b User unsuccessfully connects to database - Inform user of problem through prompt. User must take action from list of actions 
-     3.b.1 User selects retry - attempt to connect to database again. Repeats case 3. 
-     3.b.2 User selects save to file - Saves file under text file. Exits Prompt 
-     3.b.3 User selects cancel - Exits prompt without any action
-4.User attempts to publish level 4.a Level has 'ready to publish' set to true - Attempts to connect to database 
-     4.a.1 User connects to database successfully - Adds current form of the level to the list of published levels. 
-     4.a.2 User is unable to connect to the database - Inform user of problem through prompt. User must take action from list of actions 
-      4.a.2.1 User selects retry from list of actions- Repeats case 
-      4.a 4.a.2.2 User selects cancel from list of actions - Closes prompt without action 
-      4.b Level has 'ready to publish' set to false - Inform user of problem through prompt.
-5.User presses play mode - Puts user into play mode. If level is beat during this play mode, 'ready to publish' is set to true.
-6.User presses return to main menu - Prompts user to save level before quitting 
-      6.a User selects not to save - Returns to main menu 
-      6.b User selects to save - start case 3 
-      6.c User selects cancel - Close prompt without action
