@@ -1,0 +1,29 @@
+Select Game Difficulty
+
+    Triggers: Clicking the Difficulty Button
+    Description: The user selects the desired difficulty of game levels
+    Preconditions: Database is running
+    Post-conditions: Desired difficulty is applied to all succeeding levels  
+    Actors: User, Game Engine, Database
+
+    1. User clicks the 'Difficulty' button
+    2. User chooses from three displayed options: Beginner, Intermediate and Hard
+    3. User selects desired difficulty option.
+    4. User confirms choice by pressing 'Confirm'button
+    5. Engine sends updated information to database
+    6. Engine confirms difficulty has been applied
+       
+
+Change Game Quality 
+
+    Triggers: 
+    Description:
+    Preconditions: What needs to be true for this Use Case to happen?
+    Post-conditions: What is true after the Use Case?
+    Actors: Who/What are the entities involved in this Use Case
+
+    First Step
+    Second Step
+        Alternate Flow 1
+        Alternate Flow 2
+    Etc....
