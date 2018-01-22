@@ -33,6 +33,7 @@ Change Video Options
     2. User makes changes to keybind settings
         2a. User binds key to more than one action
             1. Keybind is in effect for second selection and first one is removed
+        2b. User clicks 'Restore to Default'
     3. User clicks 'Confirm' button
     4. Preferences sent to database
     5. Menu confirms changes made
