@@ -29,14 +29,14 @@ When the user in the game editor platform.
 
 6.Users attempt to return to the main menu, <br>
     <br>6.a. Users can press B2 button to return the main menu. 
-    <br>6.b. When the user press B2, C2 area will have a message pop up to ask the user “Are you sure to leave. Y/N”, if press “Y”, the screen will reach the main menu, else if the user press “N”, the screen will stay in the editor platform.<br>
+    <br>6.b. When the user press B2, C2 area will have a prompt pop up to ask the user “Are you sure to leave. Y/N”, if press “Y”, the screen will reach the main menu, else if the user press “N”, the screen will stay in the editor platform.<br>
 
 7.Users attempt to save the process of the editor situation, <br>
     <br>7.a. Users can press B3 to save the editor situation. 
-    <br>7.b. After the user press B3, C2 area will have a message pop up to tell the user “save successful!”.
+    <br>7.b. After the user press B3, C2 area will have a prompt pop up to tell the user “save successful!”.
     <br>7.c. Next time when the user login, they can find the game they just created from the game database of user’s own storage.<br>
 
 8.Users attempt to publish the game, <br>
     <br>8.a. After save the game, if users want to share the game they just created, users can press the B4 to publish the game in to the whole game community. 
-    <br>8.b. After the user press B4, C2 area will have a message pop up to tell the user “Publish already!”. 
+    <br>8.b. After the user press B4, C2 area will have a prompt pop up to tell the user “Publish already!”. 
 
