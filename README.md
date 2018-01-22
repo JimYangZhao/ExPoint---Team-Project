@@ -39,4 +39,8 @@ When the user in the game editor platform.
 8.Users attempt to publish the game, <br>
     <br>8.a. After save the game, if users want to share the game they just created, users can press the B4 to publish the game in to the whole game community. 
     <br>8.b. After the user press B4, C2 area will have a prompt pop up to tell the user “Publish already!”. 
-
+    
+9.Users attempt to drag the object from the C1 to arrange the object in their favorite area in the game,<br>
+        <br>9.a. Users press left button of the mouse and select the object from the C2 area, the object will follows the user's mouse, when the user press the mouse left button again, the object will put on the point where the user's mouse at.
+        <br>9.b. Users try to cancel the object from the submenu which they selected, type on the right button of the user's mouse.
+        <br>9.c. If the user selected one object from the submenu, but type the left button at the invalid position, the C1 will have a promp to tell the user "invalid position."<br>
