@@ -1,4 +1,46 @@
 # CS4770
+
+
+User InGame-Playing in a level
+Triggers: User click the level on the world map
+Description: The user play in a level of the game fight with enemies and gain more rewards.
+Preconditions: Login with player’s account and password.
+Post-conditions: None.
+Actors: Database, Game Engine, User, Controller.
+
+
+Normal Flow(when nothing goes wrong)
+
+ 1. Start a level
+	1.a. Engine queries Database to retrieve level’s check point 
+	1.b. Engine shows a prompt to ask the player whether not not to resume the game from the check point.
+		1.b.a. If the player selects “From check point”, engine will lead the player to the check point to start.
+		1.b.b. If the player selects “From start”, so the engine will just start generally. 
+
+Playing a level
+	2.a.
+
+Pause Game
+	3.a. User press Pause button, the Engine will give player a general Setting Screen
+	3.b. User press Continue button
+		3.b.a If user change something, database will save this setting until next change happens.
+		3.b.b If user not change anything, game resume.
+
+Saving Game
+	4.a. When player go pass a check point in the game, it will store the position of the play into the database.
+	4.b. Engine queries Database to save the game, when play win a level of the game.
+
+End Game
+	5.a. Play can exit the game anytime they want, the database will store the last check point position for the player’s account.
+	5.b If player doesn’t pass any check point, the Engine will restart the level database for the player.
+
+
+
+
+
+
+
+
 This is a Use case for the menu.
 
 When the user in the game editor platform. 
