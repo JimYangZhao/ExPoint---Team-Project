@@ -14,17 +14,41 @@ Normal Flow(when nothing goes wrong)
 		1.b.a. If the player selects “From check point”, engine will lead the player to the check point to start.
 		1.b.b. If the player selects “From start”, so the engine will just start generally. 
 
-Pause Game
+ 2. Pause Game
 	2.a. User press Pause button, the Engine will give player a general Setting Screen
 	2.b. User press Continue button
 		2.b.a If user change something, database will save this setting until next change happens.
 		2.b.b If user not change anything, game resume.
 
-Saving Game
+ 3. Saving Game
 	3.a. When player go pass a check point in the game, it will store the position of the play into the database.
 	3.b. Engine queries Database to save the game, when play win a level of the game.
 
-End Game
-	4.a. Play can exit the game anytime they want, the database will store the last check point position for the player’s account.
+ 4. End Game
+	4.a. Player can exit the game anytime they want, the database will store the last check point position for the player’s account.
 	4.b If player doesn’t pass any check point, the Engine will restart the level database for the player.
 
+ 5. Achievements
+ 	5.a. Engine queries Database to record players' achivements in their profile, and release the reward for the player.
+	5.b. Database updates the player's profile.
+	
+	
+	
+Team Members and Roles
+
+    Engine - Alex, Othman
+    MongoDB - Alex, Scott, Shamiso
+    Level Editor - Othman, Yang
+    Interface - Scott, Shamiso, Yang
+
+Scott Normore - I chose database as I was interested in working with it (something that I wish to know more about).
+I decided to pair it up with interface, as it will keep me included with the rest of the project, as well as pairing 
+nicely with database when it comes to web forms and related stuff.
+
+Alex Gillis - I selected the Engine and Database because I prefer working on the lower level details.
+
+Shamiso Jaravaza - I chose the Interface and Database because I have an interest in User Interfaces and 
+have experience working with interface and database as a pair from prior coursework.
+
+Yang Zhao - I chose level editor and interface because I think comfortable interface and level version can give players
+a very nice feeling, I am interested in coding the level editor and interface as my favorite part.
