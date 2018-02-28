@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<script src="js/menuLogic.js"></script>
+<script src="js/gameEngine.js"></script>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+<div id='menu1'>
+    <button onclick="menuButton('menu2')">Menu 2</button> 
+    <button onclick="menuButton('menu3')">Menu 3</button> 
+    <button onclick="menuButton('menu4')">Menu 4</button>  
+</div>
+<div id='menu2'>
+    <button onclick="menuButton('menu1')">Menu 1</button>
+    <canvas id="gameCanvas" width="300" height="300" style="border:1px solid #000000;"> </canvas>
+</div>
+<div id='menu3'>
+    <button onclick="menuButton('menu1')">Menu 1</button>
+</div>
+<div id='menu4'>
+    <button onclick="menuButton('menu1')">Menu 1</button>
+</div>
+</body>
+</html>
+
