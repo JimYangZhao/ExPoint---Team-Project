@@ -1,3 +1,6 @@
+//Handles the logic for changing game menus
+//Done with HTML
+
 var divList= ['menu1' ,'menu2','menu3','menu4'];
 
 function menuButton(divID) {
