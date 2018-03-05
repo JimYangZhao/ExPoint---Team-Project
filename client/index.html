@@ -18,7 +18,7 @@
     Username: <br>
     <input type="text" name="ExUsername" required><br>
     Password: <br>
-    <input type="text" name="ExPassword" required><br>
+    <input type="password" name="ExPassword" required><br>
     <input type="submit" value="Submit" onclick=menuButton('Play')>
     <input type="submit" value="Reset Password">
 
@@ -29,7 +29,7 @@
     Username: <br>
     <input type="text" name="Username" required><br>
     Password: <br>
-    <input type="text" name="Password" required><br>
+    <input type="password" name="Password" required><br>
     <input type="submit" value="Submit" >
 </div>
 
@@ -38,7 +38,57 @@
 </div>
 
 <div id='Play'>
-    <canvas id="gameCanvas" width="300" height="300" style="border:1px solid #000000;"> </canvas>
+  <button onclick="menuButton('Start Campaign')">Start Campaign</button>
+  <button onclick="menuButton('Level Editor')">Level Editor</button>
+  <button onclick="menuButton('Leaderboard')">Leaderboard</button>
+  <button onclick="menuButton('Options')">Options</button>
+  <button onclick="menuButton('MainMenu')">Logout</button>
+</div>
+
+<div id='Start Campaign'>
+  World Map goes here!
+  <button onclick="menuButton('Play')">Back</button>
+  <input type="submit" value="Play Game"><br>
+</div>
+
+<div id='Level Editor'>
+  Build Menu System goes here
+  <button onclick="menuButton('Play')">Back</button>
+
+</div>
+
+<div id="Leaderboard">
+  Leaderboard page goes here
+  <button onclick="menuButton('Play')">Back</button>
+</div>
+
+<div id="Options">
+  Sound Options<br>
+  <input type="radio" name="1" value="Easy" checked>Easy<br>
+  <input type="radio" name="1" value="Intermediate">Intermediate<br>
+  <input type="radio" name="1" value="Hard">Hard<br>
+
+  Video Resolution<br>
+  <select name="quality">
+  <option value="1">a</option>
+  <option value="1">b</option>
+  <option value="1">c</option>
+  <option value="1">d</option>
+  </select><br>
+
+  Screen Size<br>
+  <select name="size">
+  <option value="2">a</option>
+  <option value="2">b</option>
+  <option value="2">c</option>
+  <option value="2">d</option>
+  </select><br>
+
+  <button>Keybind Change</button><br>
+
+  <button onclick="menuButton('Play')">Apply</button>
+  <button onclick="menuButton('Play')">Back</button>
+
 </div>
 
 </body>
