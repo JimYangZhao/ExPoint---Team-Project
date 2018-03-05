@@ -32,4 +32,4 @@ Entity = function(x,y,id=-1){
         self.x = nX;
         self.y = nY;
     }
-}
+};
