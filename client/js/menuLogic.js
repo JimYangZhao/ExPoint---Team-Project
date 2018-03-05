@@ -1,7 +1,7 @@
 //Handles the logic for changing game menus
 //Done with HTML
 
-var divList= ['MainMenu' ,'Login','Create Account','Offline','Play'];
+var divList= ['MainMenu' ,'Login','Create Account','Offline','Play','Start Campaign','Level Editor','Leaderboard','Options','Logout'];
 
 function menuButton(divID) {
     for (i=0;i<divList.length;i++){
