@@ -45,4 +45,4 @@ motionEntity = function(x,y,id,velX,velY){
     function update(){
         
     }
-}
+};
