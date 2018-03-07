@@ -1,12 +1,14 @@
 div {
     display : none
+
 }
 #MainMenu {
     display : block;
     hover-color: black;
 }
 body{
-	background-color: gray;
+    background-color: gray;
+
 }
 
 button {
@@ -21,7 +23,8 @@ button {
     border-radius: 5px;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-family: 'Mina', sans-serif;
+    font-size: 48px;
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
     display: block;
