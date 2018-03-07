@@ -1,136 +1,183 @@
-//
-// Asset loader
-//
+// Javascript for the game to go here.
 
-var Loader = {
-    images: {}
-};
+//code for checking button preses
+pressingRight = false;
+pressingLeft = false;
+pressingUp = false;
+pressingDown = false;
 
-Loader.loadImage = function (key, src) {
-    var img = new Image();
-
-    var d = new Promise(function (resolve, reject) {
-        img.onload = function () {
-            this.images[key] = img;
-            resolve(img);
-        }.bind(this);
-
-        img.onerror = function () {
-            reject('Could not load image: ' + src);
-        };
-    }.bind(this));
-
-    img.src = src;
-    return d;
-};
-
-Loader.getImage = function (key) {
-    return (key in this.images) ? this.images[key] : null;
-};
-
-
-//
-// Keyboard handler
-//
-var Keyboard = {};
-
-Keyboard.LEFT = 37;
-Keyboard.RIGHT = 39;
-Keyboard.UP = 38;
-Keyboard.DOWN = 40;
-
-Keyboard._keys = {};
-
-Keyboard.listenForEvents = function (keys) {
-    window.addEventListener('keydown', this._onKeyDown.bind(this));
-    window.addEventListener('keyup', this._onKeyUp.bind(this));
-
-    keys.forEach(function (key) {
-        this._keys[key] = false;
-    }.bind(this));
+document.onkeydown= function(event){
+    if(event.keyCode == 68)
+        pressingRight=true;
+    else if(event.keyCode == 83)
+        pressingDown=true;
+    else if(event.keyCode == 65)
+        pressingLeft=true;
+    else if(event.keyCode == 87)
+        pressingUp=true;
+}
+document.onkeyup=function(event){
+    if(event.keyCode == 68)
+        pressingRight=false;
+    else if(event.keyCode == 83)
+        pressingDown=false;
+    else if(event.keyCode == 65)
+        pressingLeft=false;
+    else if(event.keyCode == 87)
+        pressingUp=false;
 }
 
-Keyboard._onKeyDown = function (event) {
-    var keyCode = event.keyCode;
-    if (keyCode in this._keys) {
-        event.preventDefault();
-        this._keys[keyCode] = true;
+
+//gamestate and or level data
+levelData = function(entityList){
+    this.entityList=entityList;
+}
+
+//formula for checking if entity one and entity two colides. Returns true if so.
+//works by checking for a gap between the two entities. If any exist, then there is no collision
+function checkCollision(entity1,entity2){
+    return entity1.x < entity2.x+entity2.width
+        && entity2.x < entity1.x+entity1.width
+        && entity1.y < entity2.y+entity2.height
+        && entity2.y < entity1.y+entity1.height;
+}
+//uses the minkowski sum. checks here the center of a rectangle lies relative to the other one
+//outputs direction with respect to entity 1/2?.
+function checkSide(entity1,entity2){
+    w = 0.5*(entity1.width + entity2.width);
+    h = 0.5*(entity1.height+entity2.height);
+    dx = entity1.x - entity2.x;
+    dy = entity1.y - entity2.y;
+    wy=w*dy;
+    hx=h*dx;
+    if(wy>hx){
+        if(wy>-hx) console.log("bottom collision");
+        else console.log("left collision");
     }
-};
-
-Keyboard._onKeyUp = function (event) {
-    var keyCode = event.keyCode;
-    if (keyCode in this._keys) {
-        event.preventDefault();
-        this._keys[keyCode] = false;
+    else{
+        if(wy > -hx) console.log("right collision");
+        else console.log("top collision");
     }
-};
+}
+//reference to canvas
+var ctx = document.getElementById("ctx").getContext("2d");
 
-Keyboard.isDown = function (keyCode) {
-    if (!keyCode in this._keys) {
-        throw new Error('Keycode ' + keyCode + ' is not being listened to');
+//the game object that is created when a level is loaded.
+function gameObject(initialState){
+    //the stored variables in game objects
+    this.currentLevelData=initialState
+    this.checkPointLevelData=initialState
+    //game objects functions
+
+    //this function is the game loop It updates everything in the current game state. 
+    this.updateGame=function(){
+        ctx.clearRect(0,0,500,500);
+        for(i=0; i < this.currentLevelData.entityList.length ; i++){
+            this.currentLevelData.entityList[i].update();
+        }
+        for(i=0; i < this.currentLevelData.entityList.length ; i++){
+            for(j=i+1; j < this.currentLevelData.entityList.length ; j++){
+                if(checkCollision(this.currentLevelData.entityList[i],this.currentLevelData.entityList[j])){
+                    checkSide(this.currentLevelData.entityList[i],this.currentLevelData.entityList[j]);
+                }
+            }
+        }
+        for(i=0; i < this.currentLevelData.entityList.length ; i++){
+            this.currentLevelData.entityList[i].draw();
+        }
     }
-    return this._keys[keyCode];
-};
 
+    //this function is called when the player dies. It replaces the current game state with the checkpoint's
+    this.loadCheckpoint = function() {
+        this.currentLevelData=this.checkPointLevelData;
+    }
+    //this function is called when the player collides with a checkpoint
+    this.saveCheckpoint = function() {
+        this.currentLevelData=this.checkPointLevelData;
+    }
+}
 
-//
-// Game object
-//
-var Game = {};
+//some code for testing purposes
 
-Game.run = function (context) {
-    this.ctx = context;
-    this._previousElapsed = 0;
+/*
 
-    var p = this.load();
-    Promise.all(p).then(function (loaded) {
-        this.init();
-        window.requestAnimationFrame(this.tick);
-    }.bind(this));
-};
+Enemy1 = function(X,Y){
+    this.x = X;
+    this.y = Y;
+    this.width = 10;
+    this.height = 10;
+    this.id="skeleton";
+    this.update = function(){
+        this.x=this.x+1;
+        this.y=this.y+1;
+    }
+    this.draw = function(){
+        ctx.fillRect(this.x,this.y,10,10);
+    }
+}
+Enemy2 = function(X,Y){
+    this.x = X;
+    this.y = Y;
+    this.width = 20;
+    this.height = 20;
+    this.id="wizard";
+    this.update = function(){
+        this.x=this.x-1;
+        this.y=this.y-1;
+    }
+    this.draw = function(){
+        ctx.fillRect(this.x,this.y,20,20);
+    }
+}
+*/
+Block = function(X,Y){
+    this.x = X;
+    this.y = Y;
+    this.width = 32;
+    this.height = 32;
+    this.id="player";
+    this.update = function(){
+    }
+    this.draw = function(){
+        ctx.fillStyle="#000000";
+        //ctx.fillRect(this.x,this.y,32,32);
+        ctx.fillRect(250+(this.x-player.x),250+(this.y-player.y),32,32);
+        
+    }
+}
+Player = function(X,Y){
+    this.x = X;
+    this.y = Y;
+    this.width = 32;
+    this.height = 32;
+    this.id="block";
+    this.update = function(){
+        if(pressingDown) this.y = this.y+1;
+        if(pressingUp) this.y = this.y-1;
+        if(pressingLeft) this.x = this.x-1;
+        if(pressingRight) this.x = this.x+1;
+    }
+    this.draw = function(){
+        ctx.fillStyle="#FF0000";
+        //ctx.fillRect(this.x,this.y,32,32);
+        ctx.fillRect(250,250,32,32);
+    }
+}
 
-Game.tick = function (elapsed) {
-    window.requestAnimationFrame(this.tick);
+entityList=[];
+//entityList.push(new Enemy1(0,0));
+//entityList.push(new Enemy2(200,200));
+player = new Player(0,0);
+entityList.push(player);
+entityList.push(new Block(64,32));
+entityList.push(new Block(64,64));
+entityList.push(new Block(64,96));
 
-    // clear previous frame
-    this.ctx.clearRect(0, 0, 512, 512);
+loadedLevel = new levelData(entityList);
+game = new gameObject(loadedLevel);
 
-    // compute delta time in seconds -- also cap it
-    var delta = (elapsed - this._previousElapsed) / 1000.0;
-    delta = Math.min(delta, 0.25); // maximum delta of 250 ms
-    this._previousElapsed = elapsed;
-
-    this.update(delta);
-    this.render();
-}.bind(Game);
-
-Game.init = function () {
-    Keyboard.listenForEvents(
-        [Keyboard.LEFT, Keyboard.RIGHT, Keyboard.UP, Keyboard.DOWN]);
-    this.tileAtlas = Loader.getImage('tiles');
-    this.camera = new Camera(map, 512, 512);
-};
-  
-Game.update = function (delta) {
-    // handle camera movement with arrow keys
-    var dirx = 0;
-    var diry = 0;
-    if (Keyboard.isDown(Keyboard.LEFT)) { dirx = -1; }
-    if (Keyboard.isDown(Keyboard.RIGHT)) { dirx = 1; }
-    if (Keyboard.isDown(Keyboard.UP)) { diry = -1; }
-    if (Keyboard.isDown(Keyboard.DOWN)) { diry = 1; }
-  
-    this.camera.move(delta, dirx, diry);
-};
-
-//Overrided in interface.js to display entities
-Game.render = function () {};
-
-//
-// start up function
-//
-startGame = function(){
-    var context = document.getElementById('levelEditor').getContext('2d');
-    Game.run(context);
+setInterval(update,1000/60);
+function update(){
+    game.updateGame();
+    console.log(player.x + " , " + player.y)
 }
