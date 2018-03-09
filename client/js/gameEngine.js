@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 // Javascript for the game to go here.
 
 //code for checking button preses
@@ -81,7 +78,6 @@ function checkSide(entity1,entity2){
         }
     }
 }
->>>>>>> b0d8138144fd8c0ff0df5dcc87e743b56cdfdb7f
 
 
 //reference to canvas
