@@ -1,10 +1,17 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
+=======
+ 
+ <!DOCTYPE html>
+<script src="js/fabric.js"></script>
+>>>>>>> b0d8138144fd8c0ff0df5dcc87e743b56cdfdb7f
 <script src="js/menuLogic.js"></script>
 <script src="js/gameEngine.js"></script>
 <script src="js/levelEditor.js"></script>
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="index.css">
+<link href="https://fonts.googleapis.com/css?family=Mina" rel="stylesheet">
 </head>
 <body>
 
@@ -16,17 +23,28 @@
 
 <div id='Login'>
     <button onclick="menuButton('MainMenu')">Back</button>
-    Username: <br>
+    Username:  
     <input type="text" name="ExUsername" required><br>
-    Password: <br>
-    <input type="password" name="ExPassword" required><br>
+    Password:  
+    <input type="password" name="ExPassword" required> <br>
     <input type="submit" value="Submit" onclick=menuButton('Play')>
     <input type="submit" value="Reset Password">
 
 </div>
+<<<<<<< HEAD
 <div id='menu3'>
     <button onclick="menuButton('menu1')">Menu 1</button>
     <canvas id="levelEditor" width="600" height="600" style="border:1px solid #000000;"> </canvas>
+=======
+
+<div id='Create Account'>
+    <button onclick="menuButton('MainMenu')">Back</button>
+    Username:  
+    <input type="text" name="Username" required><br>
+    Password:  
+    <input type="password" name="Password" required><br>
+    <input type="submit" value="Submit" >
+>>>>>>> b0d8138144fd8c0ff0df5dcc87e743b56cdfdb7f
 </div>
 
 <div id='Offline'>
@@ -60,12 +78,16 @@
 </div>
 
 <div id="Options">
-  Sound Options<br>
-  <input type="radio" name="1" value="Easy" checked>Easy<br>
-  <input type="radio" name="1" value="Intermediate">Intermediate<br>
-  <input type="radio" name="1" value="Hard">Hard<br>
+ <button onclick="menuButton('Play')">Back</button>
+  <h4>Volume</h4>   
+    <input type="range" min="1" max="100" value="50" class="slider" id="Sound">
+  <br>
+  <h4>Difficulty</h4>  
+  <input type="radio" name="1" value="Easy" checked>Easy 
+  <input type="radio" name="1" value="Intermediate">Intermediate 
+  <input type="radio" name="1" value="Hard">Hard <br>
 
-  Video Resolution<br>
+  <h4>Video Resolution</h4> 
   <select name="quality">
   <option value="1">a</option>
   <option value="1">b</option>
@@ -73,7 +95,7 @@
   <option value="1">d</option>
   </select><br>
 
-  Screen Size<br>
+  <h4>Screen Size</h4>  
   <select name="size">
   <option value="2">a</option>
   <option value="2">b</option>
@@ -81,13 +103,45 @@
   <option value="2">d</option>
   </select><br>
 
-  <button>Keybind Change</button><br>
+   
+   <h4>Keybind Change</h4>
+   (Click and Enter New Key)
+   <table style="width:50%"> 
+   <tr>
+    <th>Action</th>
+    <th>Key</th>
+  </tr>
+  <tr>
+    <td>Jump</td>
+    <td>Up Arrow</td>
+  </tr>
+  <tr>
+    <td>Block</td>
+    <td>Down Arrow</td>
+  </tr>
+  <tr>
+    <td>Move Left</td>
+    <td>Left Arrow</td>
+  </tr>
+  <tr>
+    <td>Move Right</td>
+    <td>Right Arrow</td>
+  </tr>
+  <tr>
+    <td>Interact</td>
+    <td>C</td>
+  </tr>
+  <tr>
+    <td>Inventory Menu</td>
+    <td>V</td>
+  </tr>
+  </table>
+   
 
   <button onclick="menuButton('Play')">Apply</button>
-  <button onclick="menuButton('Play')">Back</button>
+ 
 
 </div>
 
 </body>
-
 
