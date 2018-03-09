@@ -1,48 +1,35 @@
-//Base Entity that all Entities inherient from
-
-
-//Creates a unique ID for each entity created
-//function generateID(){
-//    function s4() {
-//        return Math.floor((1 + Math.random()) * 0x10000)
-//          .toString(16)
-//          .substring(1);
-//      }
-//      return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-//       s4() + '-' + s4() + s4() + s4();
-//}
-
-Entity = function(x,y,id){
-    var self = {}
-
-    //x,y positions
-    self.x = x;
-    self.y = y;
-    self.id=id;
-
-    //If no id is given, generate a new one
-    //if(id==-1){
-    //    self.id = generateID();
-    //} 
-    //else{
-    //    self.id = id;
-    //}
-
-    //Updates the position of the entity 
-    //function newPos(nX,nY){
-    //    self.x = nX;
-    //    self.y = nY;
-    //}
+function Entity(x,y) {
+    this.x=x;
+    this.y=y;
 }
+//------------------
+function Enemy1(x,y){
+    Entity.call(this,x,y);
+}
+Enemy1.prototype=Object.create(Entity.prototype);
+Enemy1.prototype.constructor = Enemy1;
 
-motionEntity = function(x,y,id,velX,velY){
+Enemy1.prototype.update=function(){
+    //console.log("SKELETON MAN");
+    //console.log(this.x + " " + this.y);
+    this.remove();
+}
+//-----------------
+function Enemy2(x,y){
+    Entity.call(this,x,y);
+}
+Enemy2.prototype=Object.create(Entity.prototype);
+Enemy2.prototype.constructor = Enemy2;
 
-    self = entity(x,y,id);
+Enemy2.prototype.update=function(){
+    //console.log("WIZARDO");
+    this.remove();
+}
+/*
+var gamestate = { activeList: [] };
 
-    self.velX = velX;
-    self.velY = velY;
-
-    function update(){
-        
-    }
-};
+Entity.prototype.remove = function(){
+    var i = gamestate.activeList.indexOf(this);
+    gamestate.activeList.splice(i,1);
+}
+*/
