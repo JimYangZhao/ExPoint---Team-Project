@@ -13,3 +13,52 @@ function menuButton(divID) {
         }
     }
 }
+
+//handles logic for user login
+function validLogin() {
+    var sNumber=document.getElementById("ExUsername").value;
+    var pWord= document.getElementById("ExPassword").value;
+
+    if(sNumber == "abc" && pWord== "123"){
+			menuButton('Play'); 
+    }
+    else{
+        alert("Invalid Login. Please try again");
+    }
+
+}
+ //handles Account Creation
+function newAccountLogin() {
+    var sNumber=document.getElementById("Username").value;
+    var pWord= document.getElementById("Password").value;
+
+    if(sNumber == "abc" && pWord== "123"){
+			  alert("Username is already taken");
+    }
+    else{
+         menuButton('Play');
+    }
+
+}
+
+
+function KeybindChange() {
+    var table = document.getElementById("KB");
+    var rows = table.getElementsByTagName("tr");
+    for (i = 0; i < rows.length; i++) {
+        var currentRow = table.rows[i];
+        var createClickHandler = 
+        function(row) 
+        {
+            return function() { 
+                                    var cell = row.getElementsByTagName("td")[0];
+                                    var id = cell.innerHTML;
+                                    alert(id);
+                             };
+        };
+
+    currentRow.onclick = createClickHandler(currentRow);
+    }
+}
+
+ 
