@@ -64,14 +64,15 @@ h4{
 
 button {
      
+    text-align: center;
     position: relative;
     background-color: transparent;
-    top: 50%;
-    left: 50%;
+    margin: auto;
+    width: 30%;
     border: none;
     color: white;
-    padding: 10px 50px;
-    text-align: justify;
+    padding: 10px 0px;
+    text-align: center;
     border-radius: 5px;
     text-decoration: none;
     display: inline-block;
@@ -79,7 +80,7 @@ button {
     font-size: 48px;
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
-    display: block;
+	display: block;
 }
 
 button:hover {
