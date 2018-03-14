@@ -1,5 +1,3 @@
-// Javascript for the game to go here.
-
 //code for checking button preses
 pressingRight = false;
 pressingLeft = false;
@@ -41,6 +39,9 @@ document.onkeyup=function(event){
 //gamestate and or level data
 levelData = function(entityList){
     this.entityList=entityList;
+    //objects we are always checking
+    //objects that ate static
+    //player inventory?
 }
 
 //formula for checking if entity one and entity two colides. Returns true if so.
@@ -101,7 +102,7 @@ function gameObject(initialState){
                 if(checkCollision(this.currentLevelData.entityList[i],this.currentLevelData.entityList[j])){
                     
                     
-                    
+                    console.log(this.currentLevelData.entityList[i].id)
                     //entity1Side=checkSide(this.currentLevelData.entityList[i],this.currentLevelData.entityList[j]);
                     this.currentLevelData.entityList[i].collision(this.currentLevelData.entityList[j]);
                     //console.log(entity1Side + "" + this.currentLevelData.entityList[i].id);
@@ -129,135 +130,36 @@ function gameObject(initialState){
 
 //some code for testing purposes
 
-/*
-
-Enemy1 = function(X,Y){
-    this.x = X;
-    this.y = Y;
-    this.width = 10;
-    this.height = 10;
-    this.id="skeleton";
-    this.update = function(){
-        this.x=this.x+1;
-        this.y=this.y+1;
-    }
-    this.draw = function(){
-        ctx.fillRect(this.x,this.y,10,10);
-    }
-}
-Enemy2 = function(X,Y){
-    this.x = X;
-    this.y = Y;
-    this.width = 20;
-    this.height = 20;
-    this.id="wizard";
-    this.update = function(){
-        this.x=this.x-1;
-        this.y=this.y-1;
-    }
-    this.draw = function(){
-        ctx.fillRect(this.x,this.y,20,20);
-    }
-}
-*/
-
-//some sample entities. Entity design not final
-Block = function(X,Y){
-    this.x = X;
-    this.y = Y;
-    this.width = 32;
-    this.height = 32;
-    this.id="player";
-    this.update = function(){
-    }
-    this.draw = function(){
-        ctx.fillStyle="#000000";
-        //ctx.fillRect(this.x,this.y,32,32);
-        ctx.fillRect(250+(this.x-player.x),250+(this.y-player.y),32,32);
-        
-    }
-    this.collision = function(entity){
-        
-    }
-
-}
-Player = function(X,Y){
-    this.x = X;
-    this.y = Y;
-    this.width = 32;
-    this.height = 32;
-    this.id="block";
-    this.cooldown=0;
-    this.update = function(){
-        if(pressingDown) this.y = this.y+16;
-        if(pressingUp) this.y = this.y-16;
-        if(pressingLeft) this.x = this.x-16;
-        if(pressingRight) this.x = this.x+16;
-        this.y=this.y+2
-        if(this.cooldown==0){
-            if(pressingPower1==true){
-                console.log("Shblam");
-                this.cooldown=this.cooldown+30
-            }
-            else if(pressingPower2==true){
-                console.log("Shblaaaaaaammo");
-                this.cooldown=this.cooldown+60
-            }
-        }else{
-            this.cooldown=this.cooldown-1
-        }
-    }
-    this.draw = function(){
-        ctx.fillStyle="#FF0000";
-        //ctx.fillRect(this.x,this.y,32,32);
-        ctx.fillRect(250,250,32,32);
-    }
-    this.collision = function(entityC){
-        entitySide=checkSide(this,entityC);
-        //console.log(entitySide)
-        
-        if(entityC.id=Block){
-            sideColided=checkSide(this , entityC)
-            if(sideColided=="bottom"){
-                this.y=entityC.y-32;
-            }
-            if(sideColided=="top"){
-                this.y=entityC.y+32;
-            }
-            if(sideColided=="left"){
-                this.x=entityC.x+32;
-            }
-            if(sideColided=="right"){
-                this.x=entityC.x-32;
-            }
-        }
-    }
-}
-
 entityList=[];
 //entityList.push(new Enemy1(0,0));
 //entityList.push(new Enemy2(200,200));
-player = new Player(32,0);
+player = new player(32,0);
 
 
-entityList.push(new Block(0,128));
-entityList.push(new Block(32,128));
-entityList.push(new Block(64,128));
-entityList.push(new Block(96,128));
-entityList.push(new Block(128,64));
-entityList.push(new Block(128,96));
-entityList.push(new Block(128,128));
-entityList.push(new Block(160,128));
-entityList.push(new Block(192,128));
-entityList.push(new Block(224,128));
-entityList.push(new Block(224,96));
-entityList.push(new Block(256,128));
-entityList.push(new Block(288,128));
-entityList.push(new Block(320,128));
+entityList.push(new block(0,128));
+entityList.push(new block(32,128));
+entityList.push(new block(64,128));
+entityList.push(new block(96,128));
+entityList.push(new block(128,64));
+entityList.push(new block(128,96));
+entityList.push(new block(128,128));
+entityList.push(new block(160,128));
+entityList.push(new block(192,128));
+entityList.push(new block(224,128));
+entityList.push(new block(224,96));
+entityList.push(new block(256,128));
+entityList.push(new block(288,128));
+entityList.push(new block(320,128));
 entityList.push(player);
+//entityList.push(player);
 
 loadedLevel = new levelData(entityList);
 game = new gameObject(loadedLevel);
+
+Entity.prototype.remove = function(){
+    var i = game.currentLevelData.entityList.indexOf(this);
+    game.currentLevelData.entityList.splice(i,1);
+}
 
 setInterval(update,1000/60);
 function update(){
