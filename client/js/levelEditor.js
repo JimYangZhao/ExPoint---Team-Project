@@ -150,24 +150,24 @@ LevelEditor.init = function () {
     //Gets position relative to the entire level
     var levelPos_x = mousePos.x + cameraCache.x;
     var levelPos_y = mousePos.y + cameraCache.y;
-    console.log('Level position: ' + levelPos_x + ',' + levelPos_y);
+    //console.log('Level position: ' + levelPos_x + ',' + levelPos_y);
 
     //Gets the position of nearest multiple of 64
     var x64 = Math.ceil(levelPos_x / 64.0) * 64.0;
     var y64 = Math.ceil(levelPos_y / 64.0) * 64.0;
-    console.log('Nearest Multiple (64): ' + x64 + ',' + y64);
+   // console.log('Nearest Multiple (64): ' + x64 + ',' + y64);
 
     //Get the center of the grid where mouse was click
     var center_x = x64 - 32; //Subtract half tile size
     var center_y = y64 - 32;
-    console.log('Center of Selected tile: ' + center_x + ',' + center_y);
+    //console.log('Center of Selected tile: ' + center_x + ',' + center_y);
 
     //Find block on grid
     var pix_on_row = blankMap.tsize * blankMap.rows;
     var xGrid = Math.ceil(x64 / blankMap.tsize) - 1;
     var yGrid = Math.ceil(y64 / blankMap.tsize) - 1;
     var gridIdx = (yGrid * blankMap.rows) + xGrid;
-    console.log('Grid: ' + xGrid + ',' + yGrid + " : " + gridIdx);
+    //console.log('Grid: ' + xGrid + ',' + yGrid + " : " + gridIdx);
 
     //Add Image at mouse position on canvas
     var tileName = selectedTile;
@@ -251,36 +251,7 @@ LevelEditor._drawGrid = function () {
   }
 };
 
-/* LevelEditor._drawLayer = function (layer) {
-  var startCol = Math.floor(this.camera.x / blankMap.tsize);
-  var endCol = startCol + (this.camera.width / blankMap.tsize);
-  var startRow = Math.floor(this.camera.y / blankMap.tsize);
-  var endRow = startRow + (this.camera.height / blankMap.tsize);
-  var offsetX = -this.camera.x + startCol * blankMap.tsize;
-  var offsetY = -this.camera.y + startRow * blankMap.tsize;
-
-  for (var c = startCol; c <= endCol; c++) {
-      for (var r = startRow; r <= endRow; r++) {
-          var tile = blankMap.getTile(layer, c, r);
-          var x = (c - startCol) * blankMap.tsize + offsetX;
-          var y = (r - startRow) * blankMap.tsize + offsetY;
-          if (tile !== 0) { // 0 => empty tile
-              this.ctx.drawImage(
-                  this.tileAtlas, // image
-                  (tile - 1) * blankMap.tsize, // source x
-                  0, // source y
-                  blankMap.tsize, // source width
-                  blankMap.tsize, // source height
-                  Math.round(x),  // target x
-                  Math.round(y), // target y
-                  blankMap.tsize, // target width
-                  blankMap.tsize // target height
-              );
-          }
-      }
-  }
-}; */
-
+var testTile; 
 LevelEditor._drawLayer = function (layer) {
   var startCol = Math.floor(this.camera.x / blankMap.tsize);
   var endCol = startCol + (this.camera.width / blankMap.tsize);
@@ -293,8 +264,9 @@ LevelEditor._drawLayer = function (layer) {
       for (var r = startRow; r <= endRow; r++) {
         
         var tile = blankMap.getTile(layer, c, r);
+        testTile = tile;
         if(!(tile == null) && tile !==0){ //Is tile not empty
-          var imgKey = tile.name;
+          var imgKey = tile.id;
           var img = this.tileAtlas[imgKey];
           var x = (c - startCol) * blankMap.tsize + offsetX;
           var y = (r - startRow) * blankMap.tsize + offsetY;
