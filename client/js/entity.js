@@ -1,7 +1,10 @@
-function Entity(x,y) {
+function Entity(x,y,id,src) {
     this.x=x;
     this.y=y;
+    this.id=id;
+    this.src=src;
 }
+
 //------------------
 function player(x,y){
     Entity.call(this,x,y);
@@ -98,4 +101,48 @@ enemy2.prototype.constructor = enemy2;
 enemy2.prototype.update=function(){
     //console.log("WIZARDO");
     this.remove();
+<<<<<<< HEAD
 }
+=======
+}
+
+//
+//  ENVIROMENT TILES
+//
+function grassTile(x,y){
+    var id = 'grass';
+    var src = 'images/enviroment/tempGrass.png';
+    Entity.call(this,x,y,id,src);
+}
+grassTile.prototype=Object.create(Entity.prototype);
+grassTile.prototype.constructor =  grassTile;
+grassTile.prototype.update=function(){
+    this.remove();
+}
+//-------------
+function dirtTile(x,y){
+    var id = 'dirt';
+    var src = 'images/enviroment/tempDirt.png';
+    Entity.call(this,x,y,id,src);
+}
+dirtTile.prototype=Object.create(Entity.prototype);
+dirtTile.prototype.constructor =  dirtTile;
+dirtTile.prototype.update=function(){
+    this.remove();
+}
+//
+//  END ENVIROMENT TILES
+//
+
+
+
+
+/*
+var gamestate = { activeList: [] };
+
+Entity.prototype.remove = function(){
+    var i = gamestate.activeList.indexOf(this);
+    gamestate.activeList.splice(i,1);
+}
+*/
+>>>>>>> 134ba23251cd42ba1f30a88fc93db1634ef79d3f
