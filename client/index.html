@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
+<script src="js/fabric.js"></script>
 <script src="js/menuLogic.js"></script>
 <script src="js/gameEngine.js"></script>
 <script src="js/levelEditor.js"></script>
@@ -48,15 +49,60 @@
 </div>
 
 <div id='Start Campaign'>
-  World Map goes here!
+  <h4 id="Progression">Game Progression: 0%</h4>
+ 
+  <ul class="columns" id="One">
+    <li class="header">Level One</li>
+    <li>No Achievements yet</li>
+    <li>Level Unlocked</li>
+    <li><input type="button" value="Play"></li>
+  </ul>
+ 
+  <ul class="columns" id="Two">
+    <li class="header">Level Two</li>
+    <li>No Achievements yet</li>
+    <li>Level Locked</li>
+      <li><input type="button" value="Play" disabled></li>
+  </ul>
+ 
+
+  <ul class="columns" id="Three">
+      <li class="header">Level Three</li>
+      <li>No Achievements yet</li>
+      <li>Level Locked</li>
+        <li><input type="button" value="Play" disabled></li>
+  </ul>
+ 
+    <ul class="columns" id="Four">
+        <li class="header">Level Four</li>
+        <li>No Achievements yet</li>
+        <li>Level Locked</li>
+          <li><input type="button" value="Play" disabled></li>
+      </ul>
+ 
+
+      <ul class="columns" id="Five">
+          <li class="header">Level Five</li>
+          <li>No Achievements yet</li>
+          <li>Level Locked</li>
+            <li><input type="button" value="Play" disabled></li>
+        </ul>
+ 
+        <ul class="columns" id="Six">
+            <li class="header">Level Six</li>
+            <li>No Achievements yet</li>
+            <li>Level Locked</li>
+              <li><input type="button" value="Play" disabled></li>
+          </ul>
+
+  
+
   <button onclick="menuButton('Play')">Back</button>
-  <input type="submit" value="Play Game"><br>
 </div>
 
 <div id='Level Editor'>
   Build Menu System goes here
   <button onclick="menuButton('Play')">Back</button>
-  <canvas id="levelEditor" width="512" height="512" style="border:1px solid #ccc"></canvas>
 
 </div>
 
@@ -133,5 +179,7 @@
 </div>
 
 </body>
+
+
 
 
