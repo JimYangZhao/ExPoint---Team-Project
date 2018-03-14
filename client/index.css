@@ -122,4 +122,40 @@ th {
     color: white;
 }
 
+* {
+    box-sizing: border-box;
+}
+
+/*World Map*/
+.columns {
+    float: left;
+    width: 33.3%;
+	padding: 8px;
+	list-style-type: none;
+}
+
+.header {
+    background-color: #111;
+    color: white;
+    font-size: 25px;
+}
+
+@media only screen and (max-width: 600px) {
+    .columns {
+        width: 100%;
+	}
+}
+
+.columns:hover {
+    box-shadow: 0 8px 12px 0 rgba(0,0,0,0.2)
+}
+
+li {
+	border-bottom: 1px solid #eee;
+	border-left: 1px solid #eee;
+	border-right: 1px solid #eee;
+    padding: 20px;
+	text-align: center;
+	background-color: rgba(141, 118, 224, 0.404);
+}
  
