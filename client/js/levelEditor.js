@@ -4,7 +4,7 @@ var blankMap = {
   cols: 12,
   rows: 12,
   tsize: 64,
-  layers: [[]],
+  layers: [[],[]],
   createLayer: function(layer){
     for(var i = 0; i < this.cols * this.rows;i++){
         this.layers[layer][i] = 0;
@@ -19,12 +19,13 @@ var blankMap = {
 //Image keys
 var grass = 'grass';
 var dirt = 'dirt';
+var player = 'player';
 
 //client mouse position
 var xClient = 0;
 var yClient = 0;
 
-var selectedTile = ''; //The selected tile
+var selectedTile; //The selected tile
 var cameraCache; //Used for mouse events. Updates every time the camera moves.
 
 //
@@ -138,6 +139,7 @@ LevelEditor.init = function () {
   this.tileAtlas = Loader.getImage();
   this.camera = new Camera(blankMap, 512, 512);
   blankMap.createLayer(0);
+  blankMap.createLayer(1);
   cameraCache = this.camera;
 
   //Listen for Mouse events
@@ -169,16 +171,23 @@ LevelEditor.init = function () {
     var gridIdx = (yGrid * blankMap.rows) + xGrid;
     //console.log('Grid: ' + xGrid + ',' + yGrid + " : " + gridIdx);
 
-    //Add Image at mouse position on canvas
-    var tileName = selectedTile;
-    if(tileName == grass){
-      var tile = new grassTile(center_x,center_y);
+    //Get name of selected tile
+    var tile = selectedTile;
+    tile.x = center_x;
+    tile.y = center_y;
+
+    var tileLayer = -1;
+
+    //Check if selected tile is in motion layer or static layer
+    if(tile.layer == "static"){
+      tileLayer = 0;
     }
-    else if(tileName == dirt){
-      var tile = new dirtTile(center_x,center_y);
+    else if(tile.layer == "motion"){
+      tileLayer = 1;
     }
 
-    blankMap.layers[0][gridIdx] = tile;
+    //Add Image at mouse position on canvas
+    blankMap.layers[tileLayer][gridIdx] = tile;
   }, false);
 };
 
@@ -226,6 +235,7 @@ LevelEditor.update = function (delta) {
 LevelEditor.render = function () {
   // draw map background layer
   this._drawLayer(0);
+  this._drawLayer(1);
   this._drawGrid();
 };
 
@@ -319,6 +329,11 @@ function Camera(blankMap, width, height) {
   this.height = height;
   this.maxX = blankMap.cols * blankMap.tsize - width;
   this.maxY = blankMap.rows * blankMap.tsize - height;
+
+  var updateMaxXY = function(){
+    this.maxX = blankMap.cols * blankMap.tsize - width;
+    this.maxY = blankMap.rows * blankMap.tsize - height;
+  }
 }
 
 Camera.SPEED = 256; // pixels per second
@@ -337,8 +352,9 @@ Camera.prototype.move = function (delta, dirx, diry) {
 
 LevelEditor.load = function () {
   return [
-      Loader.loadImage('grass', 'images/enviroment/tempGrass.png'),
-      Loader.loadImage('dirt', 'images/enviroment/tempDirt.png'),
+      Loader.loadImage(grass, 'images/enviroment/tempGrass.png'),
+      Loader.loadImage(dirt, 'images/enviroment/tempDirt.png'),
+      Loader.loadImage(player,'images/player/player.png'),
   ];
 };
 
@@ -353,10 +369,19 @@ openLevelEditor = function(){
 }
 
 //Change the selected Tile
-selectTile = function(tile){
+selectTile = function(tileName){
+  
+  if(tileName == grass){
+    var tile = new grassTile(0,0,"static");
+  }
+  else if(tileName == dirt){
+    var tile = new dirtTile(0,0,"static");
+  }
+  else if(tileName == player){
+    var tile = new playerChar(0,0,"motion");
+  }
+  else{
+    console.log("Error: Tile Not Properly Selected.");
+  }
   selectedTile = tile;
 }
-
-
-
- 

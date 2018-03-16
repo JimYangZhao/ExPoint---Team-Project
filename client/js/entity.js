@@ -1,16 +1,23 @@
-function Entity(x,y,id,src) {
+function Entity(x,y,id,src,layer,type) {
     this.x=x;
     this.y=y;
     this.id=id;
     this.src=src;
+    this.layer=layer;
+    this.type=type;
 }
 
 //------------------
-function player(x,y){
-    Entity.call(this,x,y);
+
+function playerChar(x,y,layer){
+    var id="player";
+    var src="images/player/player.png";
+    var layer=3
+    var type="motion"
+    Entity.call(this,x,y,id,src,layer,type);
     this.width = 32;
     this.height = 32;
-    this.id="player";
+    
     this.cooldown=0;
     this.update = function(){
         if(pressingDown) this.y = this.y+15;
@@ -54,10 +61,50 @@ function player(x,y){
             }
         }
     }
+} 
+playerChar.prototype=Object.create(Entity.prototype);
+playerChar.prototype.constructor = playerChar;
+playerChar.prototype.update=function(){
+    this.remove();
 }
-player.prototype=Object.create(Entity.prototype);
-player.prototype.constructor = player;
+
 //-------------------
+
+//
+//  ENVIROMENT TILES
+//
+function grassTile(x,y,layer){
+    var id = 'grass';
+    var src = 'images/enviroment/tempGrass.png';
+    var layer=1
+    var type="static"
+    Entity.call(this,x,y,id,src,layer,type);
+}
+grassTile.prototype=Object.create(Entity.prototype);
+grassTile.prototype.constructor =  grassTile;
+grassTile.prototype.update=function(){
+    this.remove();
+}
+//-------------
+function dirtTile(x,y,layer){
+    var id = 'dirt';
+    var src = 'images/enviroment/tempDirt.png';
+    var layer=1
+    var type="static"
+    Entity.call(this,x,y,id,src,layer,type);
+}
+dirtTile.prototype=Object.create(Entity.prototype);
+dirtTile.prototype.constructor =  dirtTile;
+dirtTile.prototype.update=function(){
+    this.remove();
+}
+//
+//  END ENVIROMENT TILES
+//
+
+//
+//  TEST ENTITY
+//
 function block(x,y){
     Entity.call(this,x,y);
     this.width = 32;
@@ -73,76 +120,3 @@ function block(x,y){
         this.remove()
     }
 }
-//block.prototype.collision=function(entityC){
-//    this.remove();
-//}
-
-block.prototype=Object.create(Entity.prototype);
-block.prototype.constructor = block;
-//------------------
-function enemy1(x,y){
-    Entity.call(this,x,y);
-}
-enemy1.prototype=Object.create(Entity.prototype);
-enemy1.prototype.constructor = enemy1;
-
-enemy1.prototype.update=function(){
-    //console.log("SKELETON MAN");
-    //console.log(this.x + " " + this.y);
-    this.remove();
-}
-//-----------------
-function enemy2(x,y){
-    Entity.call(this,x,y);
-}
-enemy2.prototype=Object.create(Entity.prototype);
-enemy2.prototype.constructor = enemy2;
-
-enemy2.prototype.update=function(){
-    //console.log("WIZARDO");
-    this.remove();
-<<<<<<< HEAD
-}
-=======
-}
-
-//
-//  ENVIROMENT TILES
-//
-function grassTile(x,y){
-    var id = 'grass';
-    var src = 'images/enviroment/tempGrass.png';
-    Entity.call(this,x,y,id,src);
-}
-grassTile.prototype=Object.create(Entity.prototype);
-grassTile.prototype.constructor =  grassTile;
-grassTile.prototype.update=function(){
-    this.remove();
-}
-//-------------
-function dirtTile(x,y){
-    var id = 'dirt';
-    var src = 'images/enviroment/tempDirt.png';
-    Entity.call(this,x,y,id,src);
-}
-dirtTile.prototype=Object.create(Entity.prototype);
-dirtTile.prototype.constructor =  dirtTile;
-dirtTile.prototype.update=function(){
-    this.remove();
-}
-//
-//  END ENVIROMENT TILES
-//
-
-
-
-
-/*
-var gamestate = { activeList: [] };
-
-Entity.prototype.remove = function(){
-    var i = gamestate.activeList.indexOf(this);
-    gamestate.activeList.splice(i,1);
-}
-*/
->>>>>>> 134ba23251cd42ba1f30a88fc93db1634ef79d3f
