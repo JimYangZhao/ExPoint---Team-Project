@@ -105,6 +105,8 @@ dirtTile.prototype.update=function(){
 //
 //  TEST ENTITY
 //
+block.prototype=Object.create(Entity.prototype);
+block.prototype.constructor = playerChar;
 function block(x,y){
     Entity.call(this,x,y);
     this.width = 32;
