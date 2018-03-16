@@ -4,7 +4,7 @@ var blankMap = {
   cols: 12,
   rows: 12,
   tsize: 64,
-  layers: [[],[]],
+  layers: [[],[],[]],
   createLayer: function(layer){
     for(var i = 0; i < this.cols * this.rows;i++){
         this.layers[layer][i] = 0;
@@ -177,14 +177,9 @@ LevelEditor.init = function () {
     tile.y = center_y;
 
     var tileLayer = -1;
-
     //Check if selected tile is in motion layer or static layer
-    if(tile.layer == "static"){
-      tileLayer = 0;
-    }
-    else if(tile.layer == "motion"){
-      tileLayer = 1;
-    }
+    tileLayer = tile.layer;
+
 
     //Add Image at mouse position on canvas
     blankMap.layers[tileLayer][gridIdx] = tile;
@@ -236,6 +231,7 @@ LevelEditor.render = function () {
   // draw map background layer
   this._drawLayer(0);
   this._drawLayer(1);
+  this._drawLayer(2);
   this._drawGrid();
 };
 
@@ -319,7 +315,8 @@ LevelEditor.removeTile = function(){
   var yGrid = Math.ceil(y64 / blankMap.tsize) - 1;
   var gridIdx = (yGrid * blankMap.rows) + xGrid;
   blankMap.layers[0][gridIdx] = 0;
-
+  blankMap.layers[1][gridIdx] = 0;
+  blankMap.layers[2][gridIdx] = 0;
 }.bind(LevelEditor);
 
 function Camera(blankMap, width, height) {
@@ -329,21 +326,27 @@ function Camera(blankMap, width, height) {
   this.height = height;
   this.maxX = blankMap.cols * blankMap.tsize - width;
   this.maxY = blankMap.rows * blankMap.tsize - height;
-
-  var updateMaxXY = function(){
-    this.maxX = blankMap.cols * blankMap.tsize - width;
-    this.maxY = blankMap.rows * blankMap.tsize - height;
-  }
 }
 
 Camera.SPEED = 256; // pixels per second
 
+Camera.prototype.updateMaxXY = function(){
+  this.maxX = blankMap.cols * blankMap.tsize - this.width;
+  this.maxY = blankMap.rows * blankMap.tsize - this.height;
+}
 Camera.prototype.move = function (delta, dirx, diry) {
     // move camera
     this.x += dirx * Camera.SPEED * delta;
     this.y += diry * Camera.SPEED * delta;
 
-    //console.log("Camera x: " + this.x + " y: " + this.y);
+    if(this.x == this.maxX){
+      blankMap.cols += 1;
+    }
+    if(this.y == this.maxY){
+      blankMap.rows += 1;
+    }
+    this.updateMaxXY();
+    console.log("Camera x: " + this.x + " y: " + this.y);
 
     // clamp values
     this.x = Math.max(0, Math.min(this.x, this.maxX));
@@ -372,13 +375,13 @@ openLevelEditor = function(){
 selectTile = function(tileName){
   
   if(tileName == grass){
-    var tile = new grassTile(0,0,"static");
+    var tile = new grassTile(0,0);
   }
   else if(tileName == dirt){
-    var tile = new dirtTile(0,0,"static");
+    var tile = new dirtTile(0,0);
   }
   else if(tileName == player){
-    var tile = new playerChar(0,0,"motion");
+    var tile = new playerChar(0,0);
   }
   else{
     console.log("Error: Tile Not Properly Selected.");

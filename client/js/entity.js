@@ -9,11 +9,11 @@ function Entity(x,y,id,src,layer,type) {
 
 //------------------
 
-function playerChar(x,y,layer){
+function playerChar(x,y){
     var id="player";
     var src="images/player/player.png";
-    var layer=3
-    var type="motion"
+    var layer=2;
+    var type="motion";
     Entity.call(this,x,y,id,src,layer,type);
     this.width = 32;
     this.height = 32;
@@ -73,11 +73,11 @@ playerChar.prototype.update=function(){
 //
 //  ENVIROMENT TILES
 //
-function grassTile(x,y,layer){
+function grassTile(x,y){
     var id = 'grass';
     var src = 'images/enviroment/tempGrass.png';
-    var layer=1
-    var type="static"
+    var layer=1;
+    var type="static";
     Entity.call(this,x,y,id,src,layer,type);
 }
 grassTile.prototype=Object.create(Entity.prototype);
@@ -86,11 +86,11 @@ grassTile.prototype.update=function(){
     this.remove();
 }
 //-------------
-function dirtTile(x,y,layer){
+function dirtTile(x,y){
     var id = 'dirt';
     var src = 'images/enviroment/tempDirt.png';
-    var layer=1
-    var type="static"
+    var layer=1;
+    var type="static";
     Entity.call(this,x,y,id,src,layer,type);
 }
 dirtTile.prototype=Object.create(Entity.prototype);
