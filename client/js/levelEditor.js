@@ -5,13 +5,30 @@ var blankMap = {
   rows: 12,
   tsize: 64,
   layers: [[],[],[]],
-  createLayer: function(layer){
-    for(var i = 0; i < this.cols * this.rows;i++){
-        this.layers[layer][i] = 0;
+  createLayer: function(){
+    var numLayers = this.layers.length;
+    for(var l = 0; l < numLayers;l++){
+      for(var r = 0; r<this.rows; r++){
+        this.addRow(l,r);
+      }
     }
   },
   getTile: function (layer, col, row) {
-      return this.layers[layer][row * blankMap.cols + col];
+    try{
+      return this.layers[layer][col][row];
+    }
+    catch(err){
+      console.log("Tile Not Found.");
+      return null;
+    }
+  },
+  addRow: function(layer,currRow){
+    var l = layer;
+    var row = [];
+    for(c = 0; c < this.cols; c++){
+      row.push(0);
+    }
+    this.layers[l].push(row);
   }
 };
 
@@ -138,8 +155,7 @@ LevelEditor.init = function () {
   this.tileAtlas = {};
   this.tileAtlas = Loader.getImage();
   this.camera = new Camera(blankMap, 512, 512);
-  blankMap.createLayer(0);
-  blankMap.createLayer(1);
+  blankMap.createLayer();
   cameraCache = this.camera;
 
   //Listen for Mouse events
@@ -147,29 +163,29 @@ LevelEditor.init = function () {
   canvas.addEventListener('click', function(evt) {
 
     var mousePos = getMousePos(canvas);
-   // console.log('Mouse position: ' + mousePos.x + ',' + mousePos.y);
+    console.log('Mouse position: ' + mousePos.x + ',' + mousePos.y);
 
     //Gets position relative to the entire level
     var levelPos_x = mousePos.x + cameraCache.x;
     var levelPos_y = mousePos.y + cameraCache.y;
-    //console.log('Level position: ' + levelPos_x + ',' + levelPos_y);
+    console.log('Level position: ' + levelPos_x + ',' + levelPos_y);
 
     //Gets the position of nearest multiple of 64
     var x64 = Math.ceil(levelPos_x / 64.0) * 64.0;
     var y64 = Math.ceil(levelPos_y / 64.0) * 64.0;
-   // console.log('Nearest Multiple (64): ' + x64 + ',' + y64);
+    console.log('Nearest Multiple (64): ' + x64 + ',' + y64);
 
     //Get the center of the grid where mouse was click
     var center_x = x64 - 32; //Subtract half tile size
     var center_y = y64 - 32;
-    //console.log('Center of Selected tile: ' + center_x + ',' + center_y);
+    console.log('Center of Selected tile: ' + center_x + ',' + center_y);
 
     //Find block on grid
     var pix_on_row = blankMap.tsize * blankMap.rows;
     var xGrid = Math.ceil(x64 / blankMap.tsize) - 1;
     var yGrid = Math.ceil(y64 / blankMap.tsize) - 1;
     var gridIdx = (yGrid * blankMap.rows) + xGrid;
-    //console.log('Grid: ' + xGrid + ',' + yGrid + " : " + gridIdx);
+    console.log('Grid: ' + xGrid + ',' + yGrid + " : Grid IDX: " + gridIdx);
 
     //Get name of selected tile
     var tile = selectedTile;
@@ -182,7 +198,8 @@ LevelEditor.init = function () {
 
 
     //Add Image at mouse position on canvas
-    blankMap.layers[tileLayer][gridIdx] = tile;
+    //blankMap.layers[tileLayer][gridIdx] = tile;
+    blankMap.layers[tileLayer][xGrid][yGrid] = tile;
   }, false);
 };
 
@@ -314,9 +331,9 @@ LevelEditor.removeTile = function(){
   var xGrid = Math.ceil(x64 / blankMap.tsize) - 1;
   var yGrid = Math.ceil(y64 / blankMap.tsize) - 1;
   var gridIdx = (yGrid * blankMap.rows) + xGrid;
-  blankMap.layers[0][gridIdx] = 0;
-  blankMap.layers[1][gridIdx] = 0;
-  blankMap.layers[2][gridIdx] = 0;
+  blankMap.layers[0][xGrid][yGrid] = 0;
+  blankMap.layers[1][xGrid][yGrid] = 0;
+  blankMap.layers[2][xGrid][yGrid] = 0;
 }.bind(LevelEditor);
 
 function Camera(blankMap, width, height) {
@@ -339,13 +356,16 @@ Camera.prototype.move = function (delta, dirx, diry) {
     this.x += dirx * Camera.SPEED * delta;
     this.y += diry * Camera.SPEED * delta;
 
-    if(this.x == this.maxX){
+    if(this.x == this.maxX || this.y == this.maxY){
       blankMap.cols += 1;
-    }
-    if(this.y == this.maxY){
       blankMap.rows += 1;
+      blankMap.addRow(0,blankMap.rows);
+      blankMap.addRow(1,blankMap.rows);
+      blankMap.addRow(2,blankMap.rows);
     }
+
     this.updateMaxXY();
+ 
     console.log("Camera x: " + this.x + " y: " + this.y);
 
     // clamp values
