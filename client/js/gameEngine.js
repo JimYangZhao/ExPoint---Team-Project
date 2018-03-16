@@ -107,8 +107,10 @@ function gameObject(initialState){
                     this.currentLevelData.entityList[i].collision(this.currentLevelData.entityList[j]);
                     //console.log(entity1Side + "" + this.currentLevelData.entityList[i].id);
                     //entity2Side=checkSide(this.currentLevelData.entityList[j],this.currentLevelData.entityList[i]);
-                    this.currentLevelData.entityList[j].collision(this.currentLevelData.entityList[i]);
-                    //console.log(entity2Side + "" + this.currentLevelData.entityList[j].id);
+                    if(this.currentLevelData.entityList[j] == !(null)){
+                        this.currentLevelData.entityList[j].collision(this.currentLevelData.entityList[i]);
+                        //console.log(entity2Side + "" + this.currentLevelData.entityList[j].id);
+                    }
 
                 }
             }
@@ -133,7 +135,7 @@ function gameObject(initialState){
 entityList=[];
 //entityList.push(new Enemy1(0,0));
 //entityList.push(new Enemy2(200,200));
-player = new player(32,0);
+player = new playerChar(32,0);
 
 
 entityList.push(new block(0,128));
