@@ -61,4 +61,12 @@ function KeybindChange() {
     }
 }
 
- 
+//Enable or Disable World Map Buttons
+function disableBtn(varname) {
+    document.getElementById(varname).disabled = true;
+}
+
+function undisableBtn(varname) {
+    document.getElementById(varname).disabled = false;
+}
+
