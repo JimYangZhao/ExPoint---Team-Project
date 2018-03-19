@@ -14,6 +14,12 @@ function menuButton(divID) {
     }
 }
 
+function gameButton(levelData) {
+    game = new gameObject(levelData);
+    setInterval(update,1000/60);
+
+}
+
 //handles logic for user login
 function validLogin() {
     var sNumber=document.getElementById("ExUsername").value;

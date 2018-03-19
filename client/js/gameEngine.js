@@ -71,10 +71,12 @@ function checkSide(entity1,entity2){
         }
     }
 }
-
+var ctx;
+window.onload= function(){
+    ctx = document.getElementById("ctx").getContext("2d");
+}
 
 //reference to canvas
-var ctx = document.getElementById("ctx").getContext("2d");
 
 //the game object that is created when a level is loaded.
 function gameObject(initialState){
@@ -86,6 +88,7 @@ function gameObject(initialState){
     //this function is the game loop It updates everything in the current game state. 
     this.updateGame=function(){
         ctx.clearRect(0,0,500,500);
+        console.log(this.currentLevelData)
         for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
             this.currentLevelData.motionEntityList[i].update();
             //console.log(this.currentLevelData.motionEntityList);
@@ -171,7 +174,7 @@ motionEntityList.push(player);
 //console.log(staticEntityList[0].type);
 
 loadedLevel = new levelData(motionEntityList,staticEntityList);
-game = new gameObject(loadedLevel);
+//game = new gameObject(loadedLevel);
 
 Entity.prototype.remove = function(){
     //console.log("collision");
@@ -196,9 +199,10 @@ Entity.prototype.create = function(entity){
     }
 }
 
-setInterval(update,1000/60);
+//setInterval(update,1000/60);
 function update(){
     console.log("test")
     game.updateGame();
+    setInterval(update,1000/60);
     //(player.x + " , " + player.y)
 }

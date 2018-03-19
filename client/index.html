@@ -1,17 +1,18 @@
   <!DOCTYPE html>
-<script src="js/fabric.js"></script>
-<script src="js/menuLogic.js"></script>
-<script src="js/gameEngine.js"></script>
 <script src="js/levelEditor.js"></script>
+<script src="js/level.js"></script>
+<script src="js/entity.js"></script>
+<script src="js/gameEngine.js"></script>
+<script src="js/menuLogic.js"></script>
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="index.css">
 <link href="https://fonts.googleapis.com/css?family=Mina" rel="stylesheet">
 </head>
 <body>
-
+<canvas id="ctx" width="500" height="500"> </canvas>
 <div id='MainMenu'>
-    <button onclick="menuButton('Login')">Login</button>
+    <button onclick="gameButton(loadedLevel)">Login</button>
     <button onclick="menuButton('Create Account')">Create Account</button>
     <button onclick="menuButton('Offline')">Offline</button>
 </div>
