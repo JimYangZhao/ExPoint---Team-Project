@@ -160,7 +160,7 @@ LevelEditor.init = function () {
   cameraCache = this.camera;
 
   //Listen for Mouse events
-  var canvas = document.getElementById('levelEditor');
+  var canvas = document.getElementById('ctx');
   canvas.addEventListener('click', function(evt) {
 
     var mousePos = getMousePos(canvas);
@@ -319,7 +319,7 @@ LevelEditor._drawLayer = function (layer) {
 
 //Removes the tile at the mouse position
 LevelEditor.removeTile = function(){
-  var canvas = document.getElementById('levelEditor');
+  var canvas = document.getElementById('ctx');
   var mousePos = getMousePos(canvas);
   //Gets position relative to the entire level
   var levelPos_x = mousePos.x + cameraCache.x;
@@ -397,7 +397,7 @@ LevelEditor.load = function () {
 openLevelEditor = function(){
   //show level editor div, closes other divs
   
-  var context = document.getElementById('levelEditor').getContext('2d');
+  var context = document.getElementById('ctx').getContext('2d');
   LevelEditor.run(context);
 }
 

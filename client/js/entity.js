@@ -13,7 +13,7 @@ function Entity(x,y,id,src,layer,type) {
 function playerChar(x,y,layer){
     var id="player";
     var src="images/player/player.png";
-    var layer=3
+    var layer=2
     var type="motion"
     Entity.call(this,x,y,id,src,layer,type);
     this.width = 32;
