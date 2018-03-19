@@ -1,10 +1,8 @@
-function level(staticLayer, motionLayer) {
+function levelData(staticLayer, motionLayer) {
 
     this.staticLayer = staticLayer;
     this.motionLayer = motionLayer;
     this.playerRef = null;
-
-    
 };
 
 var findPlayer = function(level){

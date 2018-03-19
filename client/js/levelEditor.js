@@ -5,6 +5,7 @@ var blankMap = {
   rows: 12,
   tsize: 64,
   layers: [[],[],[]],
+  playerPos:[],
   createLayer: function(){
     var numLayers = this.layers.length;
     for(var l = 0; l < numLayers;l++){
@@ -189,6 +190,7 @@ LevelEditor.init = function () {
 
     //Get name of selected tile
     var tile = selectedTile;
+
     tile.x = center_x;
     tile.y = center_y;
 
@@ -196,6 +198,14 @@ LevelEditor.init = function () {
     //Check if selected tile is in motion layer or static layer
     tileLayer = tile.layer;
 
+    if(tile.id == "player"){ //Remove the previously placed player
+      if(blankMap.playerPos.length > 0){
+        blankMap.layers[tileLayer][blankMap.playerPos[0]][blankMap.playerPos[1]] = 0;
+      }
+      blankMap.playerPos = [];
+      blankMap.playerPos.push(xGrid);
+      blankMap.playerPos.push(yGrid);
+    }
 
     //Add Image at mouse position on canvas
     //blankMap.layers[tileLayer][gridIdx] = tile;
