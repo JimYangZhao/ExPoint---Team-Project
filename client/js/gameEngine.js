@@ -36,13 +36,6 @@ document.onkeyup=function(event){
 }
 
 
-//gamestate and or level data
-levelData = function(motionEntityList,staticEntityList){
-    //this.player=func()
-    this.motionEntityList=motionEntityList;
-    this.staticEntityList=staticEntityList;
-}
-
 //formula for checking if entity one and entity two colides. Returns true if so.
 //works by checking for a gap between the two entities. If any exist, then there is no collision
 function checkCollision(entity1,entity2){
@@ -198,13 +191,14 @@ Entity.prototype.create = function(entity){
     if(entity.type=="motion"){
         game.currentLevelData.motionEntityList.push(entity);
     }
-    else if(this.type="static"){
+    else if(this.type=="static"){
         game.currentLevelData.staticEntityList.push(entity);
     }
 }
 
 setInterval(update,1000/60);
 function update(){
+    console.log("test")
     game.updateGame();
     //(player.x + " , " + player.y)
 }
