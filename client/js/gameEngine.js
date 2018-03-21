@@ -197,11 +197,7 @@ Entity.prototype.addToList = function(entity){
 //1000/60
 setInterval(update,1000/60);
 function update(){
-<<<<<<< HEAD
-    game.updateGame();
-=======
     //console.log("test")
     game.updateGame();
     //(player.x + " , " + player.y)
->>>>>>> 36ffb02737015cf825b9b835cab981cc9f1f58a6
 }
