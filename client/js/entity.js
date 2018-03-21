@@ -16,8 +16,8 @@ function playerChar(x,y,layer){
     var layer=2
     var type="motion"
     Entity.call(this,x,y,id,src,layer,type);
-    this.width = 32;
-    this.height = 32;
+    this.width = 61;
+    this.height = 61;
     
     this.cooldown=0;
     this.update = function(){
@@ -28,12 +28,30 @@ function playerChar(x,y,layer){
         this.y=this.y+2
         if(this.cooldown==0){
             if(pressingPower1==true){
-                console.log("Shblam");
-                this.create(new magicMissle(this.x,this.y));
-                this.cooldown=this.cooldown+30
+                //console.log("Shblam");
+                if(pressingLeft){
+                    this.addToList(new magicMissle(this.x,this.y,"left"));
+                    this.cooldown=this.cooldown+50;
+                }
+                else if(pressingRight){
+                    this.addToList(new magicMissle(this.x,this.y,"right"));
+                    this.cooldown=this.cooldown+50;
+                }
+                else if(pressingDown){
+                    this.addToList(new magicMissle(this.x,this.y,"down"));
+                    this.cooldown=this.cooldown+50;
+                }
+                else if(pressingUp){
+                    this.addToList(new magicMissle(this.x,this.y,"up"));
+                    this.cooldown=this.cooldown+50;
+                }
+                else{
+                    this.addToList(new magicMissle(this.x,this.y,"right"));
+                    this.cooldown=this.cooldown+50;    
+                }
             }
             else if(pressingPower2==true){
-                console.log("Shblaaaaaaammo");
+                //console.log("Shblaaaaaaammo");
                 this.cooldown=this.cooldown+60
             }
         }else{
@@ -42,24 +60,24 @@ function playerChar(x,y,layer){
     }
     this.draw = function(){
         ctx.fillStyle="#FF0000";
-        ctx.fillRect(250,250,32,32);
+        ctx.fillRect(250,250,61,61);
     }
     this.collision = function(entityC){
         entitySide=checkSide(this,entityC);
-        if(entityC.id="block"){
+        if(entityC.id=="block"){
             sideColided=checkSide(this , entityC)
             //console.log(this.id + " " + sideColided);
             if(sideColided=="bottom"){
-                this.y=entityC.y-32;
+                this.y=entityC.y-61;
             }
             if(sideColided=="top"){
-                this.y=entityC.y+32;
+                this.y=entityC.y+61;
             }
             if(sideColided=="left"){
-                this.x=entityC.x+32;
+                this.x=entityC.x+61;
             }
             if(sideColided=="right"){
-                this.x=entityC.x-32;
+                this.x=entityC.x-61;
             }
         }
     }
@@ -110,8 +128,8 @@ dirtTile.prototype.update=function(){
 block.prototype=Object.create(Entity.prototype);
 block.prototype.constructor = playerChar;
 function block(x,y){
-    this.width = 32;
-    this.height = 32;
+    this.width = 64;
+    this.height = 64;
     id="block";
     type="static";
     layer=1
@@ -121,24 +139,31 @@ function block(x,y){
     }
     this.draw = function(){
         ctx.fillStyle="#000000";
-        ctx.fillRect(250+(this.x-player.x),250+(this.y-player.y),32,32);   
+        ctx.fillRect(250+(this.x-player.x),250+(this.y-player.y),64,64);   
     }
     this.collision = function(entityC){
         //this.remove();
     }
 }
+
+//magic missle data
+
 magicMissle.prototype=Object.create(Entity.prototype);
 magicMissle.prototype.constructor = magicMissle;
-function magicMissle(x,y){
+function magicMissle(x,y,direction){
     this.width = 8;
     this.height = 8;
+    this.direction=direction;
     id="bullet";
     type="motion";
     layer=1
     src="bullet url"
     Entity.call(this,x,y,id,src,layer,type);
     this.update = function(){
-        this.x=this.x+3;
+        if(this.direction=="down") this.y = this.y+15;
+        else if(this.direction=="up") this.y = this.y-15;
+        else if(this.direction=="left") this.x = this.x-15;
+        else if(this.direction=="right") this.x = this.x+15;
     }
     this.draw = function(){
         ctx.fillStyle="#1218E2";

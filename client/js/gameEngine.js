@@ -71,12 +71,15 @@ function checkSide(entity1,entity2){
         }
     }
 }
+
 var ctx;
 window.onload= function(){
     ctx = document.getElementById("ctx").getContext("2d");
 }
 
+
 //reference to canvas
+//var ctx = document.getElementById("ctx").getContext("2d");
 
 //the game object that is created when a level is loaded.
 function gameObject(initialState){
@@ -109,6 +112,7 @@ function gameObject(initialState){
                 }
             }
             for(j=0;j < this.currentLevelData.staticEntityList.length; j++){
+                //console.log(this.currentLevelData.motionEntityList[i-1]);
                 if(checkCollision(this.currentLevelData.motionEntityList[i],this.currentLevelData.staticEntityList[j])){
                     //console.log('collision');
                     
@@ -150,30 +154,23 @@ motionEntityList=[];
 staticEntityList=[];
 //entityList.push(new Enemy1(0,0));
 //entityList.push(new Enemy2(200,200));
-player = new playerChar(32,0);
+player = new playerChar(32,0,0);
 
 //motionEntityList.push(player);
 staticEntityList.push(new block(0,128));
-staticEntityList.push(new block(32,128));
 staticEntityList.push(new block(64,128));
-staticEntityList.push(new block(96,128));
 staticEntityList.push(new block(128,64));
-staticEntityList.push(new block(128,96));
 staticEntityList.push(new block(128,128));
-staticEntityList.push(new block(160,128));
 staticEntityList.push(new block(192,128));
-staticEntityList.push(new block(224,128));
 staticEntityList.push(new block(224,96));
-staticEntityList.push(new block(256,128));
 staticEntityList.push(new block(288,128));
-staticEntityList.push(new block(320,128));
 motionEntityList.push(player);
 //entityList.push(player);
 //console.log(motionEntityList[0].type);
 //console.log(staticEntityList[0].type);
 
 loadedLevel = new levelData(motionEntityList,staticEntityList);
-//game = new gameObject(loadedLevel);
+game = new gameObject(loadedLevel);
 
 Entity.prototype.remove = function(){
     //console.log("collision");
@@ -189,7 +186,7 @@ Entity.prototype.remove = function(){
 
 //works by pushing the entity in the parameter to the motion/static entity list.
 
-Entity.prototype.create = function(entity){
+Entity.prototype.addToList = function(entity){
     if(entity.type=="motion"){
         game.currentLevelData.motionEntityList.push(entity);
     }
@@ -197,8 +194,14 @@ Entity.prototype.create = function(entity){
         game.currentLevelData.staticEntityList.push(entity);
     }
 }
-
-//setInterval(update,1000/60);
+//1000/60
+setInterval(update,1000/60);
 function update(){
+<<<<<<< HEAD
     game.updateGame();
+=======
+    //console.log("test")
+    game.updateGame();
+    //(player.x + " , " + player.y)
+>>>>>>> 36ffb02737015cf825b9b835cab981cc9f1f58a6
 }
