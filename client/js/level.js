@@ -1,10 +1,14 @@
 function levelData(motionList, staticList) {
     this.staticEntityList = staticList;
     this.motionEntityList = motionList;
-    this.playerRef = null;
+    this.playerRef = findPlayer(this);
 };
 
 var findPlayer = function(level){
     //Finds the player in the motionLayer and creates a reference
-    //level.playerRef = foundPlayer
+    for(i=0;i<motionEntityList.length;i++){
+        if(motionEntityList[i].id=="player"){
+            return motionEntityList[i];
+        }
+    }
 };
