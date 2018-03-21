@@ -71,10 +71,12 @@ function checkSide(entity1,entity2){
         }
     }
 }
-
+var ctx;
+window.onload= function(){
+    ctx = document.getElementById("ctx").getContext("2d");
+}
 
 //reference to canvas
-var ctx = document.getElementById("ctx").getContext("2d");
 
 //the game object that is created when a level is loaded.
 function gameObject(initialState){
@@ -171,7 +173,7 @@ motionEntityList.push(player);
 //console.log(staticEntityList[0].type);
 
 loadedLevel = new levelData(motionEntityList,staticEntityList);
-game = new gameObject(loadedLevel);
+//game = new gameObject(loadedLevel);
 
 Entity.prototype.remove = function(){
     //console.log("collision");
@@ -196,9 +198,7 @@ Entity.prototype.create = function(entity){
     }
 }
 
-setInterval(update,1000/60);
+//setInterval(update,1000/60);
 function update(){
-    console.log("test")
     game.updateGame();
-    //(player.x + " , " + player.y)
 }

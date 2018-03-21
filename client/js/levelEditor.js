@@ -156,6 +156,7 @@ LevelEditor.init = function () {
   this.tileAtlas = {};
   this.tileAtlas = Loader.getImage();
   this.camera = new Camera(blankMap, 512, 512);
+  this.isRunning = true;
   blankMap.createLayer();
   cameraCache = this.camera;
 
@@ -225,7 +226,8 @@ LevelEditor.run = function (context) {
 };
 
 LevelEditor.tick = function (elapsed) {
-  window.requestAnimationFrame(this.tick);
+  if(this.isRunning)
+    window.requestAnimationFrame(this.tick);
 
   // clear previous frame
   this.ctx.clearRect(0, 0, 512, 512);
@@ -235,11 +237,11 @@ LevelEditor.tick = function (elapsed) {
   delta = Math.min(delta, 0.25); // maximum delta of 250 ms
   this._previousElapsed = elapsed;
 
-  this.update(delta);
+  this.updateEditor(delta);
   this.render();
 }.bind(LevelEditor);
 
-LevelEditor.update = function (delta) {
+LevelEditor.updateEditor = function (delta) {
   // handle camera movement with arrow keys
   var dirx = 0;
   var diry = 0;
@@ -397,6 +399,17 @@ LevelEditor.load = function () {
 openLevelEditor = function(){
   //show level editor div, closes other divs
   
+  var context = document.getElementById('ctx').getContext('2d');
+  LevelEditor.run(context);
+}
+var gameInterval;
+runLevel = function(){
+  game = new gameObject(loadedLevel);
+  gameInterval = setInterval(update,1000/60);
+  LevelEditor.isRunning = false;
+}
+stopLevel = function(){
+  clearInterval(gameInterval);
   var context = document.getElementById('ctx').getContext('2d');
   LevelEditor.run(context);
 }

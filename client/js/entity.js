@@ -48,7 +48,7 @@ function playerChar(x,y,layer){
         entitySide=checkSide(this,entityC);
         if(entityC.id="block"){
             sideColided=checkSide(this , entityC)
-            console.log(this.id + " " + sideColided);
+            //console.log(this.id + " " + sideColided);
             if(sideColided=="bottom"){
                 this.y=entityC.y-32;
             }

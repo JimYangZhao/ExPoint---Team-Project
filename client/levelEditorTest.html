@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <script src="js/level.js"></script>
     <script src="js/entity.js"></script>
     <script src="js/gameEngine.js"></script>
     <script src="js/levelEditor.js"></script>
@@ -11,6 +12,8 @@
     <button onclick="selectTile('grass')">Grass Tile</button>
     <button onclick="selectTile('dirt')">Dirt Tile</button>
     <button onclick="selectTile('player')">Player</button>
+    <button onclick="runLevel()">Run Level</button>
+    <button onclick="stopLevel()">Stop Level</button>
     <canvas id="ctx" width="512" height="512" style="border:1px solid #ccc"></canvas>
   </body>
 </html>
