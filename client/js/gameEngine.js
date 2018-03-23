@@ -5,6 +5,7 @@ pressingUp = false;
 pressingDown = false;
 pressingPower1 = false;
 pressingPower2 = false;
+pressingHalt= false;
 
 document.onkeydown= function(event){
     if(event.keyCode == 68)
@@ -19,6 +20,8 @@ document.onkeydown= function(event){
         pressingPower1=true;
     else if(event.keyCode == 82)
         pressingPower2=true;
+    else if(event.keyCode == 90)
+        pressingHalt=true;
 }
 document.onkeyup=function(event){
     if(event.keyCode == 68)
@@ -33,12 +36,17 @@ document.onkeyup=function(event){
         pressingPower1=false;
     else if(event.keyCode == 82)
         pressingPower2=false;
+    else if(event.keyCode == 90)
+        pressingHalt=false;
 }
 
 
 //formula for checking if entity one and entity two colides. Returns true if so.
 //works by checking for a gap between the two entities. If any exist, then there is no collision
 function checkCollision(entity1,entity2){
+    if(entity1==(null) || entity2==(null)){
+        return false;
+    }
     return entity1.x < entity2.x+entity2.width
         && entity2.x < entity1.x+entity1.width
         && entity1.y < entity2.y+entity2.height
@@ -73,6 +81,7 @@ function checkSide(entity1,entity2){
 }
 
 var ctx;
+//ctx = document.getElementById("ctx").getContext("2d");
 window.onload= function(){
     ctx = document.getElementById("ctx").getContext("2d");
 }
@@ -90,41 +99,28 @@ function gameObject(initialState){
 
     //this function is the game loop It updates everything in the current game state. 
     this.updateGame=function(){
-        ctx.clearRect(0,0,500,500);
+        ctx.clearRect(0,0,512,512);
+        ctx.fillStyle="#FFFFFF";
+        ctx.fillRect(0,0,512,512);
         for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
             this.currentLevelData.motionEntityList[i].update();
-            //console.log(this.currentLevelData.motionEntityList);
         }
         for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
             for(j=i+1; j < this.currentLevelData.motionEntityList.length ; j++){
                 if(checkCollision(this.currentLevelData.motionEntityList[i],this.currentLevelData.motionEntityList[j])){
-                    
-                    
-                    //entity1Side=checkSide(this.currentLevelData.entityList[i],this.currentLevelData.entityList[j]);
                     this.currentLevelData.motionEntityList[i].collision(this.currentLevelData.motionEntityList[j]);
-                    //console.log(entity1Side + "" + this.currentLevelData.entityList[i].id);
-                    //entity2Side=checkSide(this.currentLevelData.entityList[j],this.currentLevelData.entityList[i]);
-                    if(this.currentLevelData.motionEntityList[j] == !(null)){
-                        this.currentLevelData.motionEntityList[j].collision(this.currentLevelData.motionEntityList[i]);
-                        //console.log(entity2Side + "" + this.currentLevelData.entityList[j].id);
-                    }
+                    //if(this.currentLevelData.motionEntityList[j] == !(null)){
+                    this.currentLevelData.motionEntityList[j].collision(this.currentLevelData.motionEntityList[i]);
+                    //}
 
                 }
             }
             for(j=0;j < this.currentLevelData.staticEntityList.length; j++){
-                //console.log(this.currentLevelData.motionEntityList[i-1]);
                 if(checkCollision(this.currentLevelData.motionEntityList[i],this.currentLevelData.staticEntityList[j])){
-                    //console.log('collision');
-                    
-                    //entity1Side=checkSide(this.currentLevelData.entityList[i],this.currentLevelData.entityList[j]);
                     this.currentLevelData.motionEntityList[i].collision(this.currentLevelData.staticEntityList[j]);
-                    //console.log(entity1Side + "" + this.currentLevelData.entityList[i].id);
-                    //entity2Side=checkSide(this.currentLevelData.entityList[j],this.currentLevelData.entityList[i]);
-                    if(this.currentLevelData.staticEntityList[j] == !(null)){
-                        //console.log('collision');
-                        this.currentLevelData.staticEntityList[j].collision(this.currentLevelData.motionEntityList[i]);
-                        //console.log(entity2Side + "" + this.currentLevelData.entityList[j].id);
-                    }
+                    //if(this.currentLevelData.staticEntityList[j] == !(null)){
+                    this.currentLevelData.staticEntityList[j].collision(this.currentLevelData.motionEntityList[i]);
+                    //}
 
                 }
                 
@@ -159,21 +155,30 @@ player = new playerChar(32,0,0);
 //motionEntityList.push(player);
 staticEntityList.push(new block(0,128));
 staticEntityList.push(new block(64,128));
-staticEntityList.push(new block(128,64));
 staticEntityList.push(new block(128,128));
-staticEntityList.push(new block(192,128));
-staticEntityList.push(new block(224,96));
-staticEntityList.push(new block(288,128));
+//staticEntityList.push(new block(128,-64));
+//staticEntityList.push(new block(128,0));
+staticEntityList.push(new block(128,64));
+staticEntityList.push(new block(128+64*1,128));
+staticEntityList.push(new block(128+64*2,128));
+staticEntityList.push(new block(128+64*3,128));
+staticEntityList.push(new block(128+64*4,128));
+staticEntityList.push(new block(128+64*5,128));
+staticEntityList.push(new block(128+64*6,128));
+staticEntityList.push(new block(128+64*7,128));
+staticEntityList.push(new block(128+64*7,128-64));
+staticEntityList.push(new block(128+64*7,128-128));
+staticEntityList.push(new block(128+64*8,128));
+staticEntityList.push(new block(128+64*9,128));
+motionEntityList.push(new enemy(250,0));
+
+
 motionEntityList.push(player);
-//entityList.push(player);
-//console.log(motionEntityList[0].type);
-//console.log(staticEntityList[0].type);
 
 loadedLevel = new levelData(motionEntityList,staticEntityList);
 game = new gameObject(loadedLevel);
 
 Entity.prototype.remove = function(){
-    //console.log("collision");
     if(this.type=="motion"){
         var i = game.currentLevelData.motionEntityList.indexOf(this);
         game.currentLevelData.motionEntityList.splice(i,1);
@@ -194,10 +199,10 @@ Entity.prototype.addToList = function(entity){
         game.currentLevelData.staticEntityList.push(entity);
     }
 }
+
 //1000/60
 setInterval(update,1000/60);
 function update(){
-    //console.log("test")
+    //console.log(game.currentLevelData.playerRef);
     game.updateGame();
-    //(player.x + " , " + player.y)
 }
