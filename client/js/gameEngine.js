@@ -77,15 +77,16 @@ window.onload= function(){
     ctx = document.getElementById("ctx").getContext("2d");
 }
 
-
+var player;
 //reference to canvas
 //var ctx = document.getElementById("ctx").getContext("2d");
 
 //the game object that is created when a level is loaded.
 function gameObject(initialState){
     //the stored variables in game objects
-    this.currentLevelData=initialState
-    this.checkPointLevelData=initialState
+    this.currentLevelData=initialState;
+    this.checkPointLevelData=initialState;
+    player = initialState.playerRef;
     //game objects functions
 
     //this function is the game loop It updates everything in the current game state. 
@@ -150,54 +151,54 @@ function gameObject(initialState){
 
 //some code for testing purposes
 
-motionEntityList=[];
-staticEntityList=[];
-//entityList.push(new Enemy1(0,0));
-//entityList.push(new Enemy2(200,200));
-player = new playerChar(32,0,0);
+// motionEntityList=[];
+// staticEntityList=[];
+// //entityList.push(new Enemy1(0,0));
+// //entityList.push(new Enemy2(200,200));
+// player = new playerChar(32,0,0);
 
-//motionEntityList.push(player);
-staticEntityList.push(new block(0,128));
-staticEntityList.push(new block(64,128));
-staticEntityList.push(new block(128,64));
-staticEntityList.push(new block(128,128));
-staticEntityList.push(new block(192,128));
-staticEntityList.push(new block(224,96));
-staticEntityList.push(new block(288,128));
-motionEntityList.push(player);
+// //motionEntityList.push(player);
+// staticEntityList.push(new block(0,128));
+// staticEntityList.push(new block(64,128));
+// staticEntityList.push(new block(128,64));
+// staticEntityList.push(new block(128,128));
+// staticEntityList.push(new block(192,128));
+// staticEntityList.push(new block(224,96));
+// staticEntityList.push(new block(288,128));
+// motionEntityList.push(player);
 //entityList.push(player);
 //console.log(motionEntityList[0].type);
 //console.log(staticEntityList[0].type);
 
-loadedLevel = new levelData(motionEntityList,staticEntityList);
-game = new gameObject(loadedLevel);
+//loadedLevel = new levelData(motionEntityList,staticEntityList);
+var game;
 
-Entity.prototype.remove = function(){
-    //console.log("collision");
-    if(this.type=="motion"){
-        var i = game.currentLevelData.motionEntityList.indexOf(this);
-        game.currentLevelData.motionEntityList.splice(i,1);
-    }
-    else if (this.type=="static"){
-        var i = game.currentLevelData.staticEntityList.indexOf(this);
-        game.currentLevelData.staticEntityList.splice(i,1);
-    }
-}
+// Entity.prototype.remove = function(){
+//     //console.log("collision");
+//     if(this.type=="motion"){
+//         var i = game.currentLevelData.motionEntityList.indexOf(this);
+//         game.currentLevelData.motionEntityList.splice(i,1);
+//     }
+//     else if (this.type=="static"){
+//         var i = game.currentLevelData.staticEntityList.indexOf(this);
+//         game.currentLevelData.staticEntityList.splice(i,1);
+//     }
+// }
 
-//works by pushing the entity in the parameter to the motion/static entity list.
+// //works by pushing the entity in the parameter to the motion/static entity list.
 
-Entity.prototype.addToList = function(entity){
-    if(entity.type=="motion"){
-        game.currentLevelData.motionEntityList.push(entity);
-    }
-    else if(this.type=="static"){
-        game.currentLevelData.staticEntityList.push(entity);
-    }
-}
+// Entity.prototype.addToList = function(entity){
+//     if(entity.type=="motion"){
+//         game.currentLevelData.motionEntityList.push(entity);
+//     }
+//     else if(this.type=="static"){
+//         game.currentLevelData.staticEntityList.push(entity);
+//     }
+// }
 //1000/60
-setInterval(update,1000/60);
-function update(){
-    //console.log("test")
+
+function updateState(){
+    console.log("test")
     game.updateGame();
     //(player.x + " , " + player.y)
 }

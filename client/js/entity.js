@@ -13,8 +13,8 @@ function Entity(x,y,id,src,layer,type) {
 function playerChar(x,y,layer){
     var id="player";
     var src="images/player/player.png";
-    var layer=2
-    var type="motion"
+    var layer=2;
+    var type="motion";
     Entity.call(this,x,y,id,src,layer,type);
     this.width = 61;
     this.height = 61;
@@ -59,12 +59,20 @@ function playerChar(x,y,layer){
         }
     }
     this.draw = function(){
-        ctx.fillStyle="#FF0000";
-        ctx.fillRect(250,250,61,61);
+        //ctx.fillStyle="#FF0000";
+        //ctx.fillRect(250,250,61,61);
+        var img = LevelEditor.tileAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            250,  // target x
+            250, // target y
+            61, // target width
+            61 // target height
+        );
     }
     this.collision = function(entityC){
         entitySide=checkSide(this,entityC);
-        if(entityC.id=="block"){
+        if(entityC.tag=="block"){
             sideColided=checkSide(this , entityC)
             //console.log(this.id + " " + sideColided);
             if(sideColided=="bottom"){
@@ -84,9 +92,6 @@ function playerChar(x,y,layer){
 } 
 playerChar.prototype=Object.create(Entity.prototype);
 playerChar.prototype.constructor = playerChar;
-playerChar.prototype.update=function(){
-    this.remove();
-}
 
 //-------------------
 
@@ -96,28 +101,62 @@ playerChar.prototype.update=function(){
 function grassTile(x,y,layer){
     var id = 'grass';
     var src = 'images/enviroment/tempGrass.png';
-    var layer=1
-    var type="static"
+    var layer=1;
+    var type="static";
+    this.tag="block";
+    this.width = 64;
+    this.height = 64;
     Entity.call(this,x,y,id,src,layer,type);
+    this.update = function(){
+    }
+    this.draw = function(){
+        // ctx.fillStyle="#000000";
+        // ctx.fillRect(250+(this.x-player.x),250+(this.y-player.y),64,64);
+        var img = LevelEditor.tileAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            250+(this.x-player.x),  // target x
+            250+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );   
+    }
+    this.collision = function(entityC){
+        //this.remove();
+    }
 }
 grassTile.prototype=Object.create(Entity.prototype);
 grassTile.prototype.constructor =  grassTile;
-grassTile.prototype.update=function(){
-    this.remove();
-}
 //-------------
 function dirtTile(x,y,layer){
     var id = 'dirt';
     var src = 'images/enviroment/tempDirt.png';
-    var layer=1
-    var type="static"
+    var layer=1;
+    var type="static";
+    this.tag="block";
+    this.width = 64;
+    this.height = 64;
     Entity.call(this,x,y,id,src,layer,type);
+    this.update = function(){
+    }
+    this.draw = function(){
+        // ctx.fillStyle="#000000";
+        // ctx.fillRect(250+(this.x-player.x),250+(this.y-player.y),64,64);
+        var img = LevelEditor.tileAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            250+(this.x-player.x),  // target x
+            250+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );    
+    }
+    this.collision = function(entityC){
+        //this.remove();
+    }
 }
 dirtTile.prototype=Object.create(Entity.prototype);
 dirtTile.prototype.constructor =  dirtTile;
-dirtTile.prototype.update=function(){
-    this.remove();
-}
 //
 //  END ENVIROMENT TILES
 //
@@ -133,7 +172,8 @@ function block(x,y){
     id="block";
     type="static";
     layer=1
-    src="block url"
+    src="block url";
+    var tag="block";
     Entity.call(this,x,y,id,src,layer,type);
     this.update = function(){
     }

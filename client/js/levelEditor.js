@@ -30,6 +30,13 @@ var blankMap = {
       row.push(0);
     }
     this.layers[l].push(row);
+  },
+  updatePreviousRows: function(){
+    for(c = 0; c < this.cols - 1; c++){
+      this.layers[0][c].push(0);
+      this.layers[1][c].push(0);
+      this.layers[2][c].push(0);
+    }
   }
 };
 
@@ -94,6 +101,25 @@ Loader.getImage = function () {
 };
 //---END Asset loader---
 
+//Takes the 2d layers from blankmap and turns it into a 1d array for game engine
+packageEditorData = function(){
+  lvlData = [[],[]];
+  cols = blankMap.cols;
+  rows = blankMap.rows;
+  for(var r = 0; r < rows; r++){
+    for(c = 0; c < cols; c++){
+      motionTile = blankMap.layers[2][c][r];
+      staticTile = blankMap.layers[1][c][r];
+      if(motionTile != 0 && motionTile != null){
+        lvlData[0].push(motionTile);
+      }
+      if(staticTile != 0 && motionTile != null){
+        lvlData[1].push(staticTile);
+      }
+    }
+  }
+  return lvlData;
+}
 
 //
 //-----END UTILITY FUNCTIONS-----
@@ -165,31 +191,32 @@ LevelEditor.init = function () {
   canvas.addEventListener('click', function(evt) {
 
     var mousePos = getMousePos(canvas);
-    console.log('Mouse position: ' + mousePos.x + ',' + mousePos.y);
+    //console.log('Mouse position: ' + mousePos.x + ',' + mousePos.y);
 
     //Gets position relative to the entire level
     var levelPos_x = mousePos.x + cameraCache.x;
     var levelPos_y = mousePos.y + cameraCache.y;
-    console.log('Level position: ' + levelPos_x + ',' + levelPos_y);
+    //console.log('Level position: ' + levelPos_x + ',' + levelPos_y);
 
     //Gets the position of nearest multiple of 64
     var x64 = Math.ceil(levelPos_x / 64.0) * 64.0;
     var y64 = Math.ceil(levelPos_y / 64.0) * 64.0;
-    console.log('Nearest Multiple (64): ' + x64 + ',' + y64);
+    //console.log('Nearest Multiple (64): ' + x64 + ',' + y64);
 
     //Get the center of the grid where mouse was click
     var center_x = x64 - 32; //Subtract half tile size
     var center_y = y64 - 32;
-    console.log('Center of Selected tile: ' + center_x + ',' + center_y);
+    //console.log('Center of Selected tile: ' + center_x + ',' + center_y);
 
     //Find block on grid
     var pix_on_row = blankMap.tsize * blankMap.rows;
     var xGrid = Math.ceil(x64 / blankMap.tsize) - 1;
     var yGrid = Math.ceil(y64 / blankMap.tsize) - 1;
     var gridIdx = (yGrid * blankMap.rows) + xGrid;
-    console.log('Grid: ' + xGrid + ',' + yGrid + " : Grid IDX: " + gridIdx);
+    //console.log('Grid: ' + xGrid + ',' + yGrid + " : Grid IDX: " + gridIdx);
 
     //Get name of selected tile
+    selectTile(selectedTile.id);
     var tile = selectedTile;
 
     tile.x = center_x;
@@ -226,42 +253,47 @@ LevelEditor.run = function (context) {
 };
 
 LevelEditor.tick = function (elapsed) {
-  if(this.isRunning)
+  if(this.isRunning){
     window.requestAnimationFrame(this.tick);
 
-  // clear previous frame
-  this.ctx.clearRect(0, 0, 512, 512);
+    // clear previous frame
+    this.ctx.clearRect(0, 0, 512, 512);
 
-  // compute delta time in seconds -- also cap it
-  var delta = (elapsed - this._previousElapsed) / 1000.0;
-  delta = Math.min(delta, 0.25); // maximum delta of 250 ms
-  this._previousElapsed = elapsed;
+    // compute delta time in seconds -- also cap it
+    var delta = (elapsed - this._previousElapsed) / 1000.0;
+    delta = Math.min(delta, 0.25); // maximum delta of 250 ms
+    this._previousElapsed = elapsed;
 
-  this.updateEditor(delta);
-  this.render();
+    this.updateEditor(delta);
+    this.render();
+  }
 }.bind(LevelEditor);
 
 LevelEditor.updateEditor = function (delta) {
-  // handle camera movement with arrow keys
-  var dirx = 0;
-  var diry = 0;
-  if (Keyboard.isDown(Keyboard.LEFT)) { dirx = -1; }
-  if (Keyboard.isDown(Keyboard.RIGHT)) { dirx = 1; }
-  if (Keyboard.isDown(Keyboard.UP)) { diry = -1; }
-  if (Keyboard.isDown(Keyboard.DOWN)) { diry = 1; }
-  // handle removal of tile with r key
-  if(Keyboard.isDown(Keyboard.REMOVE)) {this.removeTile();}
+  if(this.isRunning){
+    // handle camera movement with arrow keys
+    var dirx = 0;
+    var diry = 0;
+    if (Keyboard.isDown(Keyboard.LEFT)) { dirx = -1; }
+    if (Keyboard.isDown(Keyboard.RIGHT)) { dirx = 1; }
+    if (Keyboard.isDown(Keyboard.UP)) { diry = -1; }
+    if (Keyboard.isDown(Keyboard.DOWN)) { diry = 1; }
+    // handle removal of tile with r key
+    if(Keyboard.isDown(Keyboard.REMOVE)) {this.removeTile();}
 
-  this.camera.move(delta, dirx, diry);
-  cameraCache = this.camera; //Update cameraCache used for mouse events
+    this.camera.move(delta, dirx, diry);
+    cameraCache = this.camera; //Update cameraCache used for mouse events
+  }
 };
 
 LevelEditor.render = function () {
-  // draw map background layer
-  this._drawLayer(0);
-  this._drawLayer(1);
-  this._drawLayer(2);
-  this._drawGrid();
+  if(this.isRunning){
+    // draw map background layer
+    this._drawLayer(0);
+    this._drawLayer(1);
+    this._drawLayer(2);
+    this._drawGrid();
+  }
 };
 
 LevelEditor._drawGrid = function () {
@@ -286,7 +318,6 @@ LevelEditor._drawGrid = function () {
   }
 };
 
-var testTile; 
 LevelEditor._drawLayer = function (layer) {
   var startCol = Math.floor(this.camera.x / blankMap.tsize);
   var endCol = startCol + (this.camera.width / blankMap.tsize);
@@ -299,7 +330,6 @@ LevelEditor._drawLayer = function (layer) {
       for (var r = startRow; r <= endRow; r++) {
         
         var tile = blankMap.getTile(layer, c, r);
-        testTile = tile;
         if(!(tile == null) && tile !==0){ //Is tile not empty
           var imgKey = tile.id;
           var img = this.tileAtlas[imgKey];
@@ -374,11 +404,12 @@ Camera.prototype.move = function (delta, dirx, diry) {
       blankMap.addRow(0,blankMap.rows);
       blankMap.addRow(1,blankMap.rows);
       blankMap.addRow(2,blankMap.rows);
+      blankMap.updatePreviousRows();
     }
 
     this.updateMaxXY();
  
-    console.log("Camera x: " + this.x + " y: " + this.y);
+    //console.log("Camera x: " + this.x + " y: " + this.y);
 
     // clamp values
     this.x = Math.max(0, Math.min(this.x, this.maxX));
@@ -404,12 +435,15 @@ openLevelEditor = function(){
 }
 var gameInterval;
 runLevel = function(){
-  game = new gameObject(loadedLevel);
-  gameInterval = setInterval(update,1000/60);
   LevelEditor.isRunning = false;
+  entityLists = packageEditorData(); //Motion list and static list of entities
+  level = new levelData(entityLists[0],entityLists[1]);
+  game = new gameObject(level);
+  gameInterval = setInterval(updateState,1000/60);
 }
 stopLevel = function(){
   clearInterval(gameInterval);
+  LevelEditor.isRunning = true;
   var context = document.getElementById('ctx').getContext('2d');
   LevelEditor.run(context);
 }
