@@ -86,15 +86,16 @@ window.onload= function(){
     ctx = document.getElementById("ctx").getContext("2d");
 }
 
-
+var player;
 //reference to canvas
 //var ctx = document.getElementById("ctx").getContext("2d");
 
 //the game object that is created when a level is loaded.
 function gameObject(initialState){
     //the stored variables in game objects
-    this.currentLevelData=initialState
-    this.checkPointLevelData=initialState
+    this.currentLevelData=initialState;
+    this.checkPointLevelData=initialState;
+    player = initialState.playerRef;
     //game objects functions
 
     //this function is the game loop It updates everything in the current game state. 
@@ -146,37 +147,6 @@ function gameObject(initialState){
 
 //some code for testing purposes
 
-motionEntityList=[];
-staticEntityList=[];
-//entityList.push(new Enemy1(0,0));
-//entityList.push(new Enemy2(200,200));
-player = new playerChar(32,0,0);
-
-//motionEntityList.push(player);
-staticEntityList.push(new block(0,128));
-staticEntityList.push(new block(64,128));
-staticEntityList.push(new block(128,128));
-//staticEntityList.push(new block(128,-64));
-//staticEntityList.push(new block(128,0));
-staticEntityList.push(new block(128,64));
-staticEntityList.push(new block(128+64*1,128));
-staticEntityList.push(new block(128+64*2,128));
-staticEntityList.push(new block(128+64*3,128));
-staticEntityList.push(new block(128+64*4,128));
-staticEntityList.push(new block(128+64*5,128));
-staticEntityList.push(new block(128+64*6,128));
-staticEntityList.push(new block(128+64*7,128));
-staticEntityList.push(new block(128+64*7,128-64));
-staticEntityList.push(new block(128+64*7,128-128));
-staticEntityList.push(new block(128+64*8,128));
-staticEntityList.push(new block(128+64*9,128));
-motionEntityList.push(new enemy(250,0));
-
-
-motionEntityList.push(player);
-
-loadedLevel = new levelData(motionEntityList,staticEntityList);
-game = new gameObject(loadedLevel);
 
 Entity.prototype.remove = function(){
     if(this.type=="motion"){
@@ -200,9 +170,6 @@ Entity.prototype.addToList = function(entity){
     }
 }
 
-//1000/60
-setInterval(update,1000/60);
-function update(){
-    //console.log(game.currentLevelData.playerRef);
+function updateState(){
     game.updateGame();
 }
