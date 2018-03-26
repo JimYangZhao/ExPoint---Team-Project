@@ -189,11 +189,11 @@ block.prototype.constructor = playerChar;
 function block(x,y){
     this.width = 64;
     this.height = 64;
+    this.tag="block";
     id="block";
     type="static";
-    layer=1
+    layer=1;
     src="block url";
-    var tag="block";
     Entity.call(this,x,y,id,src,layer,type);
     this.update = function(){
     }
