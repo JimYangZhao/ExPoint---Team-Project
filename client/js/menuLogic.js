@@ -16,7 +16,7 @@ function menuButton(divID) {
 
 function gameButton(levelData) {
     game = new gameObject(levelData);
-    setInterval(update,1000/60);
+    setInterval(updateState,1000/60);
 }
 
 //handles logic for user login

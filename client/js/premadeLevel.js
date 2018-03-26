@@ -1,3 +1,6 @@
+staticEntityList=[];
+motionEntityList=[];
+
 staticEntityList.push(new block(0,128));
 staticEntityList.push(new block(64,128));
 staticEntityList.push(new block(128,128));
