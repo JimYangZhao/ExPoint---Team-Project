@@ -234,7 +234,7 @@ LevelEditor.init = function () {
     var tile = selectedTile;
 
     //Checks if the selected tile can be placed at the current position
-    if(canPlaceTile(xGrid,yGrid)){
+   // if(canPlaceTile(xGrid,yGrid)){
       tile.x = center_x;
       tile.y = center_y;
 
@@ -254,7 +254,7 @@ LevelEditor.init = function () {
       //Add Image at mouse position on canvas
       //blankMap.layers[tileLayer][gridIdx] = tile;
       blankMap.layers[tileLayer][xGrid][yGrid] = tile;
-    }
+    //}
   }, false);
 };
 
