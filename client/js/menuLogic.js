@@ -14,9 +14,19 @@ function menuButton(divID) {
     }
 }
 
+//test lvl editor canvas display
+function EditorButton(){
+     
+    document.getElementById("ctx").style.display="block";
+
+}
+
 function gameButton(levelData) {
     game = new gameObject(levelData);
     setInterval(update,1000/60);
+//displays canvas
+    document.getElementById("ctx").style.display="block";
+    document.getElementById("Start Campaign").style.display="none";
 }
 
 //handles logic for user login
