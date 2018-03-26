@@ -482,3 +482,9 @@ selectTile = function(tileName){
   }
   selectedTile = tile;
 }
+
+//Load Images On Start
+window.onload = function(){
+  LevelEditor.load();
+  LevelEditor.tileAtlas = Loader.getImage();
+}
