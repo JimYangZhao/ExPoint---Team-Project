@@ -1,6 +1,7 @@
-function levelData(motionList, staticList) {
+function levelData(motionList, staticList, backgroundList) {
     this.staticEntityList = staticList;
     this.motionEntityList = motionList;
+    this.backgroundList = backgroundList;
     this.playerRef = findPlayer(this);
 };
 

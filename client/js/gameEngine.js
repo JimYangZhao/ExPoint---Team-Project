@@ -103,7 +103,7 @@ function gameObject(initialState){
     this.paused=false;
     this.gameMenu=new playerMenu(this.currentLevelData.playerRef)
     this.timeLastPause=30;
-    //player = initialState.playerRef;
+    player = initialState.playerRef;
     //game objects functions
 
     //this function is the game loop It updates everything in the current game state. 
@@ -143,6 +143,9 @@ function gameObject(initialState){
                     
                 }
             }
+        }
+        for(i=0; i < this.currentLevelData.backgroundList.length ; i++){
+            this.currentLevelData.backgroundList[i].draw();
         }
         for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
             this.currentLevelData.motionEntityList[i].draw();

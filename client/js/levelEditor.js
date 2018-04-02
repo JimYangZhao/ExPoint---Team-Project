@@ -44,7 +44,10 @@ var blankMap = {
 //Image keys
 var grass = 'grass';
 var dirt = 'dirt';
-var player = 'player';
+var playerKey = 'player';
+var waterKey = 'water';
+var skyKey = 'sky';
+var cloud1Key = 'cloud1';
 
 //client mouse position
 var xClient = 0;
@@ -101,13 +104,14 @@ Loader.getImage = function () {
 };
 //---END Asset loader---
 
-//Takes the 2d layers from blankmap and turns it into a 1d array for game engine
+//Takes the 2d layers from blankmap and turns it into a 1d arrays for game engine
 packageEditorData = function(){
-  lvlData = [[],[]];
+  lvlData = [[],[],[]];
   cols = blankMap.cols;
   rows = blankMap.rows;
   for(var r = 0; r < rows; r++){
     for(c = 0; c < cols; c++){
+      backgroundTile = blankMap.layers[0][c][r];
       motionTile = blankMap.layers[2][c][r];
       staticTile = blankMap.layers[1][c][r];
       if(motionTile != 0 && motionTile != null){
@@ -115,10 +119,13 @@ packageEditorData = function(){
         if(motionTile.id == "player"){
           motionTile = new playerChar(motionTile.x,motionTile.y);
         }
-        lvlData[0].push(motionTile);
+        lvlData[1].push(motionTile);
       }
       if(staticTile != 0 && motionTile != null){
-        lvlData[1].push(staticTile);
+        lvlData[2].push(staticTile);
+      }
+      if(backgroundTile != 0 && backgroundTile != null){
+        lvlData[0].push(backgroundTile);
       }
     }
   }
@@ -373,7 +380,7 @@ LevelEditor.removeTile = function(){
   //Gets position relative to the entire level
   var levelPos_x = mousePos.x + cameraCache.x;
   var levelPos_y = mousePos.y + cameraCache.y;
- // console.log('Level position: ' + levelPos_x + ',' + levelPos_y);
+  //console.log('Level position: ' + levelPos_x + ',' + levelPos_y);
 
   //Gets the position of nearest multiple of 64
   var x64 = Math.ceil(levelPos_x / 64.0) * 64.0;
@@ -435,9 +442,12 @@ Camera.prototype.move = function (delta, dirx, diry) {
 
 LevelEditor.load = function () {
   return [
-      Loader.loadImage(grass, 'images/enviroment/tempGrass.png'),
+      Loader.loadImage(grass, 'images/enviroment/grass1.png'),
       Loader.loadImage(dirt, 'images/enviroment/tempDirt.png'),
-      Loader.loadImage(player,'images/player/player.png'),
+      Loader.loadImage(playerKey,'images/player/player.png'),
+      Loader.loadImage(waterKey,'images/enviroment/water1.png'),
+      Loader.loadImage(skyKey,'images/enviroment/sky.png'),
+      Loader.loadImage(cloud1Key,'images/enviroment/cloud1.png'),
   ];
 };
 
@@ -454,7 +464,7 @@ var gameInterval;
 runLevel = function(){
   LevelEditor.isRunning = false;
   entityLists = packageEditorData(); //Motion list and static list of entities
-  level = new levelData(entityLists[0],entityLists[1]);
+  level = new levelData(entityLists[1],entityLists[2],entityLists[0]);
   game = new gameObject(level);
   gameInterval = setInterval(updateState,1000/60);
 }
@@ -474,8 +484,17 @@ selectTile = function(tileName){
   else if(tileName == dirt){
     var tile = new dirtTile(0,0);
   }
-  else if(tileName == player){
+  else if(tileName == playerKey){
     var tile = new playerChar(0,0);
+  }
+  else if(tileName == waterKey){
+    var tile = new waterBlock(0,0);
+  }
+  else if(tileName == skyKey){
+    var tile = new skyTile(0,0);
+  }
+  else if(tileName == cloud1Key){
+    var tile = new cloud1Tile(0,0);
   }
   else{
     console.log("Error: Tile Not Properly Selected.");

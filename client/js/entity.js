@@ -97,8 +97,8 @@ function playerChar(x,y,layer){
         var img = LevelEditor.tileAtlas[this.id];
         ctx.drawImage(
             img, // image
-            250,  // target x
-            250, // target y
+            256,  // target x
+            256, // target y
             61, // target width
             61 // target height
         );
@@ -139,7 +139,7 @@ playerChar.prototype.constructor = playerChar;
 //
 function grassTile(x,y,layer){
     var id = 'grass';
-    var src = 'images/enviroment/tempGrass.png';
+    var src = 'images/enviroment/grass1.png';
     var layer=1;
     var type="static";
     var tags=["block"];
@@ -154,8 +154,8 @@ function grassTile(x,y,layer){
         var img = LevelEditor.tileAtlas[this.id];
         ctx.drawImage(
             img, // image
-            250+(this.x-player.x),  // target x
-            250+(this.y-player.y), // target y
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
             64, // target width
             64 // target height
         );   
@@ -184,8 +184,8 @@ function dirtTile(x,y,layer){
         var img = LevelEditor.tileAtlas[this.id];
         ctx.drawImage(
             img, // image
-            250+(this.x-player.x),  // target x
-            250+(this.y-player.y), // target y
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
             64, // target width
             64 // target height
         );    
@@ -196,6 +196,66 @@ function dirtTile(x,y,layer){
 }
 dirtTile.prototype=Object.create(Entity.prototype);
 dirtTile.prototype.constructor =  dirtTile;
+//-------------
+function skyTile(x,y,layer){
+    var id = 'sky';
+    var src = 'images/enviroment/sky.png';
+    var layer=0;
+    var type="background";
+    var tags=["block"];
+    this.width = 64;
+    this.height = 64;
+    Entity.call(this,x,y,id,src,layer,type,tags);
+    this.update = function(){
+    }
+    this.draw = function(){
+        // ctx.fillStyle="#000000";
+        // ctx.fillRect(250+(this.x-player.x),250+(this.y-player.y),64,64);
+        var img = LevelEditor.tileAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );    
+    }
+    this.collision = function(entityC){
+        //this.remove();
+    }
+}
+skyTile.prototype=Object.create(Entity.prototype);
+skyTile.prototype.constructor =  skyTile;
+//-------------
+function cloud1Tile(x,y,layer){
+    var id = 'cloud1';
+    var src = 'images/enviroment/cloud1.png';
+    var layer=0;
+    var type="background";
+    var tags=["block"];
+    this.width = 64;
+    this.height = 64;
+    Entity.call(this,x,y,id,src,layer,type,tags);
+    this.update = function(){
+    }
+    this.draw = function(){
+        // ctx.fillStyle="#000000";
+        // ctx.fillRect(250+(this.x-player.x),250+(this.y-player.y),64,64);
+        var img = LevelEditor.tileAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );    
+    }
+    this.collision = function(entityC){
+        //this.remove();
+    }
+}
+cloud1Tile.prototype=Object.create(Entity.prototype);
+cloud1Tile.prototype.constructor =  cloud1Tile;
 //
 //  END ENVIROMENT TILES
 //
@@ -613,17 +673,25 @@ function waterBlock(x,y){
     this.width = 64;
     this.height = 64;
     var tags=[];
-    id="water block";
+    id="water";
     type="static";
     layer=1;
-    src="water block url";
+    src="images/enviroment/water1.png";
     Entity.call(this,x,y,id,src,layer,type,tags);
     this.update = function(){
 
     }
     this.draw = function(){
-        ctx.fillStyle="#00FFFF";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        //ctx.fillStyle="#00FFFF";
+        //ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = LevelEditor.tileAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        ); 
     }
     this.collision = function(entityC){
         if(entityC.tags.includes("player") || entityC.tags.includes("enemy")){
