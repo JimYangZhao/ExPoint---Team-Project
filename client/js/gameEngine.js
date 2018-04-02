@@ -6,6 +6,7 @@ pressingDown = false;
 pressingPower1 = false;
 pressingPower2 = false;
 pressingHalt= false;
+pressingPause=false;
 
 document.onkeydown= function(event){
     if(event.keyCode == 68)
@@ -22,6 +23,8 @@ document.onkeydown= function(event){
         pressingPower2=true;
     else if(event.keyCode == 90)
         pressingHalt=true;
+    else if(event.keyCode == 80)
+        pressingPause=true;
 }
 document.onkeyup=function(event){
     if(event.keyCode == 68)
@@ -38,6 +41,8 @@ document.onkeyup=function(event){
         pressingPower2=false;
     else if(event.keyCode == 90)
         pressingHalt=false;
+    else if(event.keyCode == 80)
+        pressingPause=false;
 }
 
 
@@ -95,36 +100,48 @@ function gameObject(initialState){
     //the stored variables in game objects
     this.currentLevelData=initialState;
     this.checkPointLevelData=initialState;
-    player = initialState.playerRef;
+    this.paused=false;
+    this.gameMenu=new playerMenu(this.currentLevelData.playerRef)
+    this.timeLastPause=30;
+    //player = initialState.playerRef;
     //game objects functions
 
     //this function is the game loop It updates everything in the current game state. 
     this.updateGame=function(){
+        this.timeLastPause=this.timeLastPause+1;
         ctx.clearRect(0,0,512,512);
         ctx.fillStyle="#FFFFFF";
         ctx.fillRect(0,0,512,512);
-        for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
-            this.currentLevelData.motionEntityList[i].update();
-        }
-        for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
-            for(j=i+1; j < this.currentLevelData.motionEntityList.length ; j++){
-                if(checkCollision(this.currentLevelData.motionEntityList[i],this.currentLevelData.motionEntityList[j])){
-                    this.currentLevelData.motionEntityList[i].collision(this.currentLevelData.motionEntityList[j]);
-                    //if(this.currentLevelData.motionEntityList[j] == !(null)){
-                    this.currentLevelData.motionEntityList[j].collision(this.currentLevelData.motionEntityList[i]);
-                    //}
-
-                }
+        if(pressingPause){
+            if(this.timeLastPause>30){
+                this.togglePause();
+                this.timeLastPause=0;
             }
-            for(j=0;j < this.currentLevelData.staticEntityList.length; j++){
-                if(checkCollision(this.currentLevelData.motionEntityList[i],this.currentLevelData.staticEntityList[j])){
-                    this.currentLevelData.motionEntityList[i].collision(this.currentLevelData.staticEntityList[j]);
-                    //if(this.currentLevelData.staticEntityList[j] == !(null)){
-                    this.currentLevelData.staticEntityList[j].collision(this.currentLevelData.motionEntityList[i]);
-                    //}
+        }
+        if(this.paused==false){
+            for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
+                this.currentLevelData.motionEntityList[i].update();
+            }
+            for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
+                for(j=i+1; j < this.currentLevelData.motionEntityList.length ; j++){
+                    if(checkCollision(this.currentLevelData.motionEntityList[i],this.currentLevelData.motionEntityList[j])){
+                        this.currentLevelData.motionEntityList[i].collision(this.currentLevelData.motionEntityList[j]);
+                        //if(this.currentLevelData.motionEntityList[j] == !(null)){
+                        this.currentLevelData.motionEntityList[j].collision(this.currentLevelData.motionEntityList[i]);
+                        //}
 
+                    }
                 }
-                
+                for(j=0;j < this.currentLevelData.staticEntityList.length; j++){
+                    if(checkCollision(this.currentLevelData.motionEntityList[i],this.currentLevelData.staticEntityList[j])){
+                        this.currentLevelData.motionEntityList[i].collision(this.currentLevelData.staticEntityList[j]);
+                        //if(this.currentLevelData.staticEntityList[j] == !(null)){
+                        this.currentLevelData.staticEntityList[j].collision(this.currentLevelData.motionEntityList[i]);
+                        //}
+
+                    }
+                    
+                }
             }
         }
         for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
@@ -132,6 +149,10 @@ function gameObject(initialState){
         }
         for(i=0; i < this.currentLevelData.staticEntityList.length ; i++){
             this.currentLevelData.staticEntityList[i].draw();
+        }
+        if(this.paused){
+            this.gameMenu.update();
+            this.gameMenu.draw();
         }
     }
 
@@ -142,6 +163,10 @@ function gameObject(initialState){
     //this function is called when the player collides with a checkpoint
     this.saveCheckpoint = function() {
         this.currentLevelData=this.checkPointLevelData;
+    }
+    this.togglePause=function(){
+        if(this.paused==false) this.paused=true;
+        else this.paused=false;
     }
 }
 
