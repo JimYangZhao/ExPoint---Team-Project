@@ -23,8 +23,7 @@ function EditorButton(){
 
 function gameButton(levelData) {
     game = new gameObject(levelData);
-    setInterval(updateState,1000/60);
-
+    gameInterval = setInterval(updateState,1000/60);
     //displays canvas
     document.getElementById("ctx").style.display="block";
     document.getElementById("Start Campaign").style.display="none";

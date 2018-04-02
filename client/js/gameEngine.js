@@ -6,6 +6,7 @@ pressingDown = false;
 pressingPower1 = false;
 pressingPower2 = false;
 pressingHalt= false;
+pressingPause=false;
 
 document.onkeydown= function(event){
     if(event.keyCode == 68)
@@ -22,6 +23,8 @@ document.onkeydown= function(event){
         pressingPower2=true;
     else if(event.keyCode == 90)
         pressingHalt=true;
+    else if(event.keyCode == 80)
+        pressingPause=true;
 }
 document.onkeyup=function(event){
     if(event.keyCode == 68)
@@ -38,22 +41,44 @@ document.onkeyup=function(event){
         pressingPower2=false;
     else if(event.keyCode == 90)
         pressingHalt=false;
+    else if(event.keyCode == 80)
+        pressingPause=false;
 }
 
-
-//formula for checking if entity one and entity two colides. Returns true if so.
-//works by checking for a gap between the two entities. If any exist, then there is no collision
 function checkCollision(entity1,entity2){
     if(entity1==(null) || entity2==(null)){
         return false;
     }
     return entity1.x < entity2.x+entity2.width
-        && entity2.x < entity1.x+entity1.width
-        && entity1.y < entity2.y+entity2.height
-        && entity2.y < entity1.y+entity1.height;
+        && entity2.x < entity1.x+entity1.width 
+        && entity1.y < entity2.y+entity2.height 
+        && entity2.y < entity1.y+entity1.height ;
 }
-//uses the minkowski sum. checks here the center of a rectangle lies relative to the other one
-//outputs direction with respect to entity 1.
+
+function playercheckSide(entity1,entity2){
+    w = 0.4486*(entity1.width + entity2.width);
+    h = 0.5514*(entity1.height+entity2.height);
+    dx = entity1.x - entity2.x;
+    dy = entity1.y - entity2.y;
+    wy=w*dy;
+    hx=h*dx;
+    if(wy>hx){
+        if(wy>-hx){
+            return "top";
+        }
+        else{
+            return "right";
+        }
+    }
+    else{
+        if(wy > -hx){
+            return "left";
+        }
+        else{
+            return "bottom";
+        }
+    }
+}
 
 function checkSide(entity1,entity2){
     w = 0.5*(entity1.width + entity2.width);
@@ -81,72 +106,115 @@ function checkSide(entity1,entity2){
 }
 
 var ctx;
-//ctx = document.getElementById("ctx").getContext("2d");
 window.onload= function(){
     ctx = document.getElementById("ctx").getContext("2d");
 }
 
 var player;
-//reference to canvas
-//var ctx = document.getElementById("ctx").getContext("2d");
 
-//the game object that is created when a level is loaded.
+function DeepCopy(initialState){
+    motionEntityList=[]
+    for(i=0;i<initialState.motionEntityList.length;i++){
+        //motionEntityList.push(Object.assign({Entity},initialState.motionEntityList[i]));
+        motionEntityList.push($.extend(true,{},initialState.motionEntityList[i]));
+    }
+    staticEntityList=[]
+    for(i=0;i<initialState.staticEntityList.length;i++){
+        //staticEntityList.push(Object.assign({Entity},initialState.staticEntityList[i]));
+        staticEntityList.push($.extend(true,{},initialState.staticEntityList[i]));
+    }
+    backgroundList=[]
+    for(i=0;i<initialState.staticEntityList.length;i++){
+        //backgroundList.push(Object.assign({Entity},initialState.backgroundList[i]));
+        backgroundList.push($.extend(true,{},initialState.backgroundList[i]));
+    }
+    return new levelData(motionEntityList,staticEntityList,backgroundList);
+}
 function gameObject(initialState){
     //the stored variables in game objects
     this.currentLevelData=initialState;
-    this.checkPointLevelData=initialState;
+    this.checkPointLevelData= DeepCopy(initialState);
+    this.paused=false;
+    this.gameMenu=new playerMenu(this.currentLevelData.playerRef)
+    this.timeLastPause=30;
+    music=new Audio("soundEffects/backGroundMusic.mp3");
+    music.play();
     player = initialState.playerRef;
-    //game objects functions
 
-    //this function is the game loop It updates everything in the current game state. 
     this.updateGame=function(){
+        this.timeLastPause=this.timeLastPause+1;
         ctx.clearRect(0,0,512,512);
         ctx.fillStyle="#FFFFFF";
         ctx.fillRect(0,0,512,512);
-        for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
-            this.currentLevelData.motionEntityList[i].update();
+        if(player.hp<=0){
+            playASound("soundEffects/playerDeath.mp3")
+            this.loadCheckpoint();
         }
-        for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
-            for(j=i+1; j < this.currentLevelData.motionEntityList.length ; j++){
-                if(checkCollision(this.currentLevelData.motionEntityList[i],this.currentLevelData.motionEntityList[j])){
-                    this.currentLevelData.motionEntityList[i].collision(this.currentLevelData.motionEntityList[j]);
-                    //if(this.currentLevelData.motionEntityList[j] == !(null)){
-                    this.currentLevelData.motionEntityList[j].collision(this.currentLevelData.motionEntityList[i]);
-                    //}
-
-                }
-            }
-            for(j=0;j < this.currentLevelData.staticEntityList.length; j++){
-                if(checkCollision(this.currentLevelData.motionEntityList[i],this.currentLevelData.staticEntityList[j])){
-                    this.currentLevelData.motionEntityList[i].collision(this.currentLevelData.staticEntityList[j]);
-                    //if(this.currentLevelData.staticEntityList[j] == !(null)){
-                    this.currentLevelData.staticEntityList[j].collision(this.currentLevelData.motionEntityList[i]);
-                    //}
-
-                }
-                
+        if(pressingPause){
+            if(this.timeLastPause>30){
+                this.togglePause();
+                this.timeLastPause=0;
             }
         }
-        for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
-            this.currentLevelData.motionEntityList[i].draw();
+        ctx.fillStyle="#000000";
+        ctx.fillRect(4,4,102,20);
+        ctx.fillStyle="#FF0000";
+        ctx.fillRect(5,5, (10* player.hp) ,18);
+        if(this.paused==false){
+            for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
+                this.currentLevelData.motionEntityList[i].update();
+            }
+            for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
+                for(j=i+1; j < this.currentLevelData.motionEntityList.length ; j++){
+                    if(checkCollision(this.currentLevelData.motionEntityList[i],this.currentLevelData.motionEntityList[j])){
+                        this.currentLevelData.motionEntityList[i].collision(this.currentLevelData.motionEntityList[j]);
+                        if(!(this.currentLevelData.motionEntityList[j] === "undefined")){
+                            this.currentLevelData.motionEntityList[j].collision(this.currentLevelData.motionEntityList[i]);
+                        }
+                    }
+                }
+                for(j=0;j < this.currentLevelData.staticEntityList.length; j++){
+                    if(checkCollision(this.currentLevelData.motionEntityList[i],this.currentLevelData.staticEntityList[j])){
+                        this.currentLevelData.motionEntityList[i].collision(this.currentLevelData.staticEntityList[j]);
+                        if(!(typeof this.currentLevelData.staticEntityList[j] === "undefined")){
+                            this.currentLevelData.staticEntityList[j].collision(this.currentLevelData.motionEntityList[i]);
+                        }
+                    }
+                }
+            }
         }
-        for(i=0; i < this.currentLevelData.staticEntityList.length ; i++){
-            this.currentLevelData.staticEntityList[i].draw();
+        for(i=0;i<this.currentLevelData.backgroundList.length;i++){
+            //this.currentLevelData.backgroundList[i].draw();
+        }
+        for(layer=0;layer < 2 ; layer++){
+            for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
+                //this.currentLevelData.motionEntityList[i].draw();
+                if(layer==this.currentLevelData.motionEntityList[i].layer)this.currentLevelData.motionEntityList[i].draw();
+            }
+            for(i=0; i < this.currentLevelData.staticEntityList.length ; i++){
+                //this.currentLevelData.staticEntityList[i].draw();
+                if(layer==this.currentLevelData.staticEntityList[i].layer)this.currentLevelData.staticEntityList[i].draw();
+            }
+        }
+        if(this.paused){
+            this.gameMenu.update();
+            this.gameMenu.draw();
         }
     }
 
-    //this function is called when the player dies. It replaces the current game state with the checkpoint's
     this.loadCheckpoint = function() {
-        this.currentLevelData=this.checkPointLevelData;
+        this.currentLevelData=DeepCopy(this.checkPointLevelData);
+        player = this.currentLevelData.playerRef;
+        this.gameMenu.setPlayer(player);
     }
-    //this function is called when the player collides with a checkpoint
     this.saveCheckpoint = function() {
-        this.currentLevelData=this.checkPointLevelData;
+        this.checkPointLevelData=DeepCopy(this.currentLevelData);
+    }
+    this.togglePause=function(){
+        if(this.paused==false) this.paused=true;
+        else this.paused=false;
     }
 }
-
-//some code for testing purposes
-
 
 Entity.prototype.remove = function(){
     if(this.type=="motion"){
@@ -159,8 +227,6 @@ Entity.prototype.remove = function(){
     }
 }
 
-//works by pushing the entity in the parameter to the motion/static entity list.
-
 Entity.prototype.addToList = function(entity){
     if(entity.type=="motion"){
         game.currentLevelData.motionEntityList.push(entity);
@@ -169,6 +235,12 @@ Entity.prototype.addToList = function(entity){
         game.currentLevelData.staticEntityList.push(entity);
     }
 }
+
+checkPoint.prototype.setCheckPointState = function(){
+    game.saveCheckpoint();
+}
+
+gameInterval;
 
 function updateState(){
     game.updateGame();
