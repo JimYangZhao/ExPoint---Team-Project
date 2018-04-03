@@ -36,10 +36,10 @@ for(i=0;i<70;i++){
     for(j=0;j<20;j++){
         if(i >=12 && i <= 16){
             if(j > 16){
-                staticEntityList.push(new enviromentTile(i*64,j*64,"grass2"));
+                staticEntityList.push(new enviromentTile(i*64,j*64,grass1Key));
             }
             if(j==16){
-                staticEntityList.push(new enviromentTile(i*64,j*64,"grass"));
+                staticEntityList.push(new enviromentTile(i*64,j*64,grass2Key));
             }
         }
         if(i==11){
@@ -48,7 +48,9 @@ for(i=0;i<70;i++){
             }
         }
         if(i==19,22,25,27){
-            staticEntityList.push(new environmentTile(i*64,j*64,"rock"));
+            if(j==16){
+                staticEntityList.push(new enviromentTile(i*64,j*64,rock1Key));
+            }
         }
     }
 }
