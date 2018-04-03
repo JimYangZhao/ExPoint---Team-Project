@@ -23,41 +23,45 @@ var Player = {};
 
 Player.list = {};
 Player.onConnect = function(socket){
+    delete Player.list[socket.id];
+}
+Player.update = function(){
+    var pack = [];
+    for(var i in Player.list){
+        var player = Player.list[i];
+        player.update();
+        pack.push({
+            x:player.x,
+            y:player.y,
+            number:player.number
+        });    
+    }
+    return pack;
 }
 
 
 var DEBUG = true;
 
-var USERS = {
-	//username:password
-	"bob":"asd",
-	"bob2":"bob",
-	"bob3":"ttt",	
+var isValidPassword = function(data,cb){
+    db.account.find({username:data.username,password:data.password},function(err,res){
+        if(res.length > 0)
+            cb(true);
+        else
+            cb(false);
+    });
 }
-
-
+var isUsernameTaken = function(data,cb){
+    db.account.find({username:data.username},function(err,res){
+        if(res.length > 0)
+            cb(true);
+        else
+            cb(false);
+    });
+}
 var addUser = function(data,cb){
     db.account.insert({username:data.username,password:data.password},function(err){
         cb();
     });
-}
- 
-
-var isValidPassword = function(data,cb){
-    setTimeout(function(){
-        cb(USERS[data.username] === data.password);
-    },10);
-}
-var isUsernameTaken = function(data,cb){
-    setTimeout(function(){
-        cb(USERS[data.username]);
-    },10);
-}
-var addUser = function(data,cb){
-    setTimeout(function(){
-        USERS[data.username] = data.password;
-        cb();
-    },10);
 }
 
 
