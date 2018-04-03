@@ -404,18 +404,6 @@ Camera.prototype.move = function (delta, dirx, diry) {
     this.y = Math.max(0, Math.min(this.y, this.maxY));
 };
 
-/* LevelEditor.load = function () {
-  return [
-      Loader.loadImage(grass, 'images/enviroment/grass1.png'),
-      Loader.loadImage(grass2, 'images/enviroment/grass2.png'),
-      Loader.loadImage(dirt, 'images/enviroment/tempDirt.png'),
-      Loader.loadImage(playerKey,'images/player/player.png'),
-      Loader.loadImage(waterKey,'images/enviroment/water1.png'),
-      Loader.loadImage(skyKey,'images/enviroment/sky.png'),
-      Loader.loadImage(cloud1Key,'images/enviroment/cloud1.png'),
-  ];
-}; */
-
 //
 // start up function
 //
@@ -464,11 +452,14 @@ selectTile = function(tileName){
   else if(tileName == cloud1Key){
     var tile = new backgroundTile(0,0,cloud1Key);
   }
+  else if(tileName == ladder1Key){
+    var tile = new ladderBlock(0,0,cloud1Key);
+  }
+  else if(tileName == rock1Key){
+    var tile = new enviromentTile(0,0,rock1Key);
+  }
   else{
     console.log("Error: Tile Not Properly Selected.");
   }
   selectedTile = tile;
 }
-
-//LevelEditor.load();
-//LevelEditor.tileAtlas = Loader.getImage();

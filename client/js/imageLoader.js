@@ -17,13 +17,14 @@ startLoadingImgs = function () {
     return [
         Loader.loadImage(grass1Key, 'images/enviroment/grass1.png'),
         Loader.loadImage(grass2Key, 'images/enviroment/grass2.png'),
-        Loader.loadImage(dirt1Key, 'images/enviroment/tempDirt.png'),
+        Loader.loadImage(dirt1Key, 'images/enviroment/dirt1.png'),
         Loader.loadImage(playerKey,'images/player/player.png'),
         Loader.loadImage(water1Key,'images/enviroment/water1.png'),
         Loader.loadImage(water2Key,'images/enviroment/water2.png'),
         Loader.loadImage(sky1Key,'images/enviroment/sky.png'),
         Loader.loadImage(cloud1Key,'images/enviroment/cloud1.png'),
         Loader.loadImage(rock1Key,'images/enviroment/rock1.png'),
+        Loader.loadImage(ladder1Key,'images/enviroment/ladder.png'),
     ];
 };
 
