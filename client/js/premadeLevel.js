@@ -1,6 +1,6 @@
 staticEntityList=[];
 motionEntityList=[];
-
+backgroundList = [];
 staticEntityList.push(new block(0,128));
 staticEntityList.push(new block(64,128));
 staticEntityList.push(new block(128,128));
@@ -31,4 +31,4 @@ staticEntityList.push(new block(128+64*14,128));
 motionEntityList.push(new turret(128+64*14,128-64));
 motionEntityList.push(new enemy(250,0));
 motionEntityList.push(new playerChar(0,0));
-level1 = new levelData(motionEntityList,staticEntityList);
+level1 = new levelData(motionEntityList,staticEntityList,backgroundList);

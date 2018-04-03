@@ -267,6 +267,7 @@ LevelEditor.init = function () {
 
 LevelEditor.run = function (context) {
   this.ctx = context;
+  
   this._previousElapsed = 0;
 
   var p = this.load();
@@ -282,7 +283,8 @@ LevelEditor.tick = function (elapsed) {
 
     // clear previous frame
     this.ctx.clearRect(0, 0, 512, 512);
-
+    this.ctx.fillStyle="#FFFFFF";
+    this.ctx.fillRect(0,0,512,512);
     // compute delta time in seconds -- also cap it
     var delta = (elapsed - this._previousElapsed) / 1000.0;
     delta = Math.min(delta, 0.25); // maximum delta of 250 ms

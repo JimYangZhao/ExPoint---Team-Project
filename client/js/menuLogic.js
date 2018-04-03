@@ -9,7 +9,8 @@ function menuButton(divID) {
             document.getElementById(divList[i]).style.display="block";
         }
         else{
-            document.getElementById(divList[i]).style.display="none";
+            if(document.getElementById(divList[i]) != null)
+                document.getElementById(divList[i]).style.display="none";
         }
     }
 }
@@ -29,6 +30,19 @@ function gameButton(levelData) {
     document.getElementById("ctx").style.display="block";
     document.getElementById("Start Campaign").style.display="none";
 }
+
+function editorBackBtn() {
+    menuButton("Play");
+    LevelEditor.isRunning = false;
+    var ctx = document.getElementById("ctx").getContext("2d");
+    ctx.clearRect(0,0,512,512);
+}
+function openEditorBtn() {
+    menuButton('Level Editor');
+    openLevelEditor(); //levelEditor.js
+}
+
+
 
 //handles logic for user login
 function validLogin() {

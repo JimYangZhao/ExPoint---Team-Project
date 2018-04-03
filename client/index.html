@@ -8,7 +8,7 @@
 <html>
 <head>
   <meta charset="UTF-8"> 
-  <link rel="stylesheet" type="text/css" href="/client/index.css">
+  <link rel="stylesheet" type="text/css" href="index.css">
   <link href="https://fonts.googleapis.com/css?family=Mina" rel="stylesheet">
 </head>
 <body>
@@ -110,7 +110,7 @@
 
 <div id='Play'>
   <button onclick="menuButton('Start Campaign')">Start Campaign</button>
-  <button onclick="menuButton('Level Editor')">Level Editor</button>
+  <button onclick="openEditorBtn()">Level Editor</button>
   <button onclick="menuButton('Leaderboard')">Leaderboard</button>
   <button onclick="menuButton('Options')">Options</button>
   <button onclick="menuButton('MainMenu')">Logout</button>
@@ -168,10 +168,7 @@
   <button onclick="menuButton('Play')">Back</button>
 </div>
 
-<div id='Level Editor'>
-  Build Menu System goes here
-  <button onclick="EditorButton()">Click me to display canvas!</button>
-  
+<div id='Level Editor'> 
   <button onclick="openLevelEditor()">Open Level Editor</button> 
     <button onclick="selectTile('grass')">Grass Tile</button>
     <button onclick="selectTile('dirt')">Dirt Tile</button>
@@ -182,7 +179,7 @@
     <button onclick="runLevel()">Run Level</button>
     <button onclick="stopLevel()">Stop Level</button>
 
-  <button onclick="menuButton('Play')">Back</button>
+  <button onclick="editorBackBtn()">Back</button>
 
 </div>
 
