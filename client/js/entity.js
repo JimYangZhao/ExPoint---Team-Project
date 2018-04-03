@@ -169,6 +169,37 @@ playerChar.prototype.constructor = playerChar;
 //
 //  ENVIROMENT TILES
 //
+
+function enviromentTile(x,y,id){
+    var id = id;
+    var src = 'images/enviroment/grass1.png';
+    var layer=1;
+    var type="static";
+    var tags=["block"];
+    this.width = 64;
+    this.height = 64;
+    Entity.call(this,x,y,id,src,layer,type,tags);
+    this.update = function(){
+    }
+    this.draw = function(){
+        // ctx.fillStyle="#000000";
+        // ctx.fillRect(250+(this.x-player.x),250+(this.y-player.y),64,64);
+        var img = LevelEditor.tileAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );   
+    }
+    this.collision = function(entityC){
+        //this.remove();
+    }
+}
+enviromentTile.prototype=Object.create(Entity.prototype);
+enviromentTile.prototype.constructor =  enviromentTile;
+
 function grassTile(x,y,layer){
     var id = 'grass';
     var src = 'images/enviroment/grass1.png';
@@ -198,6 +229,35 @@ function grassTile(x,y,layer){
 }
 grassTile.prototype=Object.create(Entity.prototype);
 grassTile.prototype.constructor =  grassTile;
+
+function grassTile2(x,y,layer){
+    var id = 'grass2';
+    var layer=1;
+    var type="static";
+    var tags=["block"];
+    this.width = 64;
+    this.height = 64;
+    Entity.call(this,x,y,id,src,layer,type,tags);
+    this.update = function(){
+    }
+    this.draw = function(){
+        // ctx.fillStyle="#000000";
+        // ctx.fillRect(250+(this.x-player.x),250+(this.y-player.y),64,64);
+        var img = LevelEditor.tileAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );   
+    }
+    this.collision = function(entityC){
+        //this.remove();
+    }
+}
+grassTile2.prototype=Object.create(Entity.prototype);
+grassTile2.prototype.constructor =  grassTile2;
 //-------------
 function dirtTile(x,y,layer){
     var id = 'dirt';

@@ -43,6 +43,7 @@ var blankMap = {
 //GLOBALS
 //Image keys
 var grass = 'grass';
+var grass2 = 'grass2';
 var dirt = 'dirt';
 var playerKey = 'player';
 var waterKey = 'water';
@@ -445,6 +446,7 @@ Camera.prototype.move = function (delta, dirx, diry) {
 LevelEditor.load = function () {
   return [
       Loader.loadImage(grass, 'images/enviroment/grass1.png'),
+      Loader.loadImage(grass2, 'images/enviroment/grass2.png'),
       Loader.loadImage(dirt, 'images/enviroment/tempDirt.png'),
       Loader.loadImage(playerKey,'images/player/player.png'),
       Loader.loadImage(waterKey,'images/enviroment/water1.png'),
@@ -497,6 +499,9 @@ selectTile = function(tileName){
   }
   else if(tileName == cloud1Key){
     var tile = new cloud1Tile(0,0);
+  }
+  else if(tileName == grass2){
+    var tile = new grass2Tile(0,0);
   }
   else{
     console.log("Error: Tile Not Properly Selected.");
