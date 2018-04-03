@@ -40,12 +40,22 @@ staticEntityList.push(new block(128+64*7,128-128));
 staticEntityList.push(new block(128+64*8,128));
 staticEntityList.push(new block(128+64*9,128));
 staticEntityList.push(new medKit(128+64*8,128-64))
+<<<<<<< HEAD
 staticEntityList.push(new harmfulBlock(128+64*10,128));
 staticEntityList.push(new harmfulBlock(128+64*11,128));
 staticEntityList.push(new harmfulBlock(128+64*12,128));
 staticEntityList.push(new harmfulBlock(128+64*13,128));
 staticEntityList.push(new block(128+64*14,128));
 motionEntityList.push(new turret(128+64*14,128-64));
+=======
+staticEntityList.push(new lavaBlock(128+64*10,128));
+staticEntityList.push(new lavaBlock(128+64*11,128));
+staticEntityList.push(new lavaBlock(128+64*12,128));
+staticEntityList.push(new lavaBlock(128+64*13,128));
+staticEntityList.push(new block(128+64*14,128));
+motionEntityList.push(new turret(128+64*14,128-64));
+motionEntityList.push(new endOfLevel(128+64*14,128-128));
+>>>>>>> 68d52782a5494460d5047a6279cab38a8e873800
 motionEntityList.push(new enemy(250,0));
 motionEntityList.push(new playerChar(0,0));
 backgroundList.push(new block(-300,-300));

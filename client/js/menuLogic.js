@@ -23,7 +23,8 @@ function EditorButton(){
 }
 
 function gameButton(levelData) {
-    game = new gameObject(levelData);
+    levelDataCopy = DeepCopy(levelData);
+    game = new gameObject(levelDataCopy);
     gameInterval = setInterval(updateState,1000/60);
     //displays canvas
     document.getElementById("ctx").style.display="block";

@@ -323,7 +323,7 @@ function enemy(x,y){
     this.height = 64;
     id="enemy";
     type="motion";
-    layer=1
+    layer=2;
     src="enemy url"
     var tags=["damaging","enemy"];
     Entity.call(this,x,y,id,src,layer,type,tags);
@@ -384,7 +384,7 @@ enemy.prototype.constructor = enemy;
 function playerProjectile(x,y,direction,projectile){
     id=projectile;
     type="motion";
-    layer=1;
+    layer=2;
     src="list of url"
     this.yVel=0;
     var tags=[];
@@ -727,7 +727,7 @@ function turret(x,y){
     this.height = 64;
     id="turret";
     type="motion";
-    layer=0;
+    layer=2;
     src="enemy url"
     var tags=["damaging","enemy","block"];
     Entity.call(this,x,y,id,src,layer,type,tags);
@@ -772,7 +772,7 @@ function turretProjectile(x,y,xDir,yDir){
     this.height = 8;
     id="turret projectile";
     type="motion";
-    layer=1;
+    layer=2;
     src="enemy url"
     var tags=["damaging"];
     Entity.call(this,x,y,id,src,layer,type,tags);
@@ -913,6 +913,9 @@ function endOfLevel(x,y){
                 playASound("soundEffects/levelCompletion.mp3");
                 clearInterval(gameInterval);
                 menuButton("Start Campaign");
+                music.pause();
+                music.currentTime=0;
+                ctx.clearRect(0,0,512,512);
             }
         }
     }
