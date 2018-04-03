@@ -1,5 +1,4 @@
   <!DOCTYPE html>
-<script src="js/jQuery.js"></script>
 <script src="js/levelEditor.js"></script>
 <script src="js/level.js"></script>
 <script src="js/entity.js"></script>
@@ -15,8 +14,8 @@
 <body>
 <canvas id="ctx" width="512" height="512"> </canvas>
 <div id='MainMenu'>
-    <button onclick="menuButton('Login')">Login</button>
-    <button onclick="menuButton('Create Account')">Create Account</button>
+    <!-- <button onclick="menuButton('Login')">Login</button> -->
+    <button onclick="menuButton('Create Account')">Sign In/Sign Up</button>
     <button onclick="menuButton('Play')">Offline</button>
 </div>
 
@@ -72,7 +71,6 @@
     <script>
       var socket = io();
       
-      //sign
       var Login = document.getElementById('Login');
       var LoginUsername = document.getElementById('Create Account-username');
       var LoginSignIn = document.getElementById('Create Account-signIn');
@@ -177,9 +175,6 @@
     <button onclick="selectTile('grass')">Grass Tile</button>
     <button onclick="selectTile('dirt')">Dirt Tile</button>
     <button onclick="selectTile('player')">Player</button>
-    <button onclick="selectTile('water')">Water Tile</button>
-    <button onclick="selectTile('sky')">Sky Tile</button>
-    <button onclick="selectTile('cloud1')">Cloud Tile</button>
     <button onclick="runLevel()">Run Level</button>
     <button onclick="stopLevel()">Stop Level</button>
 
