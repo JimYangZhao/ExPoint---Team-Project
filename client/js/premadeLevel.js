@@ -1,53 +1,55 @@
 staticEntityList=[];
 motionEntityList=[];
 backgroundList=[];
-staticEntityList.push(new block(0-64*1,128));
-staticEntityList.push(new fireBallPickup(0-64*1,128-64));
-staticEntityList.push(new block(0-64*2,128));
-staticEntityList.push(new bombPickup(0-64*2,128-64));
-staticEntityList.push(new block(0-64*3,128));
-staticEntityList.push(new block(0-64*4,128));
-staticEntityList.push(new block(0-64*5,128));
-staticEntityList.push(new block(0,128));
-staticEntityList.push(new block(64,128));
+motionEntityList.push(new playerChar(128,1216));
+//grass floor
+for(i=0;i<70;i++){
+    if(i>=12 && i <= 16){
+        staticEntityList.push(new enviromentTile(i*64,1280,"grass2"));
+    }
+    else{
+        staticEntityList.push(new enviromentTile(i*64,1280,"grass"));
+    }
+}
+//dirt under floor
+for(i=0;i<70;i++){
+    for(j=0;j<6;j++){
+        staticEntityList.push(new enviromentTile(i*64,1344  +j*64,"grass2"));
+    }
+}
+//left wall
+for(i=0;i<6;i++){
+    for(j=0;j<25;j++){
+        staticEntityList.push(new enviromentTile(i*64-(384),1536+j*-64,"grass2"));
+    }
+}
+//right wall
+for(i=0;i<6;i++){
+    for(j=0;j<25;j++){
+        staticEntityList.push(new enviromentTile(i*64+(4480),1536+j*-64,"grass2"));
+    }
+}
+//area between left and right wall
 
-staticEntityList.push(new block(128,128));
-staticEntityList.push(new block(128,64));
-
-/*
-staticEntityList.push(new block(128,64-64*1));
-staticEntityList.push(new block(128,64-64*2));
-staticEntityList.push(new block(128,64-64*3));
-staticEntityList.push(new block(128,64-64*4));
-*/
-
-staticEntityList.push(new block(128+64*1,128));
-staticEntityList.push(new block(128+64*2,128));
-staticEntityList.push(new block(128+64*3,128));
-staticEntityList.push(new block(128+64*4,128));
-staticEntityList.push(new ladderBlock(128+64*4,128-64*1));
-staticEntityList.push(new ladderBlock(128+64*4,128-64*2));
-staticEntityList.push(new ladderBlock(128+64*4,128-64*3));
-staticEntityList.push(new waterBlock(128+64*4,128-64*4));
-staticEntityList.push(new waterBlock(128+64*4,128-64*5));
-staticEntityList.push(new waterBlock(128+64*4,128-64*6));
-staticEntityList.push(new block(128+64*5,128));
-staticEntityList.push(new block(128+64*6,128));
-staticEntityList.push(new checkPoint(128+64*6,128-64));
-staticEntityList.push(new block(128+64*7,128));
-staticEntityList.push(new block(128+64*7,128-64));
-staticEntityList.push(new block(128+64*7,128-128));
-staticEntityList.push(new block(128+64*8,128));
-staticEntityList.push(new block(128+64*9,128));
-staticEntityList.push(new medKit(128+64*8,128-64))
-staticEntityList.push(new lavaBlock(128+64*10,128));
-staticEntityList.push(new lavaBlock(128+64*11,128));
-staticEntityList.push(new lavaBlock(128+64*12,128));
-staticEntityList.push(new lavaBlock(128+64*13,128));
-staticEntityList.push(new block(128+64*14,128));
-motionEntityList.push(new turret(128+64*14,128-64));
-motionEntityList.push(new endOfLevel(128+64*14,128-128));
-motionEntityList.push(new enemy(250,0));
-motionEntityList.push(new playerChar(0,0));
-backgroundList.push(new block(-300,-300));
+//player starts on i=3,j=19
+for(i=0;i<70;i++){
+    for(j=0;j<20;j++){
+        if(i >=12 && i <= 16){
+            if(j > 16){
+                staticEntityList.push(new enviromentTile(i*64,j*64,"grass2"));
+            }
+            if(j==16){
+                staticEntityList.push(new enviromentTile(i*64,j*64,"grass"));
+            }
+        }
+        if(i==11){
+            if(j>=16){
+                staticEntityList.push(new ladderBlock(i*64,j*64));
+            }
+        }
+        if(i==19,22,25,27){
+            staticEntityList.push(new environmentTile(i*64,j*64,"rock"));
+        }
+    }
+}
 level1 = new levelData(motionEntityList,staticEntityList,backgroundList);

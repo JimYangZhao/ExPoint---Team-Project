@@ -156,10 +156,6 @@ function gameObject(initialState){
                 this.timeLastPause=0;
             }
         }
-        ctx.fillStyle="#000000";
-        ctx.fillRect(4,4,102,20);
-        ctx.fillStyle="#FF0000";
-        ctx.fillRect(5,5, (10* player.hp) ,18);
         if(this.paused==false){
             for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
                 this.currentLevelData.motionEntityList[i].update();
@@ -198,6 +194,10 @@ function gameObject(initialState){
                     this.currentLevelData.staticEntityList[i].draw();
             }
         }
+        ctx.fillStyle="#000000";
+        ctx.fillRect(4,4,102,20);
+        ctx.fillStyle="#FF0000";
+        ctx.fillRect(5,5, (10* player.hp) ,18);
         if(this.paused){
             this.gameMenu.update();
             this.gameMenu.draw();
