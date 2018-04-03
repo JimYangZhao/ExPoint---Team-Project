@@ -1,11 +1,8 @@
-<<<<<<< HEAD
 function playASound(soundFile){
     var audio = new Audio(soundFile);
     audio.play();
 }
 
-=======
->>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
 function Entity(x,y,id,src,layer,type,tags) {
     this.x=x;
     this.y=y;
@@ -21,14 +18,11 @@ function Entity(x,y,id,src,layer,type,tags) {
 function playerChar(x,y,layer){
     var id="player";
     var src="images/player/player.png";
-    var layer=1;
+    var layer=2;
     var type="motion";
     var tags=["player"];
     Entity.call(this,x,y,id,src,layer,type,tags);
-<<<<<<< HEAD
     this.facing="right"
-=======
->>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
     this.width = 61;
     this.height = 61;
     this.yVel=0;
@@ -38,11 +32,7 @@ function playerChar(x,y,layer){
     this.selected1="magic missle";
     this.selected2="staff hit";
     this.inventory=["med kit", 2 ,"bomb", 2];
-<<<<<<< HEAD
     this.powers=["staff hit", "magic missle"];
-=======
-    this.powers=["staff hit", "magic missle","dummy one","dummy two"];
->>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
     this.update = function(){
         if(pressingLeft) {this.facing="left"}
         if(pressingRight) {this.facing="right"}
@@ -333,7 +323,7 @@ function enemy(x,y){
     this.height = 64;
     id="enemy";
     type="motion";
-    layer=1
+    layer=2;
     src="enemy url"
     var tags=["damaging","enemy"];
     Entity.call(this,x,y,id,src,layer,type,tags);
@@ -394,7 +384,7 @@ enemy.prototype.constructor = enemy;
 function playerProjectile(x,y,direction,projectile){
     id=projectile;
     type="motion";
-    layer=1;
+    layer=2;
     src="list of url"
     this.yVel=0;
     var tags=[];
@@ -737,7 +727,7 @@ function turret(x,y){
     this.height = 64;
     id="turret";
     type="motion";
-    layer=0;
+    layer=2;
     src="enemy url"
     var tags=["damaging","enemy","block"];
     Entity.call(this,x,y,id,src,layer,type,tags);
@@ -782,7 +772,7 @@ function turretProjectile(x,y,xDir,yDir){
     this.height = 8;
     id="turret projectile";
     type="motion";
-    layer=1;
+    layer=2;
     src="enemy url"
     var tags=["damaging"];
     Entity.call(this,x,y,id,src,layer,type,tags);
@@ -923,6 +913,9 @@ function endOfLevel(x,y){
                 playASound("soundEffects/levelCompletion.mp3");
                 clearInterval(gameInterval);
                 menuButton("Start Campaign");
+                music.pause();
+                music.currentTime=0;
+                ctx.clearRect(0,0,512,512);
             }
         }
     }
@@ -936,11 +929,7 @@ function medKit(x,y){
     var tags=[];
     id="med kit";
     type="static";
-<<<<<<< HEAD
     layer=0;
-=======
-    layer=1;
->>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
     src="med kit url";
     Entity.call(this,x,y,id,src,layer,type,tags);
     this.update = function(){
@@ -951,25 +940,18 @@ function medKit(x,y){
         ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
     }
     this.collision = function(entityC){
-<<<<<<< HEAD
         if(!(typeof entityC === "undefined")){
             if(entityC.tags.includes("player")){
                 playASound("soundEffects/itemPickUp.mp3");
                 entityC.inventory[1]=entityC.inventory[1]+1;
                 this.remove();
             }
-=======
-        if(entityC.tags.includes("player")){
-            entityC.inventory[1]=entityC.inventory[1]+1;
-            this.remove();
->>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
         }
     }
 }
 medKit.prototype=Object.create(Entity.prototype);
 medKit.prototype.constructor = medKit;
 
-<<<<<<< HEAD
 function bombPickup(x,y){
     this.width = 64;
     this.height = 64;
@@ -1061,8 +1043,6 @@ checkPoint.prototype=Object.create(Entity.prototype);
 checkPoint.prototype.constructor = checkPoint;
 
 
-=======
->>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
 ////////menu GUI/////////
 
 function playerMenu(player){
@@ -1073,12 +1053,9 @@ function playerMenu(player){
     this.selectorItems=0;
     this.menuCooldown=0;
     this.toggle=false;
-<<<<<<< HEAD
     this.setPlayer = function(player){
         this.player=player;
     }
-=======
->>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
     this.update = function(){
         if(this.menuCooldown>0){
             this.menuCooldown=this.menuCooldown-1;
@@ -1088,99 +1065,65 @@ function playerMenu(player){
                 if(this.inventory.length != 0 && this.toggle==false){
                     this.toggle=true;
                     this.menuCooldown=this.menuCooldown+10;
-<<<<<<< HEAD
                     playASound("soundEffects/inventoryMove.mp3");
-=======
->>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
             } 
             if(pressingUp){
                 if(this.powers.length != 0 && this.toggle==true){
                     this.toggle=false;
                     this.menuCooldown=this.menuCooldown+10;
-<<<<<<< HEAD
                     playASound("soundEffects/inventoryMove.mp3");
-=======
->>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
             }
             if(pressingLeft){
                 if(this.toggle==false && this.selectorPower-1 >= 0){
                     this.selectorPower=this.selectorPower-1;
                     this.menuCooldown=this.menuCooldown+10;
-<<<<<<< HEAD
                     playASound("soundEffects/inventoryMove.mp3");
-=======
->>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
                 if(this.toggle==true && this.selectorItems-1 >= 0){
                     this.selectorItems=this.selectorItems-1;
                     this.menuCooldown=this.menuCooldown+10;
-<<<<<<< HEAD
                     playASound("soundEffects/inventoryMove.mp3");
-=======
->>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
             }
             if(pressingRight){
                 if((this.toggle==false) && (this.selectorPower+1 < this.powers.length)){
                     this.selectorPower=this.selectorPower+1;
                     this.menuCooldown=this.menuCooldown+10;
-<<<<<<< HEAD
                     playASound("soundEffects/inventoryMove.mp3");
-=======
->>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
                 if(this.toggle==true && this.selectorItems+1 < this.inventory.length/2){
                     this.selectorItems=this.selectorItems+1;
                     this.menuCooldown=this.menuCooldown+10;
-<<<<<<< HEAD
                     playASound("soundEffects/inventoryMove.mp3");
-=======
->>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
             }
             if(pressingPower1){
                 if(this.toggle==false){
                     this.player.selected1=this.powers[this.selectorPower];
                     this.menuCooldown=this.menuCooldown+10;
-<<<<<<< HEAD
                     playASound("soundEffects/inventorySet.mp3");
-=======
->>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
                 else{
                     this.player.selected1=this.inventory[this.selectorItems*2];
                     this.menuCooldown=this.menuCooldown+10;
-<<<<<<< HEAD
                     playASound("soundEffects/inventorySet.mp3");
-=======
->>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
             }
             if(pressingPower2){
                 if(this.toggle==false){
                     this.player.selected2=this.powers[this.selectorPower];
                     this.menuCooldown=this.menuCooldown+10;
-<<<<<<< HEAD
                     playASound("soundEffects/inventorySet.mp3");
-=======
->>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
                 else{
                     this.player.selected2=this.inventory[this.selectorItems*2];
                     this.menuCooldown=this.menuCooldown+10;
-<<<<<<< HEAD
                     playASound("soundEffects/inventorySet.mp3");
                 }
             }
         }
-=======
-                }
-            }
-        }
-        console.log(this.selectorItems);
->>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
     }
     this.draw = function(){
         ctx.fillStyle="#000000";
@@ -1213,14 +1156,7 @@ function playerMenu(player){
 
             }
         }
-<<<<<<< HEAD
     }
 }
 
 
-=======
-
-    }
-}
-
->>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9

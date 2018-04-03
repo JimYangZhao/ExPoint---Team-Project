@@ -9,7 +9,8 @@ function menuButton(divID) {
             document.getElementById(divList[i]).style.display="block";
         }
         else{
-            document.getElementById(divList[i]).style.display="none";
+            if(document.getElementById(divList[i]) != null)
+                document.getElementById(divList[i]).style.display="none";
         }
     }
 }
@@ -22,7 +23,8 @@ function EditorButton(){
 }
 
 function gameButton(levelData) {
-    game = new gameObject(levelData);
+    levelDataCopy = DeepCopy(levelData);
+    game = new gameObject(levelDataCopy);
     gameInterval = setInterval(updateState,1000/60);
     //displays canvas
     document.getElementById("ctx").style.display="block";
