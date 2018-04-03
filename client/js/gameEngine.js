@@ -133,12 +133,19 @@ function DeepCopy(initialState){
 function gameObject(initialState){
     //the stored variables in game objects
     this.currentLevelData=initialState;
+<<<<<<< HEAD
     this.checkPointLevelData= DeepCopy(initialState);
     this.paused=false;
     this.gameMenu=new playerMenu(this.currentLevelData.playerRef)
     this.timeLastPause=30;
     music=new Audio("soundEffects/backGroundMusic.mp3");
     music.play();
+=======
+    this.checkPointLevelData=initialState;
+    this.paused=false;
+    this.gameMenu=new playerMenu(this.currentLevelData.playerRef)
+    this.timeLastPause=30;
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
     player = initialState.playerRef;
 
     this.updateGame=function(){
@@ -146,6 +153,7 @@ function gameObject(initialState){
         ctx.clearRect(0,0,512,512);
         ctx.fillStyle="#FFFFFF";
         ctx.fillRect(0,0,512,512);
+<<<<<<< HEAD
         if(player.hp<=0){
             playASound("soundEffects/playerDeath.mp3")
             this.loadCheckpoint();
@@ -164,18 +172,38 @@ function gameObject(initialState){
             for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
                 this.currentLevelData.motionEntityList[i].update();
             }
+=======
+        if(pressingPause){
+            if(this.timeLastPause>30){
+                this.togglePause();
+                this.timeLastPause=0;
+            }
+        }
+        if(this.paused==false){
+            for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
+                this.currentLevelData.motionEntityList[i].update();
+            }
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
             for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
                 for(j=i+1; j < this.currentLevelData.motionEntityList.length ; j++){
                     if(checkCollision(this.currentLevelData.motionEntityList[i],this.currentLevelData.motionEntityList[j])){
                         this.currentLevelData.motionEntityList[i].collision(this.currentLevelData.motionEntityList[j]);
+<<<<<<< HEAD
                         if(!(this.currentLevelData.motionEntityList[j] === "undefined")){
                             this.currentLevelData.motionEntityList[j].collision(this.currentLevelData.motionEntityList[i]);
                         }
+=======
+                        //if(this.currentLevelData.motionEntityList[j] == !(null)){
+                        this.currentLevelData.motionEntityList[j].collision(this.currentLevelData.motionEntityList[i]);
+                        //}
+
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                     }
                 }
                 for(j=0;j < this.currentLevelData.staticEntityList.length; j++){
                     if(checkCollision(this.currentLevelData.motionEntityList[i],this.currentLevelData.staticEntityList[j])){
                         this.currentLevelData.motionEntityList[i].collision(this.currentLevelData.staticEntityList[j]);
+<<<<<<< HEAD
                         if(!(typeof this.currentLevelData.staticEntityList[j] === "undefined")){
                             this.currentLevelData.staticEntityList[j].collision(this.currentLevelData.motionEntityList[i]);
                         }
@@ -185,6 +213,22 @@ function gameObject(initialState){
         }
         for(i=0;i<this.currentLevelData.backgroundList.length;i++){
             //this.currentLevelData.backgroundList[i].draw();
+=======
+                        //if(this.currentLevelData.staticEntityList[j] == !(null)){
+                        this.currentLevelData.staticEntityList[j].collision(this.currentLevelData.motionEntityList[i]);
+                        //}
+
+                    }
+                    
+                }
+            }
+        }
+        for(i=0; i < this.currentLevelData.backgroundList.length ; i++){
+            this.currentLevelData.backgroundList[i].draw();
+        }
+        for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
+            this.currentLevelData.motionEntityList[i].draw();
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
         }
         for(layer=0;layer < 2 ; layer++){
             for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
@@ -200,6 +244,10 @@ function gameObject(initialState){
             this.gameMenu.update();
             this.gameMenu.draw();
         }
+        if(this.paused){
+            this.gameMenu.update();
+            this.gameMenu.draw();
+        }
     }
 
     this.loadCheckpoint = function() {
@@ -209,6 +257,10 @@ function gameObject(initialState){
     }
     this.saveCheckpoint = function() {
         this.checkPointLevelData=DeepCopy(this.currentLevelData);
+    }
+    this.togglePause=function(){
+        if(this.paused==false) this.paused=true;
+        else this.paused=false;
     }
     this.togglePause=function(){
         if(this.paused==false) this.paused=true;

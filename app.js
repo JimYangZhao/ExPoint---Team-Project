@@ -1,19 +1,40 @@
 var mongojs = require("mongojs");
-var db = mongojs("localhost:2000/index2.html", ['account','progress']);
+var db = mongojs("localhost:27017/ExPoint", ['account','progress']);
 
 db.account.insert({username:"b",password:"bb"});
-
 var express = require('express');
 var app = express();
 var serv = require('http').Server(app);
 
+
 app.get('/',function(req, res){
-    res.sendFile(__dirname + '/index2.html');
+    res.sendFile(__dirname + '/client/index.html');
 });
 app.use('/client',express.static(__dirname + '/client'));
-
+    
 serv.listen(2000);
 console.log("Server Start.");
+
+var SOCKET_LIST = {};
+var Player = {};
+
+
+
+
+Player.list = {};
+Player.onConnect = function(socket){
+}
+
+
+var DEBUG = true;
+
+var USERS = {
+	//username:password
+	"bob":"asd",
+	"bob2":"bob",
+	"bob3":"ttt",	
+}
+
 
 var addUser = function(data,cb){
     db.account.insert({username:data.username,password:data.password},function(err){
@@ -72,8 +93,7 @@ io.sockets.on('connection', function(socket){
    
     socket.on('disconnect',function(){
         delete SOCKET_LIST[socket.id];
-        Player.onDisconnect(socket);
-    });
+        });
     socket.on('sendMsgToServer',function(data){
         var playerName = ("" + socket.id).slice(2,7);
         for(var i in SOCKET_LIST){

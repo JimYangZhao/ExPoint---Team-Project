@@ -1,8 +1,11 @@
+<<<<<<< HEAD
 function playASound(soundFile){
     var audio = new Audio(soundFile);
     audio.play();
 }
 
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
 function Entity(x,y,id,src,layer,type,tags) {
     this.x=x;
     this.y=y;
@@ -22,7 +25,10 @@ function playerChar(x,y,layer){
     var type="motion";
     var tags=["player"];
     Entity.call(this,x,y,id,src,layer,type,tags);
+<<<<<<< HEAD
     this.facing="right"
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
     this.width = 61;
     this.height = 61;
     this.yVel=0;
@@ -32,7 +38,11 @@ function playerChar(x,y,layer){
     this.selected1="magic missle";
     this.selected2="staff hit";
     this.inventory=["med kit", 2 ,"bomb", 2];
+<<<<<<< HEAD
     this.powers=["staff hit", "magic missle"];
+=======
+    this.powers=["staff hit", "magic missle","dummy one","dummy two"];
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
     this.update = function(){
         if(pressingLeft) {this.facing="left"}
         if(pressingRight) {this.facing="right"}
@@ -129,8 +139,8 @@ function playerChar(x,y,layer){
         var img = LevelEditor.tileAtlas[this.id];
         ctx.drawImage(
             img, // image
-            250,  // target x
-            250, // target y
+            256,  // target x
+            256, // target y
             61, // target width
             61 // target height
         );
@@ -171,8 +181,8 @@ playerChar.prototype.constructor = playerChar;
 //
 function grassTile(x,y,layer){
     var id = 'grass';
-    var src = 'images/enviroment/tempGrass.png';
-    var layer=0;
+    var src = 'images/enviroment/grass1.png';
+    var layer=1;
     var type="static";
     var tags=["block"];
     this.width = 64;
@@ -186,8 +196,8 @@ function grassTile(x,y,layer){
         var img = LevelEditor.tileAtlas[this.id];
         ctx.drawImage(
             img, // image
-            250+(this.x-player.x),  // target x
-            250+(this.y-player.y), // target y
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
             64, // target width
             64 // target height
         );   
@@ -216,8 +226,8 @@ function dirtTile(x,y,layer){
         var img = LevelEditor.tileAtlas[this.id];
         ctx.drawImage(
             img, // image
-            250+(this.x-player.x),  // target x
-            250+(this.y-player.y), // target y
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
             64, // target width
             64 // target height
         );    
@@ -228,6 +238,66 @@ function dirtTile(x,y,layer){
 }
 dirtTile.prototype=Object.create(Entity.prototype);
 dirtTile.prototype.constructor =  dirtTile;
+//-------------
+function skyTile(x,y,layer){
+    var id = 'sky';
+    var src = 'images/enviroment/sky.png';
+    var layer=0;
+    var type="background";
+    var tags=["block"];
+    this.width = 64;
+    this.height = 64;
+    Entity.call(this,x,y,id,src,layer,type,tags);
+    this.update = function(){
+    }
+    this.draw = function(){
+        // ctx.fillStyle="#000000";
+        // ctx.fillRect(250+(this.x-player.x),250+(this.y-player.y),64,64);
+        var img = LevelEditor.tileAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );    
+    }
+    this.collision = function(entityC){
+        //this.remove();
+    }
+}
+skyTile.prototype=Object.create(Entity.prototype);
+skyTile.prototype.constructor =  skyTile;
+//-------------
+function cloud1Tile(x,y,layer){
+    var id = 'cloud1';
+    var src = 'images/enviroment/cloud1.png';
+    var layer=0;
+    var type="background";
+    var tags=["block"];
+    this.width = 64;
+    this.height = 64;
+    Entity.call(this,x,y,id,src,layer,type,tags);
+    this.update = function(){
+    }
+    this.draw = function(){
+        // ctx.fillStyle="#000000";
+        // ctx.fillRect(250+(this.x-player.x),250+(this.y-player.y),64,64);
+        var img = LevelEditor.tileAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );    
+    }
+    this.collision = function(entityC){
+        //this.remove();
+    }
+}
+cloud1Tile.prototype=Object.create(Entity.prototype);
+cloud1Tile.prototype.constructor =  cloud1Tile;
 //
 //  END ENVIROMENT TILES
 //
@@ -773,18 +843,24 @@ function waterBlock(x,y){
     this.width = 64;
     this.height = 64;
     var tags=[];
-    id="water block";
+    id="water";
     type="static";
-    layer=0;
-    src="water block url";
+    layer=1;
+    src="images/enviroment/water1.png";
     Entity.call(this,x,y,id,src,layer,type,tags);
     this.update = function(){
 
     }
     this.draw = function(){
-        ctx.fillStyle="#00FFFF";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
-    }
+        var img = LevelEditor.tileAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        ); 
+    } 
     this.collision = function(entityC){
         if(!(typeof entityC === "undefined")){
             if(entityC.tags.includes("player") || entityC.tags.includes("enemy")){
@@ -801,10 +877,10 @@ function waterBlock2(x,y){
     this.width = 64;
     this.height = 64;
     var tags=[];
-    id="water block2";
+    id="water";
     type="static";
-    layer=0;
-    src="water block url2";
+    layer=1;
+    src="images/enviroment/water1.png";
     Entity.call(this,x,y,id,src,layer,type,tags);
     this.update = function(){
 
@@ -851,8 +927,8 @@ function endOfLevel(x,y){
         }
     }
 }
-waterBlock.prototype=Object.create(Entity.prototype);
-waterBlock.prototype.constructor = waterBlock;
+endOfLevel.prototype=Object.create(Entity.prototype);
+endOfLevel.prototype.constructor = endOfLevel;
 
 function medKit(x,y){
     this.width = 64;
@@ -860,7 +936,11 @@ function medKit(x,y){
     var tags=[];
     id="med kit";
     type="static";
+<<<<<<< HEAD
     layer=0;
+=======
+    layer=1;
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
     src="med kit url";
     Entity.call(this,x,y,id,src,layer,type,tags);
     this.update = function(){
@@ -871,18 +951,25 @@ function medKit(x,y){
         ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
     }
     this.collision = function(entityC){
+<<<<<<< HEAD
         if(!(typeof entityC === "undefined")){
             if(entityC.tags.includes("player")){
                 playASound("soundEffects/itemPickUp.mp3");
                 entityC.inventory[1]=entityC.inventory[1]+1;
                 this.remove();
             }
+=======
+        if(entityC.tags.includes("player")){
+            entityC.inventory[1]=entityC.inventory[1]+1;
+            this.remove();
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
         }
     }
 }
 medKit.prototype=Object.create(Entity.prototype);
 medKit.prototype.constructor = medKit;
 
+<<<<<<< HEAD
 function bombPickup(x,y){
     this.width = 64;
     this.height = 64;
@@ -974,6 +1061,8 @@ checkPoint.prototype=Object.create(Entity.prototype);
 checkPoint.prototype.constructor = checkPoint;
 
 
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
 ////////menu GUI/////////
 
 function playerMenu(player){
@@ -984,9 +1073,12 @@ function playerMenu(player){
     this.selectorItems=0;
     this.menuCooldown=0;
     this.toggle=false;
+<<<<<<< HEAD
     this.setPlayer = function(player){
         this.player=player;
     }
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
     this.update = function(){
         if(this.menuCooldown>0){
             this.menuCooldown=this.menuCooldown-1;
@@ -996,65 +1088,99 @@ function playerMenu(player){
                 if(this.inventory.length != 0 && this.toggle==false){
                     this.toggle=true;
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
                     playASound("soundEffects/inventoryMove.mp3");
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
             } 
             if(pressingUp){
                 if(this.powers.length != 0 && this.toggle==true){
                     this.toggle=false;
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
                     playASound("soundEffects/inventoryMove.mp3");
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
             }
             if(pressingLeft){
                 if(this.toggle==false && this.selectorPower-1 >= 0){
                     this.selectorPower=this.selectorPower-1;
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
                     playASound("soundEffects/inventoryMove.mp3");
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
                 if(this.toggle==true && this.selectorItems-1 >= 0){
                     this.selectorItems=this.selectorItems-1;
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
                     playASound("soundEffects/inventoryMove.mp3");
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
             }
             if(pressingRight){
                 if((this.toggle==false) && (this.selectorPower+1 < this.powers.length)){
                     this.selectorPower=this.selectorPower+1;
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
                     playASound("soundEffects/inventoryMove.mp3");
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
                 if(this.toggle==true && this.selectorItems+1 < this.inventory.length/2){
                     this.selectorItems=this.selectorItems+1;
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
                     playASound("soundEffects/inventoryMove.mp3");
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
             }
             if(pressingPower1){
                 if(this.toggle==false){
                     this.player.selected1=this.powers[this.selectorPower];
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
                     playASound("soundEffects/inventorySet.mp3");
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
                 else{
                     this.player.selected1=this.inventory[this.selectorItems*2];
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
                     playASound("soundEffects/inventorySet.mp3");
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
             }
             if(pressingPower2){
                 if(this.toggle==false){
                     this.player.selected2=this.powers[this.selectorPower];
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
                     playASound("soundEffects/inventorySet.mp3");
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
                 else{
                     this.player.selected2=this.inventory[this.selectorItems*2];
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
                     playASound("soundEffects/inventorySet.mp3");
                 }
             }
         }
+=======
+                }
+            }
+        }
+        console.log(this.selectorItems);
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
     }
     this.draw = function(){
         ctx.fillStyle="#000000";
@@ -1087,7 +1213,14 @@ function playerMenu(player){
 
             }
         }
+<<<<<<< HEAD
     }
 }
 
 
+=======
+
+    }
+}
+
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9

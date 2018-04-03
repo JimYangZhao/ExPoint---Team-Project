@@ -9,35 +9,100 @@
 <html>
 <head>
   <meta charset="UTF-8"> 
-  <link rel="stylesheet" type="text/css" href="index.css">
+  <link rel="stylesheet" type="text/css" href="/client/index.css">
   <link href="https://fonts.googleapis.com/css?family=Mina" rel="stylesheet">
 </head>
 <body>
 <canvas id="ctx" width="512" height="512"> </canvas>
 <div id='MainMenu'>
-    <button onclick="menuButton('Play')">Login</button>
+    <button onclick="menuButton('Login')">Login</button>
     <button onclick="menuButton('Create Account')">Create Account</button>
-    <button onclick="menuButton('Offline')">Offline</button>
+    <button onclick="menuButton('Play')">Offline</button>
 </div>
 
 <div id='Login'>
     <button onclick="menuButton('MainMenu')">Back</button>
-    Username:  
-    <input type="text" id="ExUsername" required><br>
-    Password:  
-    <input type="password" id="ExPassword" required> <br>
-    <input type="submit" value="Submit" onclick= validLogin()>
-    <input type="submit" value="Reset Password">
+    Username: <input id="Login-username" type="text"></input><br>
+    Password: <input id="Login-password" type="password"></input><br>
+    <input id="Login-signIn" type="submit" value="Submit"></input>
+
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script>
+      var socket = io();
+      
+      //sign
+      var Login = document.getElementById('Login');
+      var LoginUsername = document.getElementById('Login-username');
+      var LoginSignIn = document.getElementById('Login-signIn');
+      var LoginSignUp = document.getElementById('Login-signUp');
+      var LoginPassword = document.getElementById('Login-password');
+      
+      LoginSignIn.onclick = function(){
+        socket.emit('signIn',{username:LoginUsername.value,password:LoginPassword.value});
+      }
+      LoginSignUp.onclick = function(){
+        socket.emit('signUp',{username:LoginUsername.value,password:LoginPassword.value});
+      }
+      socket.on('signInResponse',function(data){
+        if(data.success){
+          menuButton('Play');
+        } else
+          alert("Sign in unsuccessul.");
+      });
+      socket.on('signUpResponse',function(data){
+        if(data.success){
+          alert("Sign up successul.");
+        } else
+          alert("Sign up unsuccessul, try to use another username.");
+      });
+
+
+    </script>  
 
 </div>
 
 <div id='Create Account'>
     <button onclick="menuButton('MainMenu')">Back</button>
-    Username:  
-    <input type="text" id="Username" required><br>
-    Password:  
-    <input type="password" id="Password" required><br>
-    <input type="submit" value="Submit" onclick="newAccountLogin()">
+    Username: <input id="Create Account-username" type="text"></input><br>
+    Password: <input id="Create Account-password" type="password"></input><br>
+    <input id="Create Account-signIn" type="submit" value="Submit"></input>
+    <input id="Create Account-signUp" type="submit" value="Sign up"></input>
+
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script>
+      var socket = io();
+      
+      //sign
+      var Login = document.getElementById('Login');
+      var LoginUsername = document.getElementById('Create Account-username');
+      var LoginSignIn = document.getElementById('Create Account-signIn');
+      var LoginSignUp = document.getElementById('Create Account-signUp');
+      var LoginPassword = document.getElementById('Create Account-password');
+      
+      LoginSignIn.onclick = function(){
+        socket.emit('signIn',{username:LoginUsername.value,password:LoginPassword.value});
+      }
+      LoginSignUp.onclick = function(){
+        socket.emit('signUp',{username:LoginUsername.value,password:LoginPassword.value});
+      }
+      socket.on('signInResponse',function(data){
+        if(data.success){
+          menuButton('Play');
+        } else
+          alert("Sign in unsuccessul.");
+      });
+      socket.on('signUpResponse',function(data){
+        if(data.success){
+          alert("Sign up successul.");
+        } else
+          alert("Sign up unsuccessul, try to use another username.");
+      });
+
+    </script>  
+
+
+
+
 </div>
 
 <div id='Offline'>
@@ -112,6 +177,9 @@
     <button onclick="selectTile('grass')">Grass Tile</button>
     <button onclick="selectTile('dirt')">Dirt Tile</button>
     <button onclick="selectTile('player')">Player</button>
+    <button onclick="selectTile('water')">Water Tile</button>
+    <button onclick="selectTile('sky')">Sky Tile</button>
+    <button onclick="selectTile('cloud1')">Cloud Tile</button>
     <button onclick="runLevel()">Run Level</button>
     <button onclick="stopLevel()">Stop Level</button>
 
