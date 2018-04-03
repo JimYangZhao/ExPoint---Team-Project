@@ -41,14 +41,6 @@ var blankMap = {
 };
 
 //GLOBALS
-//Image keys
-var grass = 'grass';
-var grass2 = 'grass2';
-var dirt = 'dirt';
-var playerKey = 'player';
-var waterKey = 'water';
-var skyKey = 'sky';
-var cloud1Key = 'cloud1';
 
 //client mouse position
 var xClient = 0;
@@ -75,35 +67,6 @@ function getMousePos(canvas) {
     y: yClient - rect.top
   };
 }
-
-//---Asset loader---
-var Loader = {
-  images: {}
-};
-
-Loader.loadImage = function (key, src) {
-  var img = new Image();
-
-  var d = new Promise(function (resolve, reject) {
-      img.onload = function () {
-          this.images[key] = img;
-          resolve(img);
-      }.bind(this);
-
-      img.onerror = function () {
-          reject('Could not load image: ' + src);
-      };
-  }.bind(this));
-
-  img.src = src;
-  return d;
-};
-
-Loader.getImage = function () {
-  //return (key in this.images) ? this.images[key] : null;
-  return this.images;
-};
-//---END Asset loader---
 
 //Takes the 2d layers from blankmap and turns it into a 1d arrays for game engine
 packageEditorData = function(){
@@ -201,8 +164,6 @@ LevelEditor.init = function () {
   //Listen for keyboard events
   Keyboard.listenForEvents(
       [Keyboard.LEFT, Keyboard.RIGHT, Keyboard.UP, Keyboard.DOWN, Keyboard.REMOVE]);
-  this.tileAtlas = {};
-  this.tileAtlas = Loader.getImage();
   this.camera = new Camera(blankMap, 512, 512);
   this.isRunning = true;
   blankMap.createLayer();
@@ -271,11 +232,11 @@ LevelEditor.run = function (context) {
   
   this._previousElapsed = 0;
 
-  var p = this.load();
-  Promise.all(p).then(function (loaded) {
+  //var p = this.load();
+ // Promise.all(p).then(function (loaded) {
       this.init();
       window.requestAnimationFrame(this.tick);
-  }.bind(this));
+  //}.bind(this));
 };
 
 LevelEditor.tick = function (elapsed) {
@@ -359,7 +320,7 @@ LevelEditor._drawLayer = function (layer) {
         var tile = blankMap.getTile(layer, c, r);
         if(!(tile == null) && tile !==0){ //Is tile not empty
           var imgKey = tile.id;
-          var img = this.tileAtlas[imgKey];
+          var img = ImageAtlas[imgKey];
           var x = (c - startCol) * blankMap.tsize + offsetX;
           var y = (r - startRow) * blankMap.tsize + offsetY;
           if (tile !== 0) { // 0 => empty tile
@@ -443,7 +404,7 @@ Camera.prototype.move = function (delta, dirx, diry) {
     this.y = Math.max(0, Math.min(this.y, this.maxY));
 };
 
-LevelEditor.load = function () {
+/* LevelEditor.load = function () {
   return [
       Loader.loadImage(grass, 'images/enviroment/grass1.png'),
       Loader.loadImage(grass2, 'images/enviroment/grass2.png'),
@@ -453,7 +414,7 @@ LevelEditor.load = function () {
       Loader.loadImage(skyKey,'images/enviroment/sky.png'),
       Loader.loadImage(cloud1Key,'images/enviroment/cloud1.png'),
   ];
-};
+}; */
 
 //
 // start up function
@@ -482,23 +443,23 @@ stopLevel = function(){
 //Change the selected Tile on mouse click
 selectTile = function(tileName){
   
-  if(tileName == grass){
-    var tile = new enviromentTile(0,0,grass);
+  if(tileName == grass1Key){
+    var tile = new enviromentTile(0,0,grass1Key);
   }
-  else if(tileName == dirt){
-    var tile = new enviromentTile(0,0,dirt);
+  else if(tileName == dirt1Key){
+    var tile = new enviromentTile(0,0,dirt1Key);
   }
-  else if(tileName == grass2){
-    var tile = new enviromentTile(0,0,grass2);
+  else if(tileName == grass2Key){
+    var tile = new enviromentTile(0,0,grass2Key);
   }
   else if(tileName == playerKey){
     var tile = new playerChar(0,0);
   }
-  else if(tileName == waterKey){
+  else if(tileName == water1Key){
     var tile = new waterBlock(0,0);
   }
-  else if(tileName == skyKey){
-    var tile = new backgroundTile(0,0,skyKey);
+  else if(tileName == sky1Key){
+    var tile = new backgroundTile(0,0,sky1Key);
   }
   else if(tileName == cloud1Key){
     var tile = new backgroundTile(0,0,cloud1Key);
@@ -509,5 +470,5 @@ selectTile = function(tileName){
   selectedTile = tile;
 }
 
-LevelEditor.load();
-LevelEditor.tileAtlas = Loader.getImage();
+//LevelEditor.load();
+//LevelEditor.tileAtlas = Loader.getImage();

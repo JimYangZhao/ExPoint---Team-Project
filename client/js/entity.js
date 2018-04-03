@@ -3,11 +3,10 @@ function playASound(soundFile){
     audio.play();
 }
 
-function Entity(x,y,id,src,layer,type,tags) {
+function Entity(x,y,id,layer,type,tags) {
     this.x=x;
     this.y=y;
     this.id=id;
-    this.src=src;
     this.layer=layer;
     this.type=type;
     this.tags=tags
@@ -17,11 +16,10 @@ function Entity(x,y,id,src,layer,type,tags) {
 
 function playerChar(x,y,layer){
     var id="player";
-    var src="images/player/player.png";
     var layer=2;
     var type="motion";
     var tags=["player"];
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.facing="right"
     this.width = 61;
     this.height = 61;
@@ -126,7 +124,7 @@ function playerChar(x,y,layer){
     this.draw = function(){
         //ctx.fillStyle="#FF0000";
         //ctx.fillRect(250,250,61,61);
-        var img = LevelEditor.tileAtlas[this.id];
+        var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
             256,  // target x
@@ -172,17 +170,16 @@ playerChar.prototype.constructor = playerChar;
 
 function enviromentTile(x,y,id){
     var id = id;
-    var src = 'images/enviroment/grass1.png';
     var layer=1;
     var type="static";
     var tags=["block"];
     this.width = 64;
     this.height = 64;
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
     }
     this.draw = function(){
-        var img = LevelEditor.tileAtlas[this.id];
+        var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
             256+(this.x-player.x),  // target x
@@ -197,108 +194,19 @@ function enviromentTile(x,y,id){
 enviromentTile.prototype=Object.create(Entity.prototype);
 enviromentTile.prototype.constructor =  enviromentTile;
 
-function grassTile(x,y,layer){
-    var id = 'grass';
-    var src = 'images/enviroment/grass1.png';
-    var layer=1;
-    var type="static";
-    var tags=["block"];
-    this.width = 64;
-    this.height = 64;
-    Entity.call(this,x,y,id,src,layer,type,tags);
-    this.update = function(){
-    }
-    this.draw = function(){
-        // ctx.fillStyle="#000000";
-        // ctx.fillRect(250+(this.x-player.x),250+(this.y-player.y),64,64);
-        var img = LevelEditor.tileAtlas[this.id];
-        ctx.drawImage(
-            img, // image
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
-            64, // target width
-            64 // target height
-        );   
-    }
-    this.collision = function(entityC){
-        //this.remove();
-    }
-}
-grassTile.prototype=Object.create(Entity.prototype);
-grassTile.prototype.constructor =  grassTile;
-
-function grassTile2(x,y,layer){
-    var id = 'grass2';
-    var layer=1;
-    var type="static";
-    var tags=["block"];
-    this.width = 64;
-    this.height = 64;
-    Entity.call(this,x,y,id,src,layer,type,tags);
-    this.update = function(){
-    }
-    this.draw = function(){
-        // ctx.fillStyle="#000000";
-        // ctx.fillRect(250+(this.x-player.x),250+(this.y-player.y),64,64);
-        var img = LevelEditor.tileAtlas[this.id];
-        ctx.drawImage(
-            img, // image
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
-            64, // target width
-            64 // target height
-        );   
-    }
-    this.collision = function(entityC){
-        //this.remove();
-    }
-}
-grassTile2.prototype=Object.create(Entity.prototype);
-grassTile2.prototype.constructor =  grassTile2;
-//-------------
-function dirtTile(x,y,layer){
-    var id = 'dirt';
-    var src = 'images/enviroment/tempDirt.png';
-    var layer=0;
-    var type="static";
-    var tags=["block"];
-    this.width = 64;
-    this.height = 64;
-    Entity.call(this,x,y,id,src,layer,type,tags);
-    this.update = function(){
-    }
-    this.draw = function(){
-        // ctx.fillStyle="#000000";
-        // ctx.fillRect(250+(this.x-player.x),250+(this.y-player.y),64,64);
-        var img = LevelEditor.tileAtlas[this.id];
-        ctx.drawImage(
-            img, // image
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
-            64, // target width
-            64 // target height
-        );    
-    }
-    this.collision = function(entityC){
-        //this.remove();
-    }
-}
-dirtTile.prototype=Object.create(Entity.prototype);
-dirtTile.prototype.constructor =  dirtTile;
 //-------------
 function backgroundTile(x,y,id){
     var id = id;
-    var src = 'images/enviroment/grass1.png';
     var layer=0;
     var type="static";
     var tags=["block"];
     this.width = 64;
     this.height = 64;
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
     }
     this.draw = function(){
-        var img = LevelEditor.tileAtlas[this.id];
+        var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
             256+(this.x-player.x),  // target x
@@ -312,66 +220,6 @@ function backgroundTile(x,y,id){
 }
 backgroundTile.prototype=Object.create(Entity.prototype);
 backgroundTile.prototype.constructor =  backgroundTile;
-
-function skyTile(x,y,layer){
-    var id = 'sky';
-    var src = 'images/enviroment/sky.png';
-    var layer=0;
-    var type="background";
-    var tags=["block"];
-    this.width = 64;
-    this.height = 64;
-    Entity.call(this,x,y,id,src,layer,type,tags);
-    this.update = function(){
-    }
-    this.draw = function(){
-        // ctx.fillStyle="#000000";
-        // ctx.fillRect(250+(this.x-player.x),250+(this.y-player.y),64,64);
-        var img = LevelEditor.tileAtlas[this.id];
-        ctx.drawImage(
-            img, // image
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
-            64, // target width
-            64 // target height
-        );    
-    }
-    this.collision = function(entityC){
-        //this.remove();
-    }
-}
-skyTile.prototype=Object.create(Entity.prototype);
-skyTile.prototype.constructor =  skyTile;
-//-------------
-function cloud1Tile(x,y,layer){
-    var id = 'cloud1';
-    var src = 'images/enviroment/cloud1.png';
-    var layer=0;
-    var type="background";
-    var tags=["block"];
-    this.width = 64;
-    this.height = 64;
-    Entity.call(this,x,y,id,src,layer,type,tags);
-    this.update = function(){
-    }
-    this.draw = function(){
-        // ctx.fillStyle="#000000";
-        // ctx.fillRect(250+(this.x-player.x),250+(this.y-player.y),64,64);
-        var img = LevelEditor.tileAtlas[this.id];
-        ctx.drawImage(
-            img, // image
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
-            64, // target width
-            64 // target height
-        );    
-    }
-    this.collision = function(entityC){
-        //this.remove();
-    }
-}
-cloud1Tile.prototype=Object.create(Entity.prototype);
-cloud1Tile.prototype.constructor =  cloud1Tile;
 //
 //  END ENVIROMENT TILES
 //
@@ -387,8 +235,7 @@ function block(x,y){
     id="block";
     type="static";
     layer=0;
-    src="block url";
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
     }
     this.draw = function(){
@@ -408,9 +255,8 @@ function enemy(x,y){
     id="enemy";
     type="motion";
     layer=2;
-    src="enemy url"
     var tags=["damaging","enemy"];
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.yVel=0;
     this.hp=100;
     this.update = function(){
@@ -469,10 +315,9 @@ function playerProjectile(x,y,direction,projectile){
     id=projectile;
     type="motion";
     layer=2;
-    src="list of url"
     this.yVel=0;
     var tags=[];
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.width = getProjectileWidth(projectile);
     this.height = getProjectileHeight(projectile);
     this.direction=direction;
@@ -736,8 +581,7 @@ function harmfulBlock(x,y){
     id="harmful block";
     type="static";
     layer=1;
-    src="harmful block url";
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
     }
     this.draw = function(){
@@ -758,8 +602,7 @@ function lavaBlock(x,y){
     id="harmful block";
     type="static";
     layer=0;
-    src="lava block2";
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
     }
     this.draw = function(){
@@ -785,8 +628,7 @@ function lavaBlock2(x,y){
     id="lava block2";
     type="static";
     layer=0;
-    src="harmful block url";
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
     }
     this.draw = function(){
@@ -812,9 +654,8 @@ function turret(x,y){
     id="turret";
     type="motion";
     layer=2;
-    src="enemy url"
     var tags=["damaging","enemy","block"];
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.cooldown=0;
     this.hp=100;
     this.update = function(){
@@ -857,9 +698,8 @@ function turretProjectile(x,y,xDir,yDir){
     id="turret projectile";
     type="motion";
     layer=2;
-    src="enemy url"
     var tags=["damaging"];
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.xVel=xDir*3;
     this.yVel=yDir*3;
     this.update = function(){
@@ -892,8 +732,7 @@ function ladderBlock(x,y){
     id="ladder block";
     type="static";
     layer=0;
-    src="ladder block url";
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
 
     }
@@ -917,16 +756,15 @@ function waterBlock(x,y){
     this.width = 64;
     this.height = 64;
     var tags=[];
-    id="water";
+    id="water1";
     type="static";
     layer=1;
-    src="images/enviroment/water1.png";
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
 
     }
     this.draw = function(){
-        var img = LevelEditor.tileAtlas[this.id];
+        var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
             256+(this.x-player.x),  // target x
@@ -951,11 +789,10 @@ function waterBlock2(x,y){
     this.width = 64;
     this.height = 64;
     var tags=[];
-    id="water";
+    id="water2";
     type="static";
     layer=1;
-    src="images/enviroment/water1.png";
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
 
     }
@@ -982,8 +819,7 @@ function endOfLevel(x,y){
     id="end";
     type="static";
     layer=0;
-    src="end url";
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
 
     }
@@ -1011,11 +847,10 @@ function medKit(x,y){
     this.width = 64;
     this.height = 64;
     var tags=[];
-    id="med kit";
+    id="medkit";
     type="static";
     layer=0;
-    src="med kit url";
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
 
     }
@@ -1043,8 +878,7 @@ function bombPickup(x,y){
     id="bomb pickup";
     type="static";
     layer=0;
-    src="bomb pickup url";
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
 
     }
@@ -1072,8 +906,7 @@ function fireBallPickup(x,y){
     id="fireball pickup";
     type="static";
     layer=0;
-    src="fireball pickup url";
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
     
     }
@@ -1101,8 +934,7 @@ function checkPoint(x,y){
     id="check point";
     type="static";
     layer=0;
-    src="check point url";
-    Entity.call(this,x,y,id,src,layer,type,tags);
+    Entity.call(this,x,y,id,layer,type,tags);
     this.collected=false;
     this.update = function(){
 
