@@ -13,6 +13,10 @@ var bombKey = 'bomb1';
 var enemy1Key = 'enemy1';
 var enemy2Key = 'enemy2';
 var spikeKey = 'spike';
+var lava1Key = 'lava1';
+
+var player_right = 'playerright';
+var player_left = 'playerleft';
 
 var ImageAtlas = {}
 
@@ -28,8 +32,13 @@ startLoadingImgs = function () {
         Loader.loadImage(cloud1Key,'images/enviroment/cloud1.png'),
         Loader.loadImage(rock1Key,'images/enviroment/rock1.png'),
         Loader.loadImage(ladder1Key,'images/enviroment/ladder.png'),
+        Loader.loadImage(lava1Key,'images/enviroment/lava1.jpg'),
         Loader.loadImage(enemy1Key,'images/enemy/slime1_left.png'),
         Loader.loadImage(enemy2Key,'images/enemy/slime2_left.png'),
+        Loader.loadImage(bombKey,'images/items/bomb.png'),
+        Loader.loadImage(medkitKey,'images/items/FirstAid.png'),
+        Loader.loadImage(player_right,'images/player/player_right.png'),
+        Loader.loadImage(player_left,'images/player/player_left.png'),
     ];
 };
 

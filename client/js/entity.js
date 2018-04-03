@@ -122,16 +122,26 @@ function playerChar(x,y,layer){
         }
     }
     this.draw = function(){
-        //ctx.fillStyle="#FF0000";
-        //ctx.fillRect(250,250,61,61);
-        var img = ImageAtlas[this.id];
-        ctx.drawImage(
-            img, // image
-            256,  // target x
-            256, // target y
-            61, // target width
-            61 // target height
-        );
+        if(this.facing == "right"){
+            var img = ImageAtlas[player_right];
+            ctx.drawImage(
+                img, // image
+                256,  // target x
+                256, // target y
+                61, // target width
+                61 // target height
+            );
+        }
+        else if(this.facing == "left"){
+            var img = ImageAtlas[player_left];
+            ctx.drawImage(
+                img, // image
+                256,  // target x
+                256, // target y
+                61, // target width
+                61 // target height
+            );
+        }
     }
     this.collision = function(entityC){
         if(entityC.tags.includes("block")){
@@ -867,14 +877,20 @@ function medKit(x,y){
     var tags=[];
     id="medkit";
     type="static";
-    layer=0;
+    layer=1;
     Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
 
     }
     this.draw = function(){
-        ctx.fillStyle="#FF00FF";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = ImageAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );  
     }
     this.collision = function(entityC){
         if(!(typeof entityC === "undefined")){
@@ -893,16 +909,22 @@ function bombPickup(x,y){
     this.width = 64;
     this.height = 64;
     var tags=[];
-    id="bomb pickup";
+    id="bomb1";
     type="static";
-    layer=0;
+    layer=1;
     Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
 
     }
     this.draw = function(){
-        ctx.fillStyle="#00008B";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = ImageAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );  
     }
     this.collision = function(entityC){
         if(!(typeof entityC === "undefined")){
