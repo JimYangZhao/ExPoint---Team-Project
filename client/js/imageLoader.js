@@ -7,11 +7,12 @@ var water2Key = 'water2';
 var sky1Key = 'sky1';
 var cloud1Key = 'cloud1';
 var rock1Key = 'rock1';
-var ladder1Key = 'ladder1';
+var ladder1Key = 'ladder';
 var medkitKey = 'medkit';
 var bombKey = 'bomb1';
 var enemy1Key = 'enemy1';
 var enemy2Key = 'enemy2';
+var spikeKey = 'spike';
 
 var ImageAtlas = {}
 

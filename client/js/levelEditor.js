@@ -435,7 +435,7 @@ selectTile = function(tileName){
     var tile = new enviromentTile(0,0,grass1Key);
   }
   else if(tileName == dirt1Key){
-    var tile = new enviromentTile(0,0,dirt1Key);
+    var tile = new backgroundTile(0,0,dirt1Key);
   }
   else if(tileName == grass2Key){
     var tile = new enviromentTile(0,0,grass2Key);
@@ -453,7 +453,7 @@ selectTile = function(tileName){
     var tile = new backgroundTile(0,0,cloud1Key);
   }
   else if(tileName == ladder1Key){
-    var tile = new ladderBlock(0,0,cloud1Key);
+    var tile = new ladderBlock(0,0);
   }
   else if(tileName == rock1Key){
     var tile = new enviromentTile(0,0,rock1Key);
