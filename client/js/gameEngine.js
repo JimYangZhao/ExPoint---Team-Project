@@ -124,7 +124,7 @@ function DeepCopy(initialState){
         staticEntityList.push($.extend(true,{},initialState.staticEntityList[i]));
     }
     backgroundList=[]
-    for(i=0;i<initialState.staticEntityList.length;i++){
+    for(i=0;i<initialState.backgroundList.length;i++){
         //backgroundList.push(Object.assign({Entity},initialState.backgroundList[i]));
         backgroundList.push($.extend(true,{},initialState.backgroundList[i]));
     }
@@ -184,7 +184,7 @@ function gameObject(initialState){
             }
         }
         for(i=0;i<this.currentLevelData.backgroundList.length;i++){
-            //this.currentLevelData.backgroundList[i].draw();
+            this.currentLevelData.backgroundList[i].draw();
         }
         for(layer=0;layer < 3 ; layer++){
             for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){

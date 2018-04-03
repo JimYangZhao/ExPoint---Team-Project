@@ -182,8 +182,6 @@ function enviromentTile(x,y,id){
     this.update = function(){
     }
     this.draw = function(){
-        // ctx.fillStyle="#000000";
-        // ctx.fillRect(250+(this.x-player.x),250+(this.y-player.y),64,64);
         var img = LevelEditor.tileAtlas[this.id];
         ctx.drawImage(
             img, // image
@@ -194,7 +192,6 @@ function enviromentTile(x,y,id){
         );   
     }
     this.collision = function(entityC){
-        //this.remove();
     }
 }
 enviromentTile.prototype=Object.create(Entity.prototype);
@@ -289,6 +286,33 @@ function dirtTile(x,y,layer){
 dirtTile.prototype=Object.create(Entity.prototype);
 dirtTile.prototype.constructor =  dirtTile;
 //-------------
+function backgroundTile(x,y,id){
+    var id = id;
+    var src = 'images/enviroment/grass1.png';
+    var layer=0;
+    var type="static";
+    var tags=["block"];
+    this.width = 64;
+    this.height = 64;
+    Entity.call(this,x,y,id,src,layer,type,tags);
+    this.update = function(){
+    }
+    this.draw = function(){
+        var img = LevelEditor.tileAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );   
+    }
+    this.collision = function(entityC){
+    }
+}
+backgroundTile.prototype=Object.create(Entity.prototype);
+backgroundTile.prototype.constructor =  backgroundTile;
+
 function skyTile(x,y,layer){
     var id = 'sky';
     var src = 'images/enviroment/sky.png';

@@ -483,10 +483,13 @@ stopLevel = function(){
 selectTile = function(tileName){
   
   if(tileName == grass){
-    var tile = new grassTile(0,0);
+    var tile = new enviromentTile(0,0,grass);
   }
   else if(tileName == dirt){
-    var tile = new dirtTile(0,0);
+    var tile = new enviromentTile(0,0,dirt);
+  }
+  else if(tileName == grass2){
+    var tile = new enviromentTile(0,0,grass2);
   }
   else if(tileName == playerKey){
     var tile = new playerChar(0,0);
@@ -495,13 +498,10 @@ selectTile = function(tileName){
     var tile = new waterBlock(0,0);
   }
   else if(tileName == skyKey){
-    var tile = new skyTile(0,0);
+    var tile = new backgroundTile(0,0,skyKey);
   }
   else if(tileName == cloud1Key){
-    var tile = new cloud1Tile(0,0);
-  }
-  else if(tileName == grass2){
-    var tile = new grass2Tile(0,0);
+    var tile = new backgroundTile(0,0,cloud1Key);
   }
   else{
     console.log("Error: Tile Not Properly Selected.");
