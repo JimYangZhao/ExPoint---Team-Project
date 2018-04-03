@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+function playASound(soundFile){
+    var audio = new Audio(soundFile);
+    audio.play();
+}
+
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
 function Entity(x,y,id,src,layer,type,tags) {
     this.x=x;
     this.y=y;
@@ -13,10 +21,14 @@ function Entity(x,y,id,src,layer,type,tags) {
 function playerChar(x,y,layer){
     var id="player";
     var src="images/player/player.png";
-    var layer=2;
+    var layer=1;
     var type="motion";
     var tags=["player"];
     Entity.call(this,x,y,id,src,layer,type,tags);
+<<<<<<< HEAD
+    this.facing="right"
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
     this.width = 61;
     this.height = 61;
     this.yVel=0;
@@ -26,13 +38,19 @@ function playerChar(x,y,layer){
     this.selected1="magic missle";
     this.selected2="staff hit";
     this.inventory=["med kit", 2 ,"bomb", 2];
+<<<<<<< HEAD
+    this.powers=["staff hit", "magic missle"];
+=======
     this.powers=["staff hit", "magic missle","dummy one","dummy two"];
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
     this.update = function(){
+        if(pressingLeft) {this.facing="left"}
+        if(pressingRight) {this.facing="right"}
         if(!pressingHalt){
-            if(pressingDown) this.y = this.y+15;
+            if(pressingDown) this.y = this.y+12;
             if(pressingUp) this.y = this.y-20;
-            if(pressingLeft) this.x = this.x-15;
-            if(pressingRight) this.x = this.x+15;
+            if(pressingLeft) this.x = this.x-12;
+            if(pressingRight) this.x = this.x+12;
         }
         this.yVel=this.yVel+1
         if(this.yVel>30){
@@ -45,46 +63,70 @@ function playerChar(x,y,layer){
         if(this.cooldown==0){
             if(pressingPower1==true){
                 if(pressingLeft){
-                    this.addToList(new playerProjectile(this.x,this.y,"left",this.selected1));
+                    this.addToList(new playerProjectile(this.x,this.y+this.height/2,"left",this.selected1));
                     this.cooldown=this.cooldown+getProjectileCooldown(this.selected1);
+                    playProjectileSound(this.selected1);
                 }
                 else if(pressingRight){
-                    this.addToList(new playerProjectile(this.x+60,this.y,"right",this.selected1));
+                    this.addToList(new playerProjectile(this.x+61,this.y+this.height/2,"right",this.selected1));
                     this.cooldown=this.cooldown+getProjectileCooldown(this.selected1);
+                    playProjectileSound(this.selected1);
                 }
                 else if(pressingDown){
-                    this.addToList(new playerProjectile(this.x,this.y-60,"down",this.selected1));
+                    this.addToList(new playerProjectile(this.x+this.width/2,this.y+61,"down",this.selected1));
                     this.cooldown=this.cooldown+getProjectileCooldown(this.selected1);
+                    playProjectileSound(this.selected1);
                 }
                 else if(pressingUp){
-                    this.addToList(new playerProjectile(this.x,this.y,"up",this.selected1));
+                    this.addToList(new playerProjectile(this.x+this.width/2,this.y,"up",this.selected1));
                     this.cooldown=this.cooldown+getProjectileCooldown(this.selected1);
+                    playProjectileSound(this.selected1);
                 }
                 else{
-                    this.addToList(new playerProjectile(this.x+60,this.y,"right",this.selected1));
-                    this.cooldown=this.cooldown+getProjectileCooldown(this.selected1);    
+                    if(this.facing=="right"){
+                        this.addToList(new playerProjectile(this.x+61,this.y+this.height/2,"right",this.selected1));
+                        this.cooldown=this.cooldown+getProjectileCooldown(this.selected1);  
+                        playProjectileSound(this.selected1);
+                    }
+                    else{
+                        this.addToList(new playerProjectile(this.x,this.y+this.height/2,"left",this.selected1));
+                        this.cooldown=this.cooldown+getProjectileCooldown(this.selected1);  
+                        playProjectileSound(this.selected1);
+                    }
                 }
             }
             else if(pressingPower2==true){
                 if(pressingLeft){
-                    this.addToList(new playerProjectile(this.x,this.y,"left",this.selected2));
+                    this.addToList(new playerProjectile(this.x,this.y+this.height/2,"left",this.selected2));
                     this.cooldown=this.cooldown+getProjectileCooldown(this.selected2);
+                    playProjectileSound(this.selected2);
                 }
                 else if(pressingRight){
-                    this.addToList(new playerProjectile(this.x+60,this.y,"right",this.selected2));
+                    this.addToList(new playerProjectile(this.x+61,this.y+this.height/2,"right",this.selected2));
                     this.cooldown=this.cooldown+getProjectileCooldown(this.selected2);
+                    playProjectileSound(this.selected2);
                 }
                 else if(pressingDown){
-                    this.addToList(new playerProjectile(this.x,this.y-60,"down",this.selected2));
+                    this.addToList(new playerProjectile(this.x+this.width/2,this.y+61,"down",this.selected2));
                     this.cooldown=this.cooldown+getProjectileCooldown(this.selected2);
+                    playProjectileSound(this.selected2);
                 }
                 else if(pressingUp){
-                    this.addToList(new playerProjectile(this.x,this.y,"up",this.selected2));
+                    this.addToList(new playerProjectile(this.x+this.width/2,this.y,"up",this.selected2));
                     this.cooldown=this.cooldown+getProjectileCooldown(this.selected2);
+                    playProjectileSound(this.selected2);
                 }
                 else{
-                    this.addToList(new playerProjectile(this.x+60,this.y,"right",this.selected2));
-                    this.cooldown=this.cooldown+getProjectileCooldown(this.selected2);  
+                    if(this.facing=="right"){
+                        this.addToList(new playerProjectile(this.x+61,this.y+this.height/2,"right",this.selected2));
+                        this.cooldown=this.cooldown+getProjectileCooldown(this.selected1); 
+                        playProjectileSound(this.selected2); 
+                    }
+                    else{
+                        this.addToList(new playerProjectile(this.x,this.y+this.height/2,"left",this.selected2));
+                        this.cooldown=this.cooldown+getProjectileCooldown(this.selected2);  
+                        playProjectileSound(this.selected2);
+                    }
                 }
             }
         }else{
@@ -104,9 +146,8 @@ function playerChar(x,y,layer){
         );
     }
     this.collision = function(entityC){
-        entitySide=checkSide(this,entityC);
         if(entityC.tags.includes("block")){
-            sideColided=checkSide(this , entityC)
+            sideColided=playercheckSide(this , entityC)
             if(sideColided=="bottom"){
                 this.y=entityC.y-60;
                 this.yVel=0;
@@ -124,7 +165,8 @@ function playerChar(x,y,layer){
         if(entityC.tags.includes("damaging")){
             if(this.iframes==0){
                 this.hp=this.hp-1;
-                this.iframes=120;
+                console.log(this.hp);
+                this.iframes=80;
             }
         }
     }
@@ -170,7 +212,7 @@ grassTile.prototype.constructor =  grassTile;
 function dirtTile(x,y,layer){
     var id = 'dirt';
     var src = 'images/enviroment/tempDirt.png';
-    var layer=1;
+    var layer=0;
     var type="static";
     var tags=["block"];
     this.width = 64;
@@ -270,7 +312,7 @@ function block(x,y){
     var tags=["block"];
     id="block";
     type="static";
-    layer=1;
+    layer=0;
     src="block url";
     Entity.call(this,x,y,id,src,layer,type,tags);
     this.update = function(){
@@ -299,6 +341,7 @@ function enemy(x,y){
     this.hp=100;
     this.update = function(){
         if(this.hp<=0){
+            playASound("soundEffects/enemyDeath.mp3")
             this.remove();
         }
         this.yVel=this.yVel+1
@@ -306,7 +349,6 @@ function enemy(x,y){
             (this.yVel=30);
         }
         this.y=this.y+this.yVel;
-        player=game.currentLevelData.playerRef;
         if(player.x-this.x <= 0){
             this.x=this.x-3;
         }
@@ -320,12 +362,6 @@ function enemy(x,y){
     }
     this.collision = function(entityC){
         entitySide=checkSide(this,entityC);
-        if(entityC.id=="magic missle"){
-            this.hp=this.hp-30;
-        }
-        if(entityC.id=="staff hit"){
-            this.hp=this.hp-2;
-        }
         if(entityC.tags.includes("block")){
             sideColided=checkSide(this , entityC)
             if(sideColided=="bottom"){
@@ -354,10 +390,11 @@ enemy.prototype.constructor = enemy;
 
 //also includes player powers that are not projectiles.
 
+
 function playerProjectile(x,y,direction,projectile){
     id=projectile;
     type="motion";
-    layer=1
+    layer=1;
     src="list of url"
     this.yVel=0;
     var tags=[];
@@ -369,9 +406,9 @@ function playerProjectile(x,y,direction,projectile){
     this.directionAdjustment=function(){
         if(this.id=="staff hit"){
             if(this.direction=="up" || this.direction=="down"){
-            temp=this.width;
-            this.width=this.height;
-            this.height=temp;
+                temp=this.width;
+                this.width=this.height;
+                this.height=temp;
             }
         }
         else{
@@ -385,6 +422,12 @@ function playerProjectile(x,y,direction,projectile){
             else if(this.direction=="up") this.y = this.y-15;
             else if(this.direction=="left") this.x = this.x-15;
             else if(this.direction=="right") this.x = this.x+15;
+        }
+        if(this.id=="fire ball"){
+            if(this.direction=="down") this.y = this.y+12;
+            else if(this.direction=="up") this.y = this.y-12;
+            else if(this.direction=="left") this.x = this.x-12;
+            else if(this.direction=="right") this.x = this.x+12;
         }
         if(this.id=="staff hit"){
             if(this.direction=="down"){
@@ -413,7 +456,8 @@ function playerProjectile(x,y,direction,projectile){
             if(game.currentLevelData.playerRef.inventory[1]>0){
                 game.currentLevelData.playerRef.inventory[1]=game.currentLevelData.playerRef.inventory[1]-1
                 game.currentLevelData.playerRef.hp=10;
-                this.remove()
+                this.remove();
+                playASound("soundEffects/medkitUse.mp3");
             }
             else{
                 this.remove();
@@ -437,6 +481,7 @@ function playerProjectile(x,y,direction,projectile){
                 this.width=256;
                 this.y=this.y-128;
                 this.x=this.x-128;
+                playASound("soundEffects/explosion.mp3");
             }
             else{
                 this.yVel=this.yVel+1;
@@ -445,10 +490,18 @@ function playerProjectile(x,y,direction,projectile){
             }
         }
         if(this.id=="explosion"){
-            if(this.framesUp==125){
+            if(this.framesUp==126){
                 this.remove();
             }
             this.framesUp=this.framesUp+1;
+        }
+        if(this.id=="fire ball2"){
+            if(this.framesUp==5){
+                this.remove()
+            }
+            else{
+                this.framesUp=this.framesUp+1;
+            }
         }
     }
     this.draw = function(){
@@ -460,20 +513,35 @@ function playerProjectile(x,y,direction,projectile){
             ctx.fillStyle="#1218E2";
             ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),this.width,this.height);
         }
-        else if("bomb2"){
+        else if(this.id=="bomb2"){
             ctx.fillStyle="#00008B";
             ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),this.width,this.height);
         }
-        else if("explosion"){
+        else if(this.id=="explosion"){
             ctx.fillStyle="#FF4500";
             ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),this.width,this.height);
-        }  
+        }
+        else if(this.id=="fire ball"){
+            ctx.fillStyle="#FF7F50"
+            ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),this.width,this.height);
+        }
+        else if(this.id=="fire ball2"){
+            ctx.fillStyle="#FF7F50"
+            ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),this.width,this.height);
+        }
     }
     this.collision = function(entityC){
         if(this.id=="magic missle"){
-            this.remove();
+            if(entityC.tags.includes("enemy") || entityC.tags.includes("block")){
+                playASound("soundEffects/magicMissleImpact.mp3")
+                entityC.hp=entityC.hp-30;
+                this.remove();
+            }
         }
         if(this.id=="staffHit"){
+            if(entityC.tags.includes("enemy")){
+                entityC.hp=entityC.hp-2;
+            }
             if(entityC.tags.includes("block")){
                 this.remove();
             }
@@ -486,7 +554,31 @@ function playerProjectile(x,y,direction,projectile){
         }
         if(this.id=="explosion"){
             if(entityC.tags.includes("enemy")){
-                enemy.hp=enemy.hp-25;
+                entityC.hp=entityC.hp-25;
+            }
+        }
+        if(this.id=="fire ball"){
+            if(entityC.tags.includes("enemy")){
+                entityC.hp=entityC.hp-10;
+                this.id="fire ball2";
+                this.height=64;
+                this.width=64;
+                this.x=this.x-33
+                this.y=this.y-28
+                playASound("soundEffects/fireBallImpact.mp3");
+            }
+            else if(entityC.tags.includes("block")){
+                this.id="fire ball2";
+                this.height=64;
+                this.width=64;
+                this.y=this.y-33
+                this.x=this.x-28
+                playASound("soundEffects/fireBallImpact.mp3");
+            }
+        }
+        if(this.id=="fire ball2"){
+            if(entityC.tags.includes("enemy")){
+                entityC.hp=entityC.hp-10;
             }
         }
     }
@@ -502,6 +594,9 @@ function getProjectileHeight(projectile){
     else if(projectile=="bomb"){
         return 20;
     }
+    else if(projectile=="fire ball"){
+        return 12;
+    }
     else{
         return 0;
     }
@@ -515,6 +610,9 @@ function getProjectileWidth(projectile){
     }
     else if(projectile=="bomb"){
         return 20;
+    }
+    else if(projectile=="fire ball"){
+        return 12;
     }
     else{
         return 0;
@@ -533,6 +631,24 @@ function getProjectileCooldown(projectile){
     }
     else if(projectile=="bomb"){
         return 60;
+    }
+    else if(projectile=="fire ball"){
+        return 120;
+    }
+}
+
+function playProjectileSound(projectile){
+    if(projectile=="magic missle"){
+        playASound("soundEffects/magicMissle.mp3");
+    }
+    if(projectile=="staff hit"){
+        playASound("soundEffects/staffHit.mp3");
+    }
+    if(projectile=="fire ball"){
+        playASound("soundEffects/fireBallCast.mp3")
+    }
+    else{
+
     }
 }
 
@@ -561,15 +677,69 @@ function harmfulBlock(x,y){
 harmfulBlock.prototype=Object.create(Entity.prototype);
 harmfulBlock.prototype.constructor = harmfulBlock;
 
+function lavaBlock(x,y){
+    this.width = 64;
+    this.height = 64;
+    var tags=["damaging"];
+    id="harmful block";
+    type="static";
+    layer=0;
+    src="lava block2";
+    Entity.call(this,x,y,id,src,layer,type,tags);
+    this.update = function(){
+    }
+    this.draw = function(){
+        ctx.fillStyle="#FFA500";
+        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+    }
+    this.collision = function(entityC){
+        if(!(typeof entityC === "undefined")){
+            if(entityC.tags.includes("player") || entityC.tags.includes("enemy")){
+                entityC.yVel=0;
+                entityC.y=entityC.y+1;
+            }
+        }
+    }
+}
+lavaBlock.prototype=Object.create(Entity.prototype);
+lavaBlock.prototype.constructor = lavaBlock;
+
+function lavaBlock2(x,y){
+    this.width = 64;
+    this.height = 64;
+    var tags=["damaging"];
+    id="lava block2";
+    type="static";
+    layer=0;
+    src="harmful block url";
+    Entity.call(this,x,y,id,src,layer,type,tags);
+    this.update = function(){
+    }
+    this.draw = function(){
+        ctx.fillStyle="#FFA500";
+        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+    }
+    this.collision = function(entityC){
+        if(!(typeof entityC === "undefined")){
+            if(entityC.tags.includes("player") || entityC.tags.includes("enemy")){
+                entityC.yVel=0;
+                entityC.y=entityC.y+1;
+            }
+        }
+    }
+}
+lavaBlock2.prototype=Object.create(Entity.prototype);
+lavaBlock2.prototype.constructor = lavaBlock2;
+
 
 function turret(x,y){
     this.width = 64;
     this.height = 64;
     id="turret";
     type="motion";
-    layer=1
+    layer=0;
     src="enemy url"
-    var tags=["damaging","block"];
+    var tags=["damaging","enemy","block"];
     Entity.call(this,x,y,id,src,layer,type,tags);
     this.cooldown=0;
     this.hp=100;
@@ -579,17 +749,19 @@ function turret(x,y){
            this.remove();
         }
         else{
-            if(getDistance(this,game.currentLevelData.playerRef)<=300){
+            distance=getDistance(this,game.currentLevelData.playerRef);
+            if(distance<=300){
                 if(this.cooldown<=0){
-                    //angle=function that calculates angle
-                    //addToList(new turretProjectile(x,y,angle));
+                    a = game.currentLevelData.playerRef.x - this.x;
+                    b = game.currentLevelData.playerRef.y - this.y;
+                    this.addToList(new turretProjectile(this.x+32,this.y+32,a/distance,b/distance));
                     this.cooldown=100;
                 }
             }
         }
     }
     this.draw = function(){
-        ctx.fillStyle="#000000";
+        ctx.fillStyle="#D3D3D3";
         ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
     }
     this.collision = function(entityC){
@@ -605,28 +777,28 @@ function turret(x,y){
 turret.prototype=Object.create(Entity.prototype);
 turret.prototype.constructor = turret;
 
-function turretProjectile(x,y,angle){
+function turretProjectile(x,y,xDir,yDir){
     this.width = 8;
     this.height = 8;
     id="turret projectile";
     type="motion";
-    layer=1
+    layer=1;
     src="enemy url"
     var tags=["damaging"];
     Entity.call(this,x,y,id,src,layer,type,tags);
-    this.xvel=angleCos*2;
-    this.yvel=angleSin*2;
+    this.xVel=xDir*3;
+    this.yVel=yDir*3;
     this.update = function(){
-        this.x=this.x+xvel;
-        this.y=this.y+yvel;
+        this.x=this.x+this.xVel;
+        this.y=this.y+this.yVel;
     }
     this.draw = function(){
-        ctx.fillStyle="#000000";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        ctx.fillStyle="#ff0000";
+        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),8,8);   
     }
     this.collision = function(entityC){
         if(entityC.tags.includes("block") || entityC.tags.includes("player")){
-            this.remove()
+            this.remove();
         }
     }
 }
@@ -639,17 +811,13 @@ function getDistance(entityA, entityB){
     return Math.sqrt( a*a + b*b );
 }
 
-function getAngle(entityA, entityB){
-    //code for angle goes here
-}
-
 function ladderBlock(x,y){
     this.width = 64;
     this.height = 64;
     var tags=[];
     id="ladder block";
     type="static";
-    layer=1;
+    layer=0;
     src="ladder block url";
     Entity.call(this,x,y,id,src,layer,type,tags);
     this.update = function(){
@@ -660,9 +828,11 @@ function ladderBlock(x,y){
         ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
     }
     this.collision = function(entityC){
-        if(entityC.tags.includes("player") || entityC.tags.includes("enemy")){
-            entityC.yVel=0;
-            entityC.y=entityC.y-1;
+        if(!(typeof entityC === "undefined")){
+            if(entityC.tags.includes("player") || entityC.tags.includes("enemy")){
+                entityC.yVel=0;
+                entityC.y=entityC.y-1;
+            }
         }
     }
 }
@@ -682,8 +852,6 @@ function waterBlock(x,y){
 
     }
     this.draw = function(){
-        //ctx.fillStyle="#00FFFF";
-        //ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
         var img = LevelEditor.tileAtlas[this.id];
         ctx.drawImage(
             img, // image
@@ -692,16 +860,75 @@ function waterBlock(x,y){
             64, // target width
             64 // target height
         ); 
-    }
+    } 
     this.collision = function(entityC){
-        if(entityC.tags.includes("player") || entityC.tags.includes("enemy")){
-            entityC.yVel=0;
-            entityC.y=entityC.y+1;
+        if(!(typeof entityC === "undefined")){
+            if(entityC.tags.includes("player") || entityC.tags.includes("enemy")){
+                entityC.yVel=0;
+                entityC.y=entityC.y+1;
+            }
         }
     }
 }
 waterBlock.prototype=Object.create(Entity.prototype);
 waterBlock.prototype.constructor = waterBlock;
+
+function waterBlock2(x,y){
+    this.width = 64;
+    this.height = 64;
+    var tags=[];
+    id="water";
+    type="static";
+    layer=1;
+    src="images/enviroment/water1.png";
+    Entity.call(this,x,y,id,src,layer,type,tags);
+    this.update = function(){
+
+    }
+    this.draw = function(){
+        ctx.fillStyle="#00FFFF";
+        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+    }
+    this.collision = function(entityC){
+        if(!(typeof entityC === "undefined")){
+            if(entityC.tags.includes("player") || entityC.tags.includes("enemy")){
+                entityC.yVel=0;
+                entityC.y=entityC.y+1;
+            }
+        }
+    }
+}
+waterBlock2.prototype=Object.create(Entity.prototype);
+waterBlock2.prototype.constructor = waterBlock2;
+
+function endOfLevel(x,y){
+    this.width = 64;
+    this.height = 64;
+    var tags=[];
+    id="end";
+    type="static";
+    layer=0;
+    src="end url";
+    Entity.call(this,x,y,id,src,layer,type,tags);
+    this.update = function(){
+
+    }
+    this.draw = function(){
+        ctx.fillStyle="#FFFF00";
+        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+    }
+    this.collision = function(entityC){
+        if(!(typeof entityC === "undefined")){
+            if(entityC.tags.includes("player")){
+                playASound("soundEffects/levelCompletion.mp3");
+                clearInterval(gameInterval);
+                menuButton("Start Campaign");
+            }
+        }
+    }
+}
+endOfLevel.prototype=Object.create(Entity.prototype);
+endOfLevel.prototype.constructor = endOfLevel;
 
 function medKit(x,y){
     this.width = 64;
@@ -709,7 +936,11 @@ function medKit(x,y){
     var tags=[];
     id="med kit";
     type="static";
+<<<<<<< HEAD
+    layer=0;
+=======
     layer=1;
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
     src="med kit url";
     Entity.call(this,x,y,id,src,layer,type,tags);
     this.update = function(){
@@ -720,15 +951,118 @@ function medKit(x,y){
         ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
     }
     this.collision = function(entityC){
+<<<<<<< HEAD
+        if(!(typeof entityC === "undefined")){
+            if(entityC.tags.includes("player")){
+                playASound("soundEffects/itemPickUp.mp3");
+                entityC.inventory[1]=entityC.inventory[1]+1;
+                this.remove();
+            }
+=======
         if(entityC.tags.includes("player")){
             entityC.inventory[1]=entityC.inventory[1]+1;
             this.remove();
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
         }
     }
 }
 medKit.prototype=Object.create(Entity.prototype);
 medKit.prototype.constructor = medKit;
 
+<<<<<<< HEAD
+function bombPickup(x,y){
+    this.width = 64;
+    this.height = 64;
+    var tags=[];
+    id="bomb pickup";
+    type="static";
+    layer=0;
+    src="bomb pickup url";
+    Entity.call(this,x,y,id,src,layer,type,tags);
+    this.update = function(){
+
+    }
+    this.draw = function(){
+        ctx.fillStyle="#00008B";
+        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+    }
+    this.collision = function(entityC){
+        if(!(typeof entityC === "undefined")){
+            if(entityC.tags.includes("player")){
+                playASound("soundEffects/itemPickUp.mp3");
+                entityC.inventory[3]=entityC.inventory[3]+1;
+                this.remove();
+            }
+        }
+    }
+}
+bombPickup.prototype=Object.create(Entity.prototype);
+bombPickup.prototype.constructor = bombPickup;
+
+function fireBallPickup(x,y){
+    this.width = 64;
+    this.height = 64;
+    var tags=[];
+    id="fireball pickup";
+    type="static";
+    layer=0;
+    src="fireball pickup url";
+    Entity.call(this,x,y,id,src,layer,type,tags);
+    this.update = function(){
+    
+    }
+    this.draw = function(){
+        ctx.fillStyle="#FF7F50";
+        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+    }
+    this.collision = function(entityC){
+        if(!(typeof entityC === "undefined")){
+            if(entityC.tags.includes("player")){
+                playASound("soundEffects/powerPickup.mp3");
+                entityC.powers.push("fire ball");
+                this.remove();
+            }
+        }
+    }
+}
+fireBallPickup.prototype=Object.create(Entity.prototype);
+fireBallPickup.prototype.constructor = fireBallPickup;
+
+function checkPoint(x,y){
+    this.width = 50;
+    this.height = 50;
+    var tags=[];
+    id="check point";
+    type="static";
+    layer=0;
+    src="check point url";
+    Entity.call(this,x,y,id,src,layer,type,tags);
+    this.collected=false;
+    this.update = function(){
+
+    }
+    this.draw = function(){
+        ctx.fillStyle="#FF00FF";
+        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+    }
+    this.collision = function(entityC){
+        if(this.collected==false){
+            if(!(typeof entityC === "undefined")){
+                if(entityC.tags.includes("player") && this.collected==false){
+                    this.collected=true;
+                    this.setCheckPointState();
+                    playASound("soundEffects/checkPointActivate.mp3")
+                }
+            }
+        }
+    }
+}
+checkPoint.prototype=Object.create(Entity.prototype);
+checkPoint.prototype.constructor = checkPoint;
+
+
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
 ////////menu GUI/////////
 
 function playerMenu(player){
@@ -739,6 +1073,12 @@ function playerMenu(player){
     this.selectorItems=0;
     this.menuCooldown=0;
     this.toggle=false;
+<<<<<<< HEAD
+    this.setPlayer = function(player){
+        this.player=player;
+    }
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
     this.update = function(){
         if(this.menuCooldown>0){
             this.menuCooldown=this.menuCooldown-1;
@@ -748,56 +1088,99 @@ function playerMenu(player){
                 if(this.inventory.length != 0 && this.toggle==false){
                     this.toggle=true;
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
+                    playASound("soundEffects/inventoryMove.mp3");
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
             } 
             if(pressingUp){
                 if(this.powers.length != 0 && this.toggle==true){
                     this.toggle=false;
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
+                    playASound("soundEffects/inventoryMove.mp3");
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
             }
             if(pressingLeft){
                 if(this.toggle==false && this.selectorPower-1 >= 0){
                     this.selectorPower=this.selectorPower-1;
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
+                    playASound("soundEffects/inventoryMove.mp3");
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
                 if(this.toggle==true && this.selectorItems-1 >= 0){
                     this.selectorItems=this.selectorItems-1;
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
+                    playASound("soundEffects/inventoryMove.mp3");
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
             }
             if(pressingRight){
                 if((this.toggle==false) && (this.selectorPower+1 < this.powers.length)){
                     this.selectorPower=this.selectorPower+1;
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
+                    playASound("soundEffects/inventoryMove.mp3");
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
                 if(this.toggle==true && this.selectorItems+1 < this.inventory.length/2){
                     this.selectorItems=this.selectorItems+1;
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
+                    playASound("soundEffects/inventoryMove.mp3");
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
             }
             if(pressingPower1){
                 if(this.toggle==false){
                     this.player.selected1=this.powers[this.selectorPower];
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
+                    playASound("soundEffects/inventorySet.mp3");
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
                 else{
                     this.player.selected1=this.inventory[this.selectorItems*2];
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
+                    playASound("soundEffects/inventorySet.mp3");
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
             }
             if(pressingPower2){
                 if(this.toggle==false){
                     this.player.selected2=this.powers[this.selectorPower];
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
+                    playASound("soundEffects/inventorySet.mp3");
+=======
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
                 }
                 else{
                     this.player.selected2=this.inventory[this.selectorItems*2];
                     this.menuCooldown=this.menuCooldown+10;
+<<<<<<< HEAD
+                    playASound("soundEffects/inventorySet.mp3");
+                }
+            }
+        }
+=======
                 }
             }
         }
         console.log(this.selectorItems);
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
     }
     this.draw = function(){
         ctx.fillStyle="#000000";
@@ -830,7 +1213,14 @@ function playerMenu(player){
 
             }
         }
+<<<<<<< HEAD
+    }
+}
+
+
+=======
 
     }
 }
 
+>>>>>>> 26d045135b5c7c9ff4cba150f706cae4b36623b9
