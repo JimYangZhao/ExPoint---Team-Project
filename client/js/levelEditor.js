@@ -458,6 +458,12 @@ selectTile = function(tileName){
   else if(tileName == rock1Key){
     var tile = new enviromentTile(0,0,rock1Key);
   }
+  else if(tileName == enemy1Key){
+    var tile = new enemy(0,0);
+  }
+  else if(tileName == enemy2Key){
+    var tile = new enemy(0,0);;
+  }
   else{
     console.log("Error: Tile Not Properly Selected.");
   }
