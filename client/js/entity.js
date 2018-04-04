@@ -122,25 +122,27 @@ function playerChar(x,y,layer){
         }
     }
     this.draw = function(){
-        if(this.facing == "right"){
-            var img = ImageAtlas[player_right];
-            ctx.drawImage(
-                img, // image
-                256,  // target x
-                256, // target y
-                61, // target width
-                61 // target height
-            );
-        }
-        else if(this.facing == "left"){
-            var img = ImageAtlas[player_left];
-            ctx.drawImage(
-                img, // image
-                256,  // target x
-                256, // target y
-                61, // target width
-                61 // target height
-            );
+        if(this.iframes%2==0){
+            if(this.facing == "right"){
+                var img = ImageAtlas[player_right];
+                ctx.drawImage(
+                    img, // image
+                    256,  // target x
+                    256, // target y
+                    61, // target width
+                    61 // target height
+                );
+            }
+            else if(this.facing == "left"){
+                var img = ImageAtlas[player_left];
+                ctx.drawImage(
+                    img, // image
+                    256,  // target x
+                    256, // target y
+                    61, // target width
+                    61 // target height
+                );
+            }
         }
     }
     this.collision = function(entityC){
@@ -779,12 +781,14 @@ function turret(x,y){
     this.update = function(){
         this.cooldown=this.cooldown-1;
         if(this.hp<=0){
-           this.remove();
+            playASound("soundEffects/turretDeath.mp3");
+            this.remove();
         }
         else{
             distance=getDistance(this,game.currentLevelData.playerRef);
             if(distance<=300){
                 if(this.cooldown<=0){
+                    playASound("soundEffects/turretFire.mp3");
                     a = game.currentLevelData.playerRef.x - this.x;
                     b = game.currentLevelData.playerRef.y - this.y;
                     this.addToList(new turretProjectile(this.x+32,this.y+32,a/distance,b/distance));

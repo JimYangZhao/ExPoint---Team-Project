@@ -8,42 +8,84 @@ pressingPower2 = false;
 pressingHalt= false;
 pressingPause=false;
 
-document.onkeydown= function(event){
-    if(event.keyCode == 68)
-        pressingRight=true;
-    else if(event.keyCode == 83)
-        pressingDown=true;
-    else if(event.keyCode == 65)
-        pressingLeft=true;
-    else if(event.keyCode == 87)
-        pressingUp=true;
-    else if(event.keyCode == 69)
-        pressingPower1=true;
-    else if(event.keyCode == 82)
-        pressingPower2=true;
-    else if(event.keyCode == 90)
-        pressingHalt=true;
-    else if(event.keyCode == 80)
+//Default Keyboard Controls
+ 
+Right=68;
+Left=65;
+Up=87;
+Down=83;
+Power1=69;
+Power2=82;
+Halt=90;
+Pause=80;
+
+//changes Keybind
+function ChangeKey(id,key){
+    if(id=="Right"){
+        Right=key;
+    } 
+    else if(id=="Left"){
+        Left=key;
+    }
+    
+     else if(id=='Up'){
+        Up=key;
+    }
+    else if(id=='Down'){
+        Down=key;
+    }
+    else if(id='Power1'){
+        Power1=key;
+    }
+    else if(id='Power2'){
+     Power2=key; 
+     }
+     else if(id='Halt'){
+     Halt=key;
+     }
+     else if(id='Pause'){
+        Pause = key;
+        }
+     
+ }
+ 
+ document.onkeydown= function(event){
+     if(event.keyCode == Right)
+         pressingRight=true;
+     else if(event.keyCode == Down)
+         pressingDown=true;
+     else if(event.keyCode == Left)
+         pressingLeft=true;
+     else if(event.keyCode == Up)
+         pressingUp=true;
+     else if(event.keyCode == Power1)
+         pressingPower1=true;
+     else if(event.keyCode == Power2)
+         pressingPower2=true;
+     else if(event.keyCode == Halt)
+         pressingHalt=true;
+    else if(event.keyCode == Pause)
         pressingPause=true;
-}
-document.onkeyup=function(event){
-    if(event.keyCode == 68)
-        pressingRight=false;
-    else if(event.keyCode == 83)
-        pressingDown=false;
-    else if(event.keyCode == 65)
-        pressingLeft=false;
-    else if(event.keyCode == 87)
-        pressingUp=false;
-    else if(event.keyCode == 69)
-        pressingPower1=false;
-    else if(event.keyCode == 82)
-        pressingPower2=false;
-    else if(event.keyCode == 90)
-        pressingHalt=false;
-    else if(event.keyCode == 80)
-        pressingPause=false;
-}
+ }
+
+ document.onkeyup=function(event){
+     if(event.keyCode == Right)
+         pressingRight=false;
+     else if(event.keyCode == Down)
+         pressingDown=false;
+     else if(event.keyCode == Left)
+         pressingLeft=false;
+     else if(event.keyCode == Up)
+         pressingUp=false;
+     else if(event.keyCode == Power1)
+         pressingPower1=false;
+     else if(event.keyCode == Power2)
+         pressingPower2=false;
+     else if(event.keyCode == Halt)
+         pressingHalt=false;
+     else if(event.keyCode==Pause)
+         pressingPause=false;
+ }
 
 function checkCollision(entity1,entity2){
     if(entity1==(null) || entity2==(null)){

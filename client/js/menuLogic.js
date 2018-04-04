@@ -71,25 +71,7 @@ function newAccountLogin() {
 
 }
 
-
-function KeybindChange() {
-    var table = document.getElementById("KB");
-    var rows = table.getElementsByTagName("tr");
-    for (i = 0; i < rows.length; i++) {
-        var currentRow = table.rows[i];
-        var createClickHandler = 
-        function(row) 
-        {
-            return function() { 
-                                    var cell = row.getElementsByTagName("td")[0];
-                                    var id = cell.innerHTML;
-                                    alert(id);
-                             };
-        };
-
-    currentRow.onclick = createClickHandler(currentRow);
-    }
-}
+ 
 
 //Enable or Disable World Map Buttons
 function disableBtn(varname) {
@@ -100,3 +82,34 @@ function undisableBtn(varname) {
     document.getElementById(varname).disabled = false;
 }
 
+//Keybind Change
+function KB(event, id){
+
+    var keyCode = event.which;
+     if(keyCode==32){
+        key="Space Bar";
+    }
+    else if(keyCode == 38){
+        key="Up Arrow";
+    }
+    else if(keyCode == 39){
+        key="Right Arrow";
+    }
+    else if(keyCode == 40){
+        key="Down Arrow";
+    }
+    else if(keyCode == 37){
+        key="Left Arrow";
+    }
+    else{
+    var key = String.fromCharCode(keyCode);
+    
+    }
+    document.getElementById(id).value=key;
+    
+    
+    ChangeKey(id,keyCode);
+    
+    
+}
+ 
