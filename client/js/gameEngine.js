@@ -132,6 +132,7 @@ function DeepCopy(initialState){
 }
 function gameObject(initialState){
     //the stored variables in game objects
+    this.finish=false;
     this.currentLevelData=initialState;
     this.checkPointLevelData= DeepCopy(initialState);
     this.paused=false;
@@ -206,6 +207,9 @@ function gameObject(initialState){
             this.gameMenu.update();
             this.gameMenu.draw();
         }
+        if(this.finish){
+            ctx.clearRect(0,0,512,512);
+        }
     }
 
     this.loadCheckpoint = function() {
@@ -215,10 +219,6 @@ function gameObject(initialState){
     }
     this.saveCheckpoint = function() {
         this.checkPointLevelData=DeepCopy(this.currentLevelData);
-    }
-    this.togglePause=function(){
-        if(this.paused==false) this.paused=true;
-        else this.paused=false;
     }
     this.togglePause=function(){
         if(this.paused==false) this.paused=true;
@@ -248,6 +248,9 @@ Entity.prototype.addToList = function(entity){
 
 checkPoint.prototype.setCheckPointState = function(){
     game.saveCheckpoint();
+}
+endOfLevel.prototype.toggleFinish= function(){
+    game.finish=true;
 }
 
 gameInterval;
