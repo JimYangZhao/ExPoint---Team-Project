@@ -473,6 +473,9 @@ selectTile = function(tileName){
   else if(tileName == medkitKey){
     var tile = new medKit(0,0);
   }
+  else if(tileName == spikeKey){
+    var tile = new spikeBlock(0,0);
+  }
   else{
     console.log("Error: Tile Not Properly Selected.");
   }

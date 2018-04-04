@@ -356,7 +356,7 @@ enemy.prototype.constructor = enemy;
 function dumbEnemy(x,y){
     this.width = 64;
     this.height = 64;
-    id="dumbEnemy";
+    id="enemy2";
     type="motion";
     layer=2;
     var tags=["damaging","enemy"];
@@ -384,8 +384,14 @@ function dumbEnemy(x,y){
         }
     }
     this.draw = function(){
-        ctx.fillStyle="#000000";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = ImageAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        ); 
     }
     this.collision = function(entityC){
         entitySide=checkSide(this,entityC);
@@ -698,8 +704,14 @@ function spikeBlock(x,y){
     this.update = function(){
     }
     this.draw = function(){
-        ctx.fillStyle="#FFA500";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = ImageAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );
     }
     this.collision = function(entityC){
 
@@ -719,8 +731,14 @@ function lavaBlock(x,y){
     this.update = function(){
     }
     this.draw = function(){
-        ctx.fillStyle="#FFA500";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = ImageAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );
     }
     this.collision = function(entityC){
         if(!(typeof entityC === "undefined")){
@@ -733,33 +751,6 @@ function lavaBlock(x,y){
 }
 lavaBlock.prototype=Object.create(Entity.prototype);
 lavaBlock.prototype.constructor = lavaBlock;
-
-function lavaBlock2(x,y){
-    this.width = 64;
-    this.height = 64;
-    var tags=["damaging"];
-    id="lava2";
-    type="static";
-    layer=0;
-    Entity.call(this,x,y,id,layer,type,tags);
-    this.update = function(){
-    }
-    this.draw = function(){
-        ctx.fillStyle="#FFA500";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
-    }
-    this.collision = function(entityC){
-        if(!(typeof entityC === "undefined")){
-            if(entityC.tags.includes("player") || entityC.tags.includes("enemy")){
-                entityC.yVel=0;
-                entityC.y=entityC.y+1;
-            }
-        }
-    }
-}
-lavaBlock2.prototype=Object.create(Entity.prototype);
-lavaBlock2.prototype.constructor = lavaBlock2;
-
 
 function turret(x,y){
     this.width = 64;

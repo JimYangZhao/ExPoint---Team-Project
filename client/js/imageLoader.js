@@ -37,12 +37,14 @@ startLoadingImgs = function () {
         Loader.loadImage(lava1Key,'images/enviroment/lava1.jpg'),
         Loader.loadImage(enemy1Key,'images/enemy/slime1_left.png'),
         Loader.loadImage(enemy2Key,'images/enemy/slime2_left.png'),
+        Loader.loadImage(spikeKey,'images/enviroment/spike.png'),
         Loader.loadImage(bombKey,'images/items/bomb.png'),
         Loader.loadImage(medkitKey,'images/items/FirstAid.png'),
         Loader.loadImage(player_right,'images/player/player_right.png'),
         Loader.loadImage(player_left,'images/player/player_left.png'),
         Loader.loadImage(fireballKey,'images/effects/fireball_right.png'),
         Loader.loadImage(magicMissileKey,'images/effects/magicmissile.png'),
+        
     ];
 };
 
