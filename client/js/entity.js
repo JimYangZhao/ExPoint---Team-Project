@@ -165,6 +165,7 @@ function playerChar(x,y,layer){
                 this.hp=this.hp-1;
                 console.log(this.hp);
                 this.iframes=80;
+                playASound("soundEffects/damageTaken.mp3");
             }
         }
     }
@@ -267,23 +268,28 @@ function enemy(x,y){
     layer=2;
     var tags=["damaging","enemy"];
     Entity.call(this,x,y,id,layer,type,tags);
+    this.wentUp=false;
     this.yVel=0;
     this.hp=100;
     this.update = function(){
-        if(this.hp<=0){
-            playASound("soundEffects/enemyDeath.mp3")
-            this.remove();
-        }
-        this.yVel=this.yVel+1
-        if(this.yVel>30){
-            (this.yVel=30);
-        }
-        this.y=this.y+this.yVel;
-        if(player.x-this.x <= 0){
-            this.x=this.x-3;
-        }
-        else{
-            this.x=this.x+3;
+        distance=getDistance(this, game.currentLevelData.playerRef);
+        if(distance<=500){
+            this.wentUp=false;
+            if(this.hp<=0){
+                playASound("soundEffects/slimeEnemyDeath.mp3")
+                this.remove();
+            }
+            this.yVel=this.yVel+1
+            if(this.yVel>30){
+                (this.yVel=30);
+            }
+            this.y=this.y+this.yVel;
+            if(player.x-this.x <= 0){
+                this.x=this.x-3;
+            }
+            else{
+                this.x=this.x+3;
+            }
         }
     }
     this.draw = function(){
@@ -308,21 +314,104 @@ function enemy(x,y){
                 this.y=entityC.y+64;
             }
             if(sideColided=="left"){
+                if(this.wentUp==false && game.currentLevelData.playerRef.y<=this.y+5){
+                    this.y=this.y-15;
+                    this.wentUp=true;
+                }
                 this.x=entityC.x+64;
-                this.y=this.y-15;
             }
             if(sideColided=="right"){
+                if(this.wentUp==false && game.currentLevelData.playerRef.y<=this.y+5){
+                    this.y=this.y-15;
+                    this.wentUp=true;
+                }
                 this.x=entityC.x-64;
-                this.y=this.y-15;
             }
         }
-        if(entityC.id=="ladder"){
+        if(entityC.tags.includes("ladder")){
+            if(game.currentLevelData.playerRef.y<=this.y){
+                if(this.wentUp==false){
+                    this.y=this.y-15;
+                    this.wentUp=true;
+                }
+            }
+            if(game.currentLevelData.playerRef.y>=this.y){
+                this.y=this.y+5;
+            }
             this.y=this.y+1;
+        }
+        if(entityC.id.includes("water")){
+            if(game.currentLevelData.playerRef.y<=this.y){
+                if(this.wentUp==false){
+                    this.y=this.y-15;
+                    this.wentUp=true;
+                }
+            }
         }
     }
 }
 enemy.prototype=Object.create(Entity.prototype);
 enemy.prototype.constructor = enemy;
+
+function dumbEnemy(x,y){
+    this.width = 64;
+    this.height = 64;
+    id="dumbEnemy";
+    type="motion";
+    layer=2;
+    var tags=["damaging","enemy"];
+    Entity.call(this,x,y,id,layer,type,tags);
+    this.yVel=0;
+    this.hp=100;
+    this.update = function(){
+        distance=getDistance(this, game.currentLevelData.playerRef);
+        if(distance<=500){
+            if(this.hp<=0){
+                playASound("soundEffects/slimeEnemyDeath.mp3")
+                this.remove();
+            }
+            this.yVel=this.yVel+1
+            if(this.yVel>30){
+                (this.yVel=30);
+            }
+            this.y=this.y+this.yVel;
+            if(player.x-this.x <= 0){
+                this.x=this.x-3;
+            }
+            else{
+                this.x=this.x+3;
+            }
+        }
+    }
+    this.draw = function(){
+        ctx.fillStyle="#000000";
+        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+    }
+    this.collision = function(entityC){
+        entitySide=checkSide(this,entityC);
+        if(entityC.tags.includes("block")){
+            sideColided=checkSide(this , entityC)
+            if(sideColided=="bottom"){
+                this.y=entityC.y-64;
+                this.yVel=0;
+            }
+            if(sideColided=="top"){
+                this.y=entityC.y+64;
+            }
+            if(sideColided=="left"){
+                this.x=entityC.x+64;
+            }
+            if(sideColided=="right"){
+                this.x=entityC.x-64;
+            }
+        }
+        if(entityC.id=="ladder block"){
+            this.y=this.y+1;
+        }
+    }
+}
+dumbEnemy.prototype=Object.create(Entity.prototype);
+dumbEnemy.prototype.constructor = dumbEnemy;
 
 //also includes player powers that are not projectiles.
 
@@ -419,7 +508,9 @@ function playerProjectile(x,y,direction,projectile){
                 playASound("soundEffects/explosion.mp3");
             }
             else{
-                this.yVel=this.yVel+1;
+                if(this.yVel<6){
+                    this.yVel=this.yVel+1;
+                }
                 this.y=this.y+this.yVel;
                 this.framesUp=this.framesUp+1;
             }
@@ -676,7 +767,7 @@ function turret(x,y){
     id="turret";
     type="motion";
     layer=2;
-    var tags=["damaging","enemy","block"];
+    var tags=["damaging","enemy"];
     Entity.call(this,x,y,id,layer,type,tags);
     this.cooldown=0;
     this.hp=100;
@@ -750,7 +841,7 @@ function getDistance(entityA, entityB){
 function ladderBlock(x,y){
     this.width = 64;
     this.height = 64;
-    var tags=[];
+    var tags=["ladder"];
     id="ladder";
     type="static";
     layer=1;
@@ -783,7 +874,7 @@ ladderBlock.prototype.constructor = ladderBlock;
 function waterBlock(x,y){
     this.width = 64;
     this.height = 64;
-    var tags=[];
+    var tags=["water"];
     id="water1";
     type="static";
     layer=1;
@@ -816,7 +907,7 @@ waterBlock.prototype.constructor = waterBlock;
 function waterBlock2(x,y){
     this.width = 64;
     this.height = 64;
-    var tags=[];
+    var tags=["water"];
     id="water2";
     type="static";
     layer=1;
@@ -869,7 +960,7 @@ function endOfLevel(x,y){
                 menuButton("Start Campaign");
                 music.pause();
                 music.currentTime=0;
-                ctx.clearRect(0,0,512,512);
+                this.toggleFinish();
             }
         }
     }
@@ -1009,8 +1100,8 @@ checkPoint.prototype.constructor = checkPoint;
 
 function playerMenu(player){
     this.player=player;
-    this.powers= player.powers;
-    this.inventory=player.inventory;
+    //this.powers= player.powers;
+    //this.inventory=player.inventory;
     this.selectorPower=0;
     this.selectorItems=0;
     this.menuCooldown=0;
@@ -1024,14 +1115,14 @@ function playerMenu(player){
         }
         else{
             if(pressingDown){
-                if(this.inventory.length != 0 && this.toggle==false){
+                if(this.player.inventory.length != 0 && this.toggle==false){
                     this.toggle=true;
                     this.menuCooldown=this.menuCooldown+10;
                     playASound("soundEffects/inventoryMove.mp3");
                 }
             } 
             if(pressingUp){
-                if(this.powers.length != 0 && this.toggle==true){
+                if(this.player.powers.length != 0 && this.toggle==true){
                     this.toggle=false;
                     this.menuCooldown=this.menuCooldown+10;
                     playASound("soundEffects/inventoryMove.mp3");
@@ -1050,12 +1141,12 @@ function playerMenu(player){
                 }
             }
             if(pressingRight){
-                if((this.toggle==false) && (this.selectorPower+1 < this.powers.length)){
+                if((this.toggle==false) && (this.selectorPower+1 < this.player.powers.length)){
                     this.selectorPower=this.selectorPower+1;
                     this.menuCooldown=this.menuCooldown+10;
                     playASound("soundEffects/inventoryMove.mp3");
                 }
-                if(this.toggle==true && this.selectorItems+1 < this.inventory.length/2){
+                if(this.toggle==true && this.selectorItems+1 < this.player.inventory.length/2){
                     this.selectorItems=this.selectorItems+1;
                     this.menuCooldown=this.menuCooldown+10;
                     playASound("soundEffects/inventoryMove.mp3");
@@ -1063,24 +1154,24 @@ function playerMenu(player){
             }
             if(pressingPower1){
                 if(this.toggle==false){
-                    this.player.selected1=this.powers[this.selectorPower];
+                    this.player.selected1=this.player.powers[this.selectorPower];
                     this.menuCooldown=this.menuCooldown+10;
                     playASound("soundEffects/inventorySet.mp3");
                 }
                 else{
-                    this.player.selected1=this.inventory[this.selectorItems*2];
+                    this.player.selected1=this.player.inventory[this.selectorItems*2];
                     this.menuCooldown=this.menuCooldown+10;
                     playASound("soundEffects/inventorySet.mp3");
                 }
             }
             if(pressingPower2){
                 if(this.toggle==false){
-                    this.player.selected2=this.powers[this.selectorPower];
+                    this.player.selected2=this.player.powers[this.selectorPower];
                     this.menuCooldown=this.menuCooldown+10;
                     playASound("soundEffects/inventorySet.mp3");
                 }
                 else{
-                    this.player.selected2=this.inventory[this.selectorItems*2];
+                    this.player.selected2=this.player.inventory[this.selectorItems*2];
                     this.menuCooldown=this.menuCooldown+10;
                     playASound("soundEffects/inventorySet.mp3");
                 }
@@ -1102,20 +1193,28 @@ function playerMenu(player){
             ctx.fillStyle="#FFFFFF";
             ctx.fillRect(64+(64*this.selectorItems)+20,128+40,64,64);
         }
-        for(i=0;i<this.powers.length;i++){
-            if(this.powers[i]=="magic missle"){
+        for(i=0;i<this.player.powers.length;i++){
+            if(this.player.powers[i]=="magic missle"){
                 
             }
-            if(this.powers[i]=="staff hit"){
+            if(this.player.powers[i]=="staff hit"){
 
             }
         }
-        for(i=0;i<this.inventory.length;i=i+2){
-            if(this.inventory[i]=="med kit"){
-
+        for(i=0;i<this.player.inventory.length;i=i+2){
+            if(this.player.inventory[i]=="med kit"){
+                ctx.fillStyle="#505050";
+                if(this.selectorItems==0 && this.toggle==true){
+                    ctx.fillStyle="#FFFFFF";
+                }
+                ctx.fillText(this.player.inventory[i+1],134,228);
             }
-            if(this.inventory[i]=="bomb"){
-
+            if(this.player.inventory[i]=="bomb"){
+                ctx.fillStyle="#505050";
+                if(this.selectorItems==1 && this.toggle==true){
+                    ctx.fillStyle="#FFFFFF";
+                }
+                ctx.fillText(this.player.inventory[i+1],202,228);
             }
         }
     }

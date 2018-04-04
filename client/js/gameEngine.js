@@ -132,6 +132,7 @@ function DeepCopy(initialState){
 }
 function gameObject(initialState){
     //the stored variables in game objects
+    this.finish=false;
     this.currentLevelData=initialState;
     this.checkPointLevelData= DeepCopy(initialState);
     this.paused=false;
@@ -156,10 +157,6 @@ function gameObject(initialState){
                 this.timeLastPause=0;
             }
         }
-        ctx.fillStyle="#000000";
-        ctx.fillRect(4,4,102,20);
-        ctx.fillStyle="#FF0000";
-        ctx.fillRect(5,5, (10* player.hp) ,18);
         if(this.paused==false){
             for(i=0; i < this.currentLevelData.motionEntityList.length ; i++){
                 this.currentLevelData.motionEntityList[i].update();
@@ -198,6 +195,10 @@ function gameObject(initialState){
                     this.currentLevelData.staticEntityList[i].draw();
             }
         }
+        ctx.fillStyle="#000000";
+        ctx.fillRect(4,4,102,20);
+        ctx.fillStyle="#FF0000";
+        ctx.fillRect(5,5, (10* player.hp) ,18);
         if(this.paused){
             this.gameMenu.update();
             this.gameMenu.draw();
@@ -205,6 +206,9 @@ function gameObject(initialState){
         if(this.paused){
             this.gameMenu.update();
             this.gameMenu.draw();
+        }
+        if(this.finish){
+            ctx.clearRect(0,0,512,512);
         }
     }
 
@@ -215,10 +219,6 @@ function gameObject(initialState){
     }
     this.saveCheckpoint = function() {
         this.checkPointLevelData=DeepCopy(this.currentLevelData);
-    }
-    this.togglePause=function(){
-        if(this.paused==false) this.paused=true;
-        else this.paused=false;
     }
     this.togglePause=function(){
         if(this.paused==false) this.paused=true;
@@ -248,6 +248,9 @@ Entity.prototype.addToList = function(entity){
 
 checkPoint.prototype.setCheckPointState = function(){
     game.saveCheckpoint();
+}
+endOfLevel.prototype.toggleFinish= function(){
+    game.finish=true;
 }
 
 gameInterval;
