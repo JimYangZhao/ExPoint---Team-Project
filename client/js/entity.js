@@ -543,8 +543,8 @@ function playerProjectile(x,y,direction,projectile){
             var img = ImageAtlas[this.id];
             ctx.drawImage(
                 img, // image
-                256+(this.x-player.x) + deltaX,  // target x
-                256+(this.y-player.y) + deltaY, // target y
+                256+(this.x-player.x),  // target x
+                256+(this.y-player.y), // target y
                 16, // target width
                 16 // target height
             );
@@ -554,15 +554,15 @@ function playerProjectile(x,y,direction,projectile){
             var deltaX = 0;
             var deltaY = -20;
             if(this.direction == "left"){
-                deltaX = 20;
+                deltaX = 10;
             }
             else if (this.direction == "right"){
-                deltaX = -20;
+                deltaX = -10;
             }
             ctx.drawImage(
                 img, // image
-                256+(this.x-player.x),  // target x
-                256+(this.y-player.y), // target y
+                256+(this.x-player.x) + deltaX,  // target x
+                256+(this.y-player.y) + deltaY, // target y
                 8, // target width
                 32 // target height
             );
@@ -576,8 +576,14 @@ function playerProjectile(x,y,direction,projectile){
             ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),this.width,this.height);
         }
         else if(this.id=="fire ball"){
-            ctx.fillStyle="#FF7F50"
-            ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),this.width,this.height);
+            var img = ImageAtlas[fireballKey];
+            ctx.drawImage(
+                img, // image
+                256+(this.x-player.x),  // target x
+                256+(this.y-player.y), // target y
+                32, // target width
+                32 // target height
+            );
         }
         else if(this.id=="fire ball2"){
             ctx.fillStyle="#FF7F50"
@@ -964,8 +970,14 @@ function endOfLevel(x,y){
 
     }
     this.draw = function(){
-        ctx.fillStyle="#FFFF00";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = ImageAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            128 // target height
+        );     
     }
     this.collision = function(entityC){
         if(!(typeof entityC === "undefined")){
@@ -1055,7 +1067,7 @@ function fireBallPickup(x,y){
     this.width = 64;
     this.height = 64;
     var tags=[];
-    id="fireball pickup";
+    id="fire ball";
     type="static";
     layer=0;
     Entity.call(this,x,y,id,layer,type,tags);
@@ -1063,8 +1075,14 @@ function fireBallPickup(x,y){
     
     }
     this.draw = function(){
-        ctx.fillStyle="#FF7F50";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = ImageAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );    
     }
     this.collision = function(entityC){
         if(!(typeof entityC === "undefined")){
@@ -1092,8 +1110,14 @@ function checkPoint(x,y){
 
     }
     this.draw = function(){
-        ctx.fillStyle="#FF00FF";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = ImageAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );     
     }
     this.collision = function(entityC){
         if(this.collected==false){
@@ -1233,10 +1257,10 @@ function playerMenu(player){
                 var img = ImageAtlas[fireballKey];
                     ctx.drawImage(
                     img, // image
-                    256+(this.x-player.x),  // target x
-                    256+(this.y-player.y), // target y
-                    16, // target width
-                    16 // target height
+                    192+20,  // target x
+                    64+20, // target y
+                    64, // target width
+                    64 // target height
                 );
             }
         }
