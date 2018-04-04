@@ -180,7 +180,7 @@ for(i=0;i<70;i++){
             }
             if(j==19){
                 staticEntityList.push(new spikeBlock(i*64,j*64));
-                backgroundList.push(new backgroundTile(i*64,j*64),dirt1Key);
+                backgroundList.push(new backgroundTile(i*64,j*64,dirt1Key);
             }
         }
         if(i>=53 && i<=57){
