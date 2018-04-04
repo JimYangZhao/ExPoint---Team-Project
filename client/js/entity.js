@@ -541,15 +541,29 @@ function playerProjectile(x,y,direction,projectile){
             var img = ImageAtlas[this.id];
             ctx.drawImage(
                 img, // image
-                256+(this.x-player.x),  // target x
-                256+(this.y-player.y), // target y
+                256+(this.x-player.x) + deltaX,  // target x
+                256+(this.y-player.y) + deltaY, // target y
                 16, // target width
                 16 // target height
             );
         }
         else if(this.id=="staff hit"){
-            ctx.fillStyle="#1218E2";
-            ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),this.width,this.height);
+            var img = ImageAtlas[slashKey];
+            var deltaX = 0;
+            var deltaY = -20;
+            if(this.direction == "left"){
+                deltaX = 20;
+            }
+            else if (this.direction == "right"){
+                deltaX = -20;
+            }
+            ctx.drawImage(
+                img, // image
+                256+(this.x-player.x),  // target x
+                256+(this.y-player.y), // target y
+                8, // target width
+                32 // target height
+            );
         }
         else if(this.id=="bomb2"){
             ctx.fillStyle="#00008B";
@@ -576,7 +590,7 @@ function playerProjectile(x,y,direction,projectile){
                 this.remove();
             }
         }
-        if(this.id=="staffHit"){
+        if(this.id=="staff hit"){
             if(entityC.tags.includes("enemy")){
                 entityC.hp=entityC.hp-2;
             }
@@ -780,8 +794,14 @@ function turret(x,y){
         }
     }
     this.draw = function(){
-        ctx.fillStyle="#D3D3D3";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = ImageAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );  
     }
     this.collision = function(entityC){
         entitySide=checkSide(this,entityC);
@@ -1186,10 +1206,34 @@ function playerMenu(player){
         }
         for(i=0;i<this.player.powers.length;i++){
             if(this.player.powers[i]=="magic missle"){
-                
+                var img = ImageAtlas[magicMissileKey];
+                    ctx.drawImage(
+                    img, // image
+                    128+20,  // target x
+                    64+20, // target y
+                    64, // target width
+                    64 // target height
+                );
             }
-            if(this.player.powers[i]=="staff hit"){
-
+            else if(this.player.powers[i]=="staff hit"){
+                var img = ImageAtlas[swordKey];
+                    ctx.drawImage(
+                    img, // image
+                    64+20,  // target x
+                    64+20, // target y
+                    64, // target width
+                    64 // target height
+                );
+            }
+            else if(this.player.powers[i]=="fire ball"){
+                var img = ImageAtlas[fireballKey];
+                    ctx.drawImage(
+                    img, // image
+                    256+(this.x-player.x),  // target x
+                    256+(this.y-player.y), // target y
+                    16, // target width
+                    16 // target height
+                );
             }
         }
         for(i=0;i<this.player.inventory.length;i=i+2){
@@ -1198,6 +1242,14 @@ function playerMenu(player){
                 if(this.selectorItems==0 && this.toggle==true){
                     ctx.fillStyle="#FFFFFF";
                 }
+                var img = ImageAtlas[medkitKey];
+                ctx.drawImage(
+                    img, // image
+                    64+20,  // target x
+                    128+40, // target y
+                    64, // target width
+                    64 // target height
+                );
                 ctx.fillText(this.player.inventory[i+1],134,228);
             }
             if(this.player.inventory[i]=="bomb"){
@@ -1205,6 +1257,14 @@ function playerMenu(player){
                 if(this.selectorItems==1 && this.toggle==true){
                     ctx.fillStyle="#FFFFFF";
                 }
+                var img = ImageAtlas[bombKey];
+                ctx.drawImage(
+                    img, // image
+                    128+20,  // target x
+                    128+40, // target y
+                    64, // target width
+                    64 // target height
+                );
                 ctx.fillText(this.player.inventory[i+1],202,228);
             }
         }
