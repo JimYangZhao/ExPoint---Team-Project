@@ -441,8 +441,14 @@ function playerProjectile(x,y,direction,projectile){
     }
     this.draw = function(){
         if(this.id=="magic missle"){
-            ctx.fillStyle="#1218E2";
-            ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),this.width,this.height); 
+            var img = ImageAtlas[this.id];
+            ctx.drawImage(
+                img, // image
+                256+(this.x-player.x),  // target x
+                256+(this.y-player.y), // target y
+                16, // target width
+                16 // target height
+            );
         }
         else if(this.id=="staff hit"){
             ctx.fillStyle="#1218E2";

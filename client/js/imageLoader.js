@@ -15,6 +15,8 @@ var enemy2Key = 'enemy2';
 var spikeKey = 'spike';
 var lava1Key = 'lava1';
 
+var fireballKey = 'fire ball';
+var magicMissileKey = 'magic missle';
 var player_right = 'playerright';
 var player_left = 'playerleft';
 
@@ -39,6 +41,8 @@ startLoadingImgs = function () {
         Loader.loadImage(medkitKey,'images/items/FirstAid.png'),
         Loader.loadImage(player_right,'images/player/player_right.png'),
         Loader.loadImage(player_left,'images/player/player_left.png'),
+        Loader.loadImage(fireballKey,'images/effects/fireball_right.png'),
+        Loader.loadImage(magicMissileKey,'images/effects/magicmissile.png'),
     ];
 };
 
