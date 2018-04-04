@@ -27,9 +27,7 @@ function ChangeKey(id,key){
     else if(id=="Left"){
         Left=key;
     }
-    else if(id='Pause'){
-     Pause = key;
-     }
+    
      else if(id=='Up'){
         Up=key;
     }
@@ -45,6 +43,9 @@ function ChangeKey(id,key){
      else if(id='Halt'){
      Halt=key;
      }
+     else if(id='Pause'){
+        Pause = key;
+        }
      
  }
  
