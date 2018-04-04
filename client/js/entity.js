@@ -578,12 +578,9 @@ function playerProjectile(x,y,direction,projectile){
                 this.remove();
             }
         }
-        if(this.id=="staffHit"){
+        if(this.id=="staff hit"){
             if(entityC.tags.includes("enemy")){
-                entityC.hp=entityC.hp-2;
-            }
-            if(entityC.tags.includes("block")){
-                this.remove();
+                entityC.hp=entityC.hp-4;
             }
         }
         if(this.id=="bomb2"){
@@ -1112,62 +1109,62 @@ function playerMenu(player){
             if(pressingDown){
                 if(this.player.inventory.length != 0 && this.toggle==false){
                     this.toggle=true;
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventoryMove.mp3");
                 }
             } 
             if(pressingUp){
                 if(this.player.powers.length != 0 && this.toggle==true){
                     this.toggle=false;
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventoryMove.mp3");
                 }
             }
             if(pressingLeft){
                 if(this.toggle==false && this.selectorPower-1 >= 0){
                     this.selectorPower=this.selectorPower-1;
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventoryMove.mp3");
                 }
                 if(this.toggle==true && this.selectorItems-1 >= 0){
                     this.selectorItems=this.selectorItems-1;
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventoryMove.mp3");
                 }
             }
             if(pressingRight){
                 if((this.toggle==false) && (this.selectorPower+1 < this.player.powers.length)){
                     this.selectorPower=this.selectorPower+1;
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventoryMove.mp3");
                 }
                 if(this.toggle==true && this.selectorItems+1 < this.player.inventory.length/2){
                     this.selectorItems=this.selectorItems+1;
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventoryMove.mp3");
                 }
             }
             if(pressingPower1){
                 if(this.toggle==false){
                     this.player.selected1=this.player.powers[this.selectorPower];
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventorySet.mp3");
                 }
                 else{
                     this.player.selected1=this.player.inventory[this.selectorItems*2];
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventorySet.mp3");
                 }
             }
             if(pressingPower2){
                 if(this.toggle==false){
                     this.player.selected2=this.player.powers[this.selectorPower];
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventorySet.mp3");
                 }
                 else{
                     this.player.selected2=this.player.inventory[this.selectorItems*2];
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventorySet.mp3");
                 }
             }
@@ -1198,17 +1195,17 @@ function playerMenu(player){
         }
         for(i=0;i<this.player.inventory.length;i=i+2){
             if(this.player.inventory[i]=="med kit"){
-                ctx.fillStyle="#505050";
-                if(this.selectorItems==0 && this.toggle==true){
-                    ctx.fillStyle="#FFFFFF";
-                }
+                ctx.fillStyle="#FF0000";
+                //if(this.selectorItems==0 && this.toggle==true){
+                //    ctx.fillStyle="#FFFFFF";
+                //}
                 ctx.fillText(this.player.inventory[i+1],134,228);
             }
             if(this.player.inventory[i]=="bomb"){
-                ctx.fillStyle="#505050";
-                if(this.selectorItems==1 && this.toggle==true){
-                    ctx.fillStyle="#FFFFFF";
-                }
+                ctx.fillStyle="#FF0000";
+                //if(this.selectorItems==1 && this.toggle==true){
+                //    ctx.fillStyle="#FFFFFF";
+                //}
                 ctx.fillText(this.player.inventory[i+1],202,228);
             }
         }
