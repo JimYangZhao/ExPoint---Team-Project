@@ -308,6 +308,63 @@ function enemy(x,y){
 enemy.prototype=Object.create(Entity.prototype);
 enemy.prototype.constructor = enemy;
 
+function dumbEnemy(x,y){
+    this.width = 64;
+    this.height = 64;
+    id="dumbEnemy";
+    type="motion";
+    layer=2;
+    var tags=["damaging","enemy"];
+    Entity.call(this,x,y,id,layer,type,tags);
+    this.yVel=0;
+    this.hp=100;
+    this.update = function(){
+        if(this.hp<=0){
+            playASound("soundEffects/enemyDeath.mp3")
+            this.remove();
+        }
+        this.yVel=this.yVel+1
+        if(this.yVel>30){
+            (this.yVel=30);
+        }
+        this.y=this.y+this.yVel;
+        if(player.x-this.x <= 0){
+            this.x=this.x-3;
+        }
+        else{
+            this.x=this.x+3;
+        }
+    }
+    this.draw = function(){
+        ctx.fillStyle="#000000";
+        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+    }
+    this.collision = function(entityC){
+        entitySide=checkSide(this,entityC);
+        if(entityC.tags.includes("block")){
+            sideColided=checkSide(this , entityC)
+            if(sideColided=="bottom"){
+                this.y=entityC.y-64;
+                this.yVel=0;
+            }
+            if(sideColided=="top"){
+                this.y=entityC.y+64;
+            }
+            if(sideColided=="left"){
+                this.x=entityC.x+64;
+            }
+            if(sideColided=="right"){
+                this.x=entityC.x-64;
+            }
+        }
+        if(entityC.id=="ladder block"){
+            this.y=this.y+1;
+        }
+    }
+}
+dumbEnemy.prototype=Object.create(Entity.prototype);
+dumbEnemy.prototype.constructor = dumbEnemy;
+
 //also includes player powers that are not projectiles.
 
 
@@ -654,7 +711,7 @@ function turret(x,y){
     id="turret";
     type="motion";
     layer=2;
-    var tags=["damaging","enemy","block"];
+    var tags=["damaging","enemy"];
     Entity.call(this,x,y,id,layer,type,tags);
     this.cooldown=0;
     this.hp=100;
