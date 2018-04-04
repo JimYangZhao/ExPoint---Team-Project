@@ -14,7 +14,7 @@
   <link href="https://fonts.googleapis.com/css?family=Mina" rel="stylesheet">
 </head>
 <body>
-<canvas id="ctx" width="512" height="512"> </canvas>
+
 <div id='MainMenu'>
     <!-- <button onclick="menuButton('Login')">Login</button> -->
     <button onclick="menuButton('Create Account')">Sign In/Sign Up</button>
@@ -169,29 +169,6 @@
   <button onclick="menuButton('Play')">Back</button>
 </div>
 
-<div id='Level Editor'> 
-    <button onclick="selectTile('grass1')">Grass Tile</button>
-    <button onclick="selectTile('grass2')">Grass 2 Tile</button>
-    <button onclick="selectTile('dirt1')">Dirt Tile</button>
-    <button onclick="selectTile('player')">Player</button>
-    <button onclick="selectTile('cloud1')">Cloud</button>
-    <button onclick="selectTile('sky1')">Sky</button>
-    <button onclick="selectTile('water1')">Water 1</button>
-    <button onclick="selectTile('water2')">Water 2</button>
-    <button onclick="selectTile('ladder')">Ladder</button>
-    <button onclick="selectTile('rock1')">Rock 1</button>
-    <button onclick="selectTile('enemy1')">Slime 1</button>
-    <button onclick="selectTile('enemy2')">Slime 2</button>
-    <button onclick="selectTile('medkit')">Medkit</button>
-    <button onclick="selectTile('bomb1')">Bomb</button>
-    <button onclick="selectTile('lava1')">Lava</button>
-    <button onclick="selectTile('spike')">Spike</button>
-    <button onclick="runLevel()">Run Level</button>
-    <button onclick="stopLevel()">Stop Level</button>
-
-  <button onclick="editorBackBtn()">Back</button>
-
-</div>
 
 <div id="Leaderboard">
   Leaderboard page goes here
@@ -226,42 +203,49 @@
   </select><br>
 
    
-   <h4>Keybind Change</h4>
-   (Click and Enter New Key)
-   <table id="KB" style="width:50%" onclick="KeybindChange()"> 
-   <tr>
-    <th>Action</th>
-    <th>Key</th>
-  </tr>
-  <tr>
-    <td>Jump</td>
-    <td>Up Arrow</td>
-  </tr>
-  <tr>
-    <td>Block</td>
-    <td>Down Arrow</td>
-  </tr>
-  <tr>
-    <td>Move Left</td>
-    <td>Left Arrow</td>
-  </tr>
-  <tr>
-    <td>Move Right</td>
-    <td>Right Arrow</td>
-  </tr>
-  <tr>
-    <td>Interact</td>
-    <td>C</td>
-  </tr>
-  <tr>
-    <td>Inventory Menu</td>
-    <td>V</td>
-  </tr>
-  </table>
-   
+  <h4>Keybind Change</h4>
+  (Click and Enter New Key)<br>
+  
+    Jump <input type="button" value="w" id="Up" onkeydown="KB(event,'Up')"> <br>
+    Left <input type="button" value="a" id="Left" onkeydown="KB(event,'Left')"><br>
+    Right <input type="button" value="d" id="Right" onkeydown="KB(event,'Right')"><br>
+    Down <input type="button" value="s" id="Down" onkeydown="KB(event,'Down')"><br>
+    Power 1 <input type="button" value="e" id="Power1" onkeydown="KB(event,'Power1')"><br>
+    Power 2 <input type="button" value="r" id="Power2" onkeydown="KB(event,'Power2')"><br>
+    Halt <input type="button" value="z" id="Halt" onkeydown="KB(event,'Halt')"><br>
+    Inventory Menu/Pause <input type="button" value="p" id="Pause" onkeydown="KB(event,'Pause')"><br>
 
   <button onclick="menuButton('Play')">Apply</button>
- 
+
+</div>
+
+
+<canvas id="ctx" width="512" height="512"> </canvas>
+<div id='Level Editor'> 
+    
+  
+  <div class="Tiles"> 
+     <button onclick="selectTile('player')"><img src="images/player/player_right.png"></button>
+     <button onclick="selectTile('grass1')"><img src="images/enviroment/grass1.png"></button>
+    <button onclick="selectTile('grass2')"><img src="images/enviroment/grass2.png"></button>
+    <button onclick="selectTile('dirt1')"><img src="images/enviroment/dirt1.png"></button>
+    <button onclick="selectTile('cloud1')"><img src="images/enviroment/cloud1.png"></button>
+    <button onclick="selectTile('sky1')"><img src="images/enviroment/sky.png"></button>
+    <button onclick="selectTile('water1')"><img src="images/enviroment/water1.png"></button>
+    <button onclick="selectTile('water2')"><img src="images/enviroment/water2.png"></button>
+    <button onclick="selectTile('ladder')"><img src="images/enviroment/ladder.png"></button>
+    <button onclick="selectTile('rock1')"><img src="images/enviroment/rock1.png"></button>
+    <button onclick="selectTile('enemy1')"><img src="images/enemy/slime1_right.png"></button>
+    <button onclick="selectTile('enemy2')"><img src="images/enemy/slime2_right.png"></button>
+    <button onclick="selectTile('medkit')"><img src="images/items/FirstAid.png"></button>
+    <button onclick="selectTile('bomb1')"><img src="images/items/bomb.png"></button>
+    <button onclick="selectTile('lava1')"><img src="images/enviroment/lava1.jpg"></button>
+    <button onclick="selectTile('spike')"><img src="images/enviroment/spike.png"></button>
+    <button onclick="runLevel()">Run Level</button>
+    <button onclick="stopLevel()">Stop Level</button>
+</div>
+
+  <button onclick="editorBackBtn()">Back</button>
 
 </div>
 
