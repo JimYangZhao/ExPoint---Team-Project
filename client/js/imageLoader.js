@@ -7,9 +7,16 @@ var water2Key = 'water2';
 var sky1Key = 'sky1';
 var cloud1Key = 'cloud1';
 var rock1Key = 'rock1';
-var ladder1Key = 'ladder1';
+var ladder1Key = 'ladder';
 var medkitKey = 'medkit';
 var bombKey = 'bomb1';
+var enemy1Key = 'enemy1';
+var enemy2Key = 'enemy2';
+var spikeKey = 'spike';
+var lava1Key = 'lava1';
+
+var player_right = 'playerright';
+var player_left = 'playerleft';
 
 var ImageAtlas = {}
 
@@ -18,13 +25,20 @@ startLoadingImgs = function () {
         Loader.loadImage(grass1Key, 'images/enviroment/grass1.png'),
         Loader.loadImage(grass2Key, 'images/enviroment/grass2.png'),
         Loader.loadImage(dirt1Key, 'images/enviroment/dirt1.png'),
-        Loader.loadImage(playerKey,'images/player/player.png'),
+        Loader.loadImage(playerKey,'images/player/player_right.png'),
         Loader.loadImage(water1Key,'images/enviroment/water1.png'),
         Loader.loadImage(water2Key,'images/enviroment/water2.png'),
         Loader.loadImage(sky1Key,'images/enviroment/sky.png'),
         Loader.loadImage(cloud1Key,'images/enviroment/cloud1.png'),
         Loader.loadImage(rock1Key,'images/enviroment/rock1.png'),
         Loader.loadImage(ladder1Key,'images/enviroment/ladder.png'),
+        Loader.loadImage(lava1Key,'images/enviroment/lava1.jpg'),
+        Loader.loadImage(enemy1Key,'images/enemy/slime1_left.png'),
+        Loader.loadImage(enemy2Key,'images/enemy/slime2_left.png'),
+        Loader.loadImage(bombKey,'images/items/bomb.png'),
+        Loader.loadImage(medkitKey,'images/items/FirstAid.png'),
+        Loader.loadImage(player_right,'images/player/player_right.png'),
+        Loader.loadImage(player_left,'images/player/player_left.png'),
     ];
 };
 

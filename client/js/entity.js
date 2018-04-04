@@ -122,16 +122,26 @@ function playerChar(x,y,layer){
         }
     }
     this.draw = function(){
-        //ctx.fillStyle="#FF0000";
-        //ctx.fillRect(250,250,61,61);
-        var img = ImageAtlas[this.id];
-        ctx.drawImage(
-            img, // image
-            256,  // target x
-            256, // target y
-            61, // target width
-            61 // target height
-        );
+        if(this.facing == "right"){
+            var img = ImageAtlas[player_right];
+            ctx.drawImage(
+                img, // image
+                256,  // target x
+                256, // target y
+                61, // target width
+                61 // target height
+            );
+        }
+        else if(this.facing == "left"){
+            var img = ImageAtlas[player_left];
+            ctx.drawImage(
+                img, // image
+                256,  // target x
+                256, // target y
+                61, // target width
+                61 // target height
+            );
+        }
     }
     this.collision = function(entityC){
         if(entityC.tags.includes("block")){
@@ -252,7 +262,7 @@ block.prototype.constructor = playerChar;
 function enemy(x,y){
     this.width = 64;
     this.height = 64;
-    id="enemy";
+    id="enemy1";
     type="motion";
     layer=2;
     var tags=["damaging","enemy"];
@@ -277,8 +287,14 @@ function enemy(x,y){
         }
     }
     this.draw = function(){
-        ctx.fillStyle="#000000";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = ImageAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        ); 
     }
     this.collision = function(entityC){
         entitySide=checkSide(this,entityC);
@@ -300,7 +316,7 @@ function enemy(x,y){
                 this.y=this.y-15;
             }
         }
-        if(entityC.id=="ladder block"){
+        if(entityC.id=="ladder"){
             this.y=this.y+1;
         }
     }
@@ -631,11 +647,11 @@ function playProjectileSound(projectile){
 playerProjectile.prototype=Object.create(Entity.prototype);
 playerProjectile.prototype.constructor = playerProjectile;
 
-function harmfulBlock(x,y){
+function spikeBlock(x,y){
     this.width = 64;
     this.height = 64;
     var tags=["block","damaging"];
-    id="harmful block";
+    id="spike";
     type="static";
     layer=1;
     Entity.call(this,x,y,id,layer,type,tags);
@@ -649,14 +665,14 @@ function harmfulBlock(x,y){
 
     }
 }
-harmfulBlock.prototype=Object.create(Entity.prototype);
-harmfulBlock.prototype.constructor = harmfulBlock;
+spikeBlock.prototype=Object.create(Entity.prototype);
+spikeBlock.prototype.constructor = spikeBlock;
 
 function lavaBlock(x,y){
     this.width = 64;
     this.height = 64;
     var tags=["damaging"];
-    id="harmful block";
+    id="lava1";
     type="static";
     layer=0;
     Entity.call(this,x,y,id,layer,type,tags);
@@ -682,7 +698,7 @@ function lavaBlock2(x,y){
     this.width = 64;
     this.height = 64;
     var tags=["damaging"];
-    id="lava block2";
+    id="lava2";
     type="static";
     layer=0;
     Entity.call(this,x,y,id,layer,type,tags);
@@ -786,16 +802,22 @@ function ladderBlock(x,y){
     this.width = 64;
     this.height = 64;
     var tags=[];
-    id="ladder block";
+    id="ladder";
     type="static";
-    layer=0;
+    layer=1;
     Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
 
     }
     this.draw = function(){
-        ctx.fillStyle="#835C3B";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = ImageAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );   
     }
     this.collision = function(entityC){
         if(!(typeof entityC === "undefined")){
@@ -854,8 +876,14 @@ function waterBlock2(x,y){
 
     }
     this.draw = function(){
-        ctx.fillStyle="#00FFFF";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = ImageAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );  
     }
     this.collision = function(entityC){
         if(!(typeof entityC === "undefined")){
@@ -906,14 +934,20 @@ function medKit(x,y){
     var tags=[];
     id="medkit";
     type="static";
-    layer=0;
+    layer=1;
     Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
 
     }
     this.draw = function(){
-        ctx.fillStyle="#FF00FF";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = ImageAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );  
     }
     this.collision = function(entityC){
         if(!(typeof entityC === "undefined")){
@@ -932,16 +966,22 @@ function bombPickup(x,y){
     this.width = 64;
     this.height = 64;
     var tags=[];
-    id="bomb pickup";
+    id="bomb1";
     type="static";
-    layer=0;
+    layer=1;
     Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
 
     }
     this.draw = function(){
-        ctx.fillStyle="#00008B";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = ImageAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );  
     }
     this.collision = function(entityC){
         if(!(typeof entityC === "undefined")){

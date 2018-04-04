@@ -435,7 +435,7 @@ selectTile = function(tileName){
     var tile = new enviromentTile(0,0,grass1Key);
   }
   else if(tileName == dirt1Key){
-    var tile = new enviromentTile(0,0,dirt1Key);
+    var tile = new backgroundTile(0,0,dirt1Key);
   }
   else if(tileName == grass2Key){
     var tile = new enviromentTile(0,0,grass2Key);
@@ -446,6 +446,9 @@ selectTile = function(tileName){
   else if(tileName == water1Key){
     var tile = new waterBlock(0,0);
   }
+  else if(tileName == lava1Key){
+    var tile = new lavaBlock(0,0);;
+  }
   else if(tileName == sky1Key){
     var tile = new backgroundTile(0,0,sky1Key);
   }
@@ -453,10 +456,22 @@ selectTile = function(tileName){
     var tile = new backgroundTile(0,0,cloud1Key);
   }
   else if(tileName == ladder1Key){
-    var tile = new ladderBlock(0,0,cloud1Key);
+    var tile = new ladderBlock(0,0);
   }
   else if(tileName == rock1Key){
     var tile = new enviromentTile(0,0,rock1Key);
+  }
+  else if(tileName == enemy1Key){
+    var tile = new enemy(0,0);
+  }
+  else if(tileName == enemy2Key){
+    var tile = new enemy(0,0);
+  }
+  else if(tileName == bombKey){
+    var tile = new bombPickup(0,0);
+  }
+  else if(tileName == medkitKey){
+    var tile = new medKit(0,0);
   }
   else{
     console.log("Error: Tile Not Properly Selected.");
