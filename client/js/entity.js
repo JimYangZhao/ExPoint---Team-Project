@@ -550,8 +550,22 @@ function playerProjectile(x,y,direction,projectile){
             );
         }
         else if(this.id=="staff hit"){
-            ctx.fillStyle="#1218E2";
-            ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),this.width,this.height);
+            var img = ImageAtlas[slashKey];
+            var deltaX = 0;
+            var deltaY = -20;
+            if(this.direction == "left"){
+                deltaX = 10;
+            }
+            else if (this.direction == "right"){
+                deltaX = -10;
+            }
+            ctx.drawImage(
+                img, // image
+                256+(this.x-player.x) + deltaX,  // target x
+                256+(this.y-player.y) + deltaY, // target y
+                8, // target width
+                32 // target height
+            );
         }
         else if(this.id=="bomb2"){
             ctx.fillStyle="#00008B";
@@ -562,8 +576,14 @@ function playerProjectile(x,y,direction,projectile){
             ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),this.width,this.height);
         }
         else if(this.id=="fire ball"){
-            ctx.fillStyle="#FF7F50"
-            ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),this.width,this.height);
+            var img = ImageAtlas[fireballKey];
+            ctx.drawImage(
+                img, // image
+                256+(this.x-player.x),  // target x
+                256+(this.y-player.y), // target y
+                32, // target width
+                32 // target height
+            );
         }
         else if(this.id=="fire ball2"){
             ctx.fillStyle="#FF7F50"
@@ -578,12 +598,9 @@ function playerProjectile(x,y,direction,projectile){
                 this.remove();
             }
         }
-        if(this.id=="staffHit"){
+        if(this.id=="staff hit"){
             if(entityC.tags.includes("enemy")){
-                entityC.hp=entityC.hp-2;
-            }
-            if(entityC.tags.includes("block")){
-                this.remove();
+                entityC.hp=entityC.hp-4;
             }
         }
         if(this.id=="bomb2"){
@@ -784,8 +801,14 @@ function turret(x,y){
         }
     }
     this.draw = function(){
-        ctx.fillStyle="#D3D3D3";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = ImageAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );  
     }
     this.collision = function(entityC){
         entitySide=checkSide(this,entityC);
@@ -944,8 +967,14 @@ function endOfLevel(x,y){
 
     }
     this.draw = function(){
-        ctx.fillStyle="#FFFF00";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = ImageAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );     
     }
     this.collision = function(entityC){
         if(!(typeof entityC === "undefined")){
@@ -1035,7 +1064,7 @@ function fireBallPickup(x,y){
     this.width = 64;
     this.height = 64;
     var tags=[];
-    id="fireball pickup";
+    id="fire ball";
     type="static";
     layer=0;
     Entity.call(this,x,y,id,layer,type,tags);
@@ -1043,8 +1072,14 @@ function fireBallPickup(x,y){
     
     }
     this.draw = function(){
-        ctx.fillStyle="#FF7F50";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = ImageAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );    
     }
     this.collision = function(entityC){
         if(!(typeof entityC === "undefined")){
@@ -1072,8 +1107,14 @@ function checkPoint(x,y){
 
     }
     this.draw = function(){
-        ctx.fillStyle="#FF00FF";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        var img = ImageAtlas[this.id];
+        ctx.drawImage(
+            img, // image
+            256+(this.x-player.x),  // target x
+            256+(this.y-player.y), // target y
+            64, // target width
+            64 // target height
+        );     
     }
     this.collision = function(entityC){
         if(this.collected==false){
@@ -1112,62 +1153,62 @@ function playerMenu(player){
             if(pressingDown){
                 if(this.player.inventory.length != 0 && this.toggle==false){
                     this.toggle=true;
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventoryMove.mp3");
                 }
             } 
             if(pressingUp){
                 if(this.player.powers.length != 0 && this.toggle==true){
                     this.toggle=false;
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventoryMove.mp3");
                 }
             }
             if(pressingLeft){
                 if(this.toggle==false && this.selectorPower-1 >= 0){
                     this.selectorPower=this.selectorPower-1;
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventoryMove.mp3");
                 }
                 if(this.toggle==true && this.selectorItems-1 >= 0){
                     this.selectorItems=this.selectorItems-1;
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventoryMove.mp3");
                 }
             }
             if(pressingRight){
                 if((this.toggle==false) && (this.selectorPower+1 < this.player.powers.length)){
                     this.selectorPower=this.selectorPower+1;
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventoryMove.mp3");
                 }
                 if(this.toggle==true && this.selectorItems+1 < this.player.inventory.length/2){
                     this.selectorItems=this.selectorItems+1;
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventoryMove.mp3");
                 }
             }
             if(pressingPower1){
                 if(this.toggle==false){
                     this.player.selected1=this.player.powers[this.selectorPower];
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventorySet.mp3");
                 }
                 else{
                     this.player.selected1=this.player.inventory[this.selectorItems*2];
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventorySet.mp3");
                 }
             }
             if(pressingPower2){
                 if(this.toggle==false){
                     this.player.selected2=this.player.powers[this.selectorPower];
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventorySet.mp3");
                 }
                 else{
                     this.player.selected2=this.player.inventory[this.selectorItems*2];
-                    this.menuCooldown=this.menuCooldown+10;
+                    this.menuCooldown=this.menuCooldown+18;
                     playASound("soundEffects/inventorySet.mp3");
                 }
             }
@@ -1190,10 +1231,34 @@ function playerMenu(player){
         }
         for(i=0;i<this.player.powers.length;i++){
             if(this.player.powers[i]=="magic missle"){
-                
+                var img = ImageAtlas[magicMissileKey];
+                    ctx.drawImage(
+                    img, // image
+                    128+20,  // target x
+                    64+20, // target y
+                    64, // target width
+                    64 // target height
+                );
             }
-            if(this.player.powers[i]=="staff hit"){
-
+            else if(this.player.powers[i]=="staff hit"){
+                var img = ImageAtlas[swordKey];
+                    ctx.drawImage(
+                    img, // image
+                    64+20,  // target x
+                    64+20, // target y
+                    64, // target width
+                    64 // target height
+                );
+            }
+            else if(this.player.powers[i]=="fire ball"){
+                var img = ImageAtlas[fireballKey];
+                    ctx.drawImage(
+                    img, // image
+                    192+20,  // target x
+                    64+20, // target y
+                    64, // target width
+                    64 // target height
+                );
             }
         }
         for(i=0;i<this.player.inventory.length;i=i+2){
@@ -1202,6 +1267,14 @@ function playerMenu(player){
                 if(this.selectorItems==0 && this.toggle==true){
                     ctx.fillStyle="#FFFFFF";
                 }
+                var img = ImageAtlas[medkitKey];
+                ctx.drawImage(
+                    img, // image
+                    64+20,  // target x
+                    128+40, // target y
+                    64, // target width
+                    64 // target height
+                );
                 ctx.fillText(this.player.inventory[i+1],134,228);
             }
             if(this.player.inventory[i]=="bomb"){
@@ -1209,6 +1282,14 @@ function playerMenu(player){
                 if(this.selectorItems==1 && this.toggle==true){
                     ctx.fillStyle="#FFFFFF";
                 }
+                var img = ImageAtlas[bombKey];
+                ctx.drawImage(
+                    img, // image
+                    128+20,  // target x
+                    128+40, // target y
+                    64, // target width
+                    64 // target height
+                );
                 ctx.fillText(this.player.inventory[i+1],202,228);
             }
         }

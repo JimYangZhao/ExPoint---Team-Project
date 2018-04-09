@@ -5,11 +5,14 @@
 
 }
 
+
 div {
     display : none
 
 }
-#MainMenu {
+
+
+#MainMenu, #Progrss {
     display : block;
     hover-color: black;
 }
@@ -101,9 +104,14 @@ button:hover {
 /*Tiled LvlEditor Bttns */
 .Tiles{
 	display: block;
+	background-color: rgba(0,0,0,0.2);
+	border: solid 1px black;
+	padding: 4px; 
+	 
 }
 
 .Tiles button {
+	border-radius: 50%;
     background-color: rgba(81, 78, 95, 0.212);  
     border: 1px solid rgb(22, 22, 22); 
     color: white;  
@@ -127,8 +135,36 @@ button:hover {
 }
  
 
+ 
 
+/* Lvl Editor Tabs */
+ 
+.tab {
+    margin: 20px;
+	float: left;
+    width: 20%;
+	height: 400px;
+	display: block; 
+ 
+}
 
+ 
+.tab button {
+	display: block;
+	background-color: white;
+	border-radius: 50%;
+    color: black;
+    width: 100%;
+    text-align: center;
+	transition: 0.3s;
+ 
+}
+ 
+.tab button:hover {
+    background-color: #ddd;
+}
+
+ 
 /*World Map*/
 .columns {
     float: left;
@@ -160,5 +196,41 @@ li {
     padding: 20px;
 	text-align: center;
 	background-color: rgba(141, 118, 224, 0.404);
+}
+ 
+
+
+
+.Tile{
+	display: block;
+	background-color: rgba(0,0,0,0.2);
+	border: solid 1px black;
+	padding: 4px; 
+	 
+}
+
+.Tile button {
+	border-radius: 50%;
+    background-color: rgba(81, 78, 95, 0.212);  
+    border: 1px solid rgb(22, 22, 22); 
+    color: white;  
+    padding: 10px 10px; 
+    cursor: pointer;  
+	float: left;  
+	margin-left: 12px;
+	margin-right: 260px;
+	width: 10%;
+}
+
+ 
+.Tile:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+ 
+ 
+.Tile button:hover {
+    background-color: #141522;
 }
  

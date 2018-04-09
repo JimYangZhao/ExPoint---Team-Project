@@ -467,6 +467,9 @@ selectTile = function(tileName){
   else if(tileName == enemy2Key){
     var tile = new enemy(0,0);
   }
+  else if(tileName == turretKey){
+    var tile = new turret(0,0);
+  }
   else if(tileName == bombKey){
     var tile = new bombPickup(0,0);
   }

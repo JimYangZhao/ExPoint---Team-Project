@@ -107,9 +107,23 @@ function KB(event, id){
     }
     document.getElementById(id).value=key;
     
-    
+   
     ChangeKey(id,keyCode);
-    
+
     
 }
- 
+
+//Lvl Editor Tabs
+var Tabs= ['Environment','Items','Enemy'];
+
+function openTab(event,divID) {
+    for (i=0;i<Tabs.length;i++){
+        if(divID == Tabs[i]){
+            document.getElementById(Tabs[i]).style.display="block";
+        }
+        else{
+            if(document.getElementById(Tabs[i]) != null)
+                document.getElementById(Tabs[i]).style.display="none";
+        }
+    }
+}
