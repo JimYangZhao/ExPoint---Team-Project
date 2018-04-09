@@ -1053,7 +1053,7 @@ function endOfLevel(x,y){
                 music.currentTime=0;
                 this.toggleFinish();
                 if(currentMenu=="Level Editor"){
-                    LevelEditor.stopLevel()
+                    stopLevel();
                 }
             }
         }

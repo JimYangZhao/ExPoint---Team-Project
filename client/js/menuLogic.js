@@ -36,7 +36,7 @@ function editorBackBtn() {
     menuButton("Play");
     LevelEditor.isRunning = false;
     var ctx = document.getElementById("ctx").getContext("2d");
-    ctx.clearRect(0,0,512,512);
+    ctx.clearRect(0,0,1200,600);
 }
 function openEditorBtn() {
     menuButton('Level Editor');
