@@ -1,8 +1,8 @@
 //Allows the player to create a level
 
 var blankMap = {
-  cols: 12,
-  rows: 12,
+  cols: 20,
+  rows: 20,
   tsize: 64,
   layers: [[],[],[]],
   playerPos:[],
@@ -164,7 +164,7 @@ LevelEditor.init = function () {
   //Listen for keyboard events
   Keyboard.listenForEvents(
       [Keyboard.LEFT, Keyboard.RIGHT, Keyboard.UP, Keyboard.DOWN, Keyboard.REMOVE]);
-  this.camera = new Camera(blankMap, 512, 512);
+  this.camera = new Camera(blankMap, 1200, 600);
   this.isRunning = true;
   blankMap.createLayer();
   cameraCache = this.camera;
@@ -244,9 +244,9 @@ LevelEditor.tick = function (elapsed) {
     window.requestAnimationFrame(this.tick);
 
     // clear previous frame
-    this.ctx.clearRect(0, 0, 512, 512);
+    ctx.clearRect(0,0,1200,600);
     this.ctx.fillStyle="#FFFFFF";
-    this.ctx.fillRect(0,0,512,512);
+    this.ctx.fillRect(0,0,1200,600);
     // compute delta time in seconds -- also cap it
     var delta = (elapsed - this._previousElapsed) / 1000.0;
     delta = Math.min(delta, 0.25); // maximum delta of 250 ms
@@ -478,6 +478,9 @@ selectTile = function(tileName){
   }
   else if(tileName == spikeKey){
     var tile = new spikeBlock(0,0);
+  }
+  else if(tileName == endOfLevelKey){
+    var tile = new endOfLevel(0,0);
   }
   else{
     console.log("Error: Tile Not Properly Selected.");

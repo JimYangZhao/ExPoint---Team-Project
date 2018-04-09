@@ -7,6 +7,7 @@ for(i=0;i<70;i++){
         backgroundList.push(new backgroundTile(i*64,j*64-640,sky1Key))
     }
 }
+motionEntityList.push(new slimeBoss(128,1000));
 
 //grass floor
 for(i=0;i<70;i++){
@@ -30,14 +31,14 @@ for(i=0;i<70;i++){
     }
 }
 //left wall
-for(i=0;i<6;i++){
+for(i=0;i<10;i++){
     for(j=0;j<25;j++){
-        staticEntityList.push(new enviromentTile(i*64-(384),1536+j*-64,grass2Key));
+        staticEntityList.push(new enviromentTile(i*64-(640),1536+j*-64,grass2Key));
     }
 }
 //right wall
-for(i=0;i<6;i++){
-    for(j=0;j<25;j++){
+for(i=0;i<10;i++){
+    for(j=0;j<30;j++){
         staticEntityList.push(new enviromentTile(i*64+(4480),1536+j*-64,grass2Key));
     }
 }

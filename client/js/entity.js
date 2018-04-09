@@ -14,13 +14,13 @@ function Entity(x,y,id,layer,type,tags) {
 
 //------------------
 
-function playerChar(x,y,layer){
+function playerChar(x,y){
     var id="player";
     var layer=2;
     var type="motion";
     var tags=["player"];
     Entity.call(this,x,y,id,layer,type,tags);
-    this.facing="right"
+    this.facing="right";
     this.width = 61;
     this.height = 61;
     this.yVel=0;
@@ -31,7 +31,14 @@ function playerChar(x,y,layer){
     this.selected2="staff hit";
     this.inventory=["med kit", 2 ,"bomb", 2];
     this.powers=["staff hit", "magic missle"];
+
+    this.tickCount = 0;
+    this.ticksPerFrame = 15;
+    this.numFrames = 8;
+    this.frameIndex = 1;
+
     this.update = function(){
+
         if(pressingLeft) {this.facing="left"}
         if(pressingRight) {this.facing="right"}
         if(!pressingHalt){
@@ -122,13 +129,27 @@ function playerChar(x,y,layer){
         }
     }
     this.draw = function(){
+        this.tickCount += 1;
+        if(this.tickCount > this.ticksPerFrame)
+            this.frameIndex += 1;
         if(this.iframes%2==0){
+
+            if(pressingLeft){
+                //Moving Left
+            }
+            else if(pressingRight){
+                //Moving Right 
+            }
+            else{
+                //Idle animation
+            }
+
             if(this.facing == "right"){
                 var img = ImageAtlas[player_right];
                 ctx.drawImage(
                     img, // image
-                    256,  // target x
-                    256, // target y
+                    600,  // target x
+                    330, // target y
                     61, // target width
                     61 // target height
                 );
@@ -137,8 +158,8 @@ function playerChar(x,y,layer){
                 var img = ImageAtlas[player_left];
                 ctx.drawImage(
                     img, // image
-                    256,  // target x
-                    256, // target y
+                    600,  // target x
+                    330, // target y
                     61, // target width
                     61 // target height
                 );
@@ -195,8 +216,8 @@ function enviromentTile(x,y,id){
         var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
+            600+(this.x-player.x),  // target x
+            330+(this.y-player.y), // target y
             64, // target width
             64 // target height
         );   
@@ -222,8 +243,8 @@ function backgroundTile(x,y,id){
         var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
+            600+(this.x-player.x),  // target x
+            330+(this.y-player.y), // target y
             64, // target width
             64 // target height
         );   
@@ -253,7 +274,7 @@ function block(x,y){
     }
     this.draw = function(){
         ctx.fillStyle="#000000";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),64,64);   
+        ctx.fillRect(600+(this.x-player.x),330+(this.y-player.y),64,64);   
     }
     this.collision = function(entityC){
         //this.remove();
@@ -273,14 +294,19 @@ function enemy(x,y){
     this.wentUp=false;
     this.yVel=0;
     this.hp=100;
+    this.flashFrames=0;
+    this.facing="left";
     this.update = function(){
+        this.wentUp=false;
+        if(this.flashFrames>0){
+            this.flashFrames=this.flashFrames-1;
+        }
         distance=getDistance(this, game.currentLevelData.playerRef);
+        if(this.hp<=0){
+            playASound("soundEffects/slimeEnemyDeath.mp3")
+            this.remove();
+        }
         if(distance<=500){
-            this.wentUp=false;
-            if(this.hp<=0){
-                playASound("soundEffects/slimeEnemyDeath.mp3")
-                this.remove();
-            }
             this.yVel=this.yVel+1
             if(this.yVel>30){
                 (this.yVel=30);
@@ -288,21 +314,30 @@ function enemy(x,y){
             this.y=this.y+this.yVel;
             if(player.x-this.x <= 0){
                 this.x=this.x-3;
+                this.facing="left";
             }
             else{
                 this.x=this.x+3;
+                this.facing="right";
             }
         }
     }
     this.draw = function(){
-        var img = ImageAtlas[this.id];
-        ctx.drawImage(
-            img, // image
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
-            64, // target width
-            64 // target height
-        ); 
+        if(this.flashFrames%2==0){
+            if(this.facing=="left"){
+                var img = ImageAtlas[this.id];
+                ctx.drawImage(
+                    img, // image
+                    600+(this.x-player.x),  // target x
+                    330+(this.y-player.y), // target y
+                    64, // target width
+                    64 // target height
+                );
+            }
+            else{
+
+            } 
+        }
     }
     this.collision = function(entityC){
         entitySide=checkSide(this,entityC);
@@ -363,15 +398,20 @@ function dumbEnemy(x,y){
     layer=2;
     var tags=["damaging","enemy"];
     Entity.call(this,x,y,id,layer,type,tags);
+    this.facing="left"
     this.yVel=0;
     this.hp=100;
+    this.flashFrames=0;
     this.update = function(){
+        if(this.flashFrames>0){
+            this.flashFrames=this.flashFrames-1;
+        }
         distance=getDistance(this, game.currentLevelData.playerRef);
+        if(this.hp<=0){
+            playASound("soundEffects/slimeEnemyDeath.mp3")
+            this.remove();
+        }
         if(distance<=500){
-            if(this.hp<=0){
-                playASound("soundEffects/slimeEnemyDeath.mp3")
-                this.remove();
-            }
             this.yVel=this.yVel+1
             if(this.yVel>30){
                 (this.yVel=30);
@@ -379,21 +419,30 @@ function dumbEnemy(x,y){
             this.y=this.y+this.yVel;
             if(player.x-this.x <= 0){
                 this.x=this.x-3;
+                this.facing="left";
             }
             else{
                 this.x=this.x+3;
+                this.facing="right";
             }
         }
     }
     this.draw = function(){
-        var img = ImageAtlas[this.id];
-        ctx.drawImage(
-            img, // image
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
-            64, // target width
-            64 // target height
-        ); 
+        if(this.flashFrames%2==0){
+            if(this.facing=="left"){
+                var img = ImageAtlas[this.id];
+                ctx.drawImage(
+                    img, // image
+                    600+(this.x-player.x),  // target x
+                    330+(this.y-player.y), // target y
+                    64, // target width
+                    64 // target height
+                ); 
+            }
+            else{
+                //right image
+            }
+        }
     }
     this.collision = function(entityC){
         entitySide=checkSide(this,entityC);
@@ -435,6 +484,9 @@ function playerProjectile(x,y,direction,projectile){
     this.height = getProjectileHeight(projectile);
     this.direction=direction;
     this.framesUp=0;
+    this.enemyFlash = function(entity){
+        entity.flashFrames=40;
+    }
     this.directionAdjustment=function(){
         if(this.id=="staff hit"){
             if(this.direction=="up" || this.direction=="down"){
@@ -543,8 +595,8 @@ function playerProjectile(x,y,direction,projectile){
             var img = ImageAtlas[this.id];
             ctx.drawImage(
                 img, // image
-                256+(this.x-player.x),  // target x
-                256+(this.y-player.y), // target y
+                600+(this.x-player.x),  // target x
+                330+(this.y-player.y), // target y
                 16, // target width
                 16 // target height
             );
@@ -561,33 +613,43 @@ function playerProjectile(x,y,direction,projectile){
             }
             ctx.drawImage(
                 img, // image
+<<<<<<< HEAD
                 256+(this.x-player.x) + deltaX,  // target x
                 256+(this.y-player.y) + deltaY, // target y
+=======
+                600+(this.x-player.x) + deltaX,  // target x
+                330+(this.y-player.y) + deltaY, // target y
+>>>>>>> 5c57b13e4321a7f2cc8f8bdf8ebc1ad82a7c4468
                 8, // target width
                 32 // target height
             );
         }
         else if(this.id=="bomb2"){
             ctx.fillStyle="#00008B";
-            ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),this.width,this.height);
+            ctx.fillRect(600+(this.x-player.x),330+(this.y-player.y),this.width,this.height);
         }
         else if(this.id=="explosion"){
             ctx.fillStyle="#FF4500";
-            ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),this.width,this.height);
+            ctx.fillRect(600+(this.x-player.x),330+(this.y-player.y),this.width,this.height);
         }
         else if(this.id=="fire ball"){
             var img = ImageAtlas[fireballKey];
             ctx.drawImage(
                 img, // image
+<<<<<<< HEAD
                 256+(this.x-player.x),  // target x
                 256+(this.y-player.y), // target y
+=======
+                600+(this.x-player.x),  // target x
+                330+(this.y-player.y), // target y
+>>>>>>> 5c57b13e4321a7f2cc8f8bdf8ebc1ad82a7c4468
                 32, // target width
                 32 // target height
             );
         }
         else if(this.id=="fire ball2"){
             ctx.fillStyle="#FF7F50"
-            ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),this.width,this.height);
+            ctx.fillRect(600+(this.x-player.x),330+(this.y-player.y),this.width,this.height);
         }
     }
     this.collision = function(entityC){
@@ -595,12 +657,17 @@ function playerProjectile(x,y,direction,projectile){
             if(entityC.tags.includes("enemy") || entityC.tags.includes("block")){
                 playASound("soundEffects/magicMissleImpact.mp3")
                 entityC.hp=entityC.hp-30;
+                this.enemyFlash(entityC);
                 this.remove();
             }
         }
         if(this.id=="staff hit"){
             if(entityC.tags.includes("enemy")){
                 entityC.hp=entityC.hp-4;
+<<<<<<< HEAD
+=======
+                this.enemyFlash(entityC);
+>>>>>>> 5c57b13e4321a7f2cc8f8bdf8ebc1ad82a7c4468
             }
         }
         if(this.id=="bomb2"){
@@ -612,6 +679,7 @@ function playerProjectile(x,y,direction,projectile){
         if(this.id=="explosion"){
             if(entityC.tags.includes("enemy")){
                 entityC.hp=entityC.hp-25;
+                this.enemyFlash(entityC);
             }
         }
         if(this.id=="fire ball"){
@@ -622,6 +690,7 @@ function playerProjectile(x,y,direction,projectile){
                 this.width=64;
                 this.x=this.x-33
                 this.y=this.y-28
+                this.enemyFlash(entityC);
                 playASound("soundEffects/fireBallImpact.mp3");
             }
             else if(entityC.tags.includes("block")){
@@ -635,6 +704,7 @@ function playerProjectile(x,y,direction,projectile){
         }
         if(this.id=="fire ball2"){
             if(entityC.tags.includes("enemy")){
+                this.enemyFlash(entityC);
                 entityC.hp=entityC.hp-10;
             }
         }
@@ -726,8 +796,8 @@ function spikeBlock(x,y){
         var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
+            600+(this.x-player.x),  // target x
+            330+(this.y-player.y), // target y
             64, // target width
             64 // target height
         );
@@ -753,8 +823,8 @@ function lavaBlock(x,y){
         var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
+            600+(this.x-player.x),  // target x
+            330+(this.y-player.y), // target y
             64, // target width
             64 // target height
         );
@@ -777,11 +847,15 @@ function turret(x,y){
     id="turret";
     type="motion";
     layer=2;
-    var tags=["damaging","enemy"];
+    var tags=["damaging","enemy","block"];
     Entity.call(this,x,y,id,layer,type,tags);
     this.cooldown=0;
     this.hp=100;
+    this.flashFrames=0;
     this.update = function(){
+        if(this.flashFrames>0){
+            this.flashFrames=this.flashFrames-1;
+        }
         this.cooldown=this.cooldown-1;
         if(this.hp<=0){
             playASound("soundEffects/turretDeath.mp3");
@@ -789,18 +863,19 @@ function turret(x,y){
         }
         else{
             distance=getDistance(this,game.currentLevelData.playerRef);
-            if(distance<=300){
+            if(distance<=330){
                 if(this.cooldown<=0){
                     playASound("soundEffects/turretFire.mp3");
                     a = game.currentLevelData.playerRef.x - this.x;
                     b = game.currentLevelData.playerRef.y - this.y;
-                    this.addToList(new turretProjectile(this.x+32,this.y+32,a/distance,b/distance));
+                    this.addToList(new turretProjectile(this.x+32,this.y+32,a/distance,b/distance,this));
                     this.cooldown=100;
                 }
             }
         }
     }
     this.draw = function(){
+<<<<<<< HEAD
         var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
@@ -809,6 +884,18 @@ function turret(x,y){
             64, // target width
             64 // target height
         );  
+=======
+        if(this.flashFrames%2==0){
+            var img = ImageAtlas[this.id];
+            ctx.drawImage(
+                img, // image
+                600+(this.x-player.x),  // target x
+                330+(this.y-player.y), // target y
+                64, // target width
+                64 // target height
+            );
+        }
+>>>>>>> 5c57b13e4321a7f2cc8f8bdf8ebc1ad82a7c4468
     }
     this.collision = function(entityC){
         entitySide=checkSide(this,entityC);
@@ -823,7 +910,7 @@ function turret(x,y){
 turret.prototype=Object.create(Entity.prototype);
 turret.prototype.constructor = turret;
 
-function turretProjectile(x,y,xDir,yDir){
+function turretProjectile(x,y,xDir,yDir,turret){
     this.width = 8;
     this.height = 8;
     id="turret projectile";
@@ -834,15 +921,19 @@ function turretProjectile(x,y,xDir,yDir){
     this.xVel=xDir*3;
     this.yVel=yDir*3;
     this.update = function(){
+        if(
+            getDistance(this,turret)>=400){
+            this.remove();
+        }
         this.x=this.x+this.xVel;
         this.y=this.y+this.yVel;
     }
     this.draw = function(){
         ctx.fillStyle="#ff0000";
-        ctx.fillRect(256+(this.x-player.x),256+(this.y-player.y),8,8);   
+        ctx.fillRect(600+(this.x-player.x),330+(this.y-player.y),8,8);   
     }
     this.collision = function(entityC){
-        if(entityC.tags.includes("block") || entityC.tags.includes("player")){
+        if(entityC.tags.includes("player")){
             this.remove();
         }
     }
@@ -871,8 +962,8 @@ function ladderBlock(x,y){
         var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
+            600+(this.x-player.x),  // target x
+            330+(this.y-player.y), // target y
             64, // target width
             64 // target height
         );   
@@ -904,8 +995,8 @@ function waterBlock(x,y){
         var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
+            600+(this.x-player.x),  // target x
+            330+(this.y-player.y), // target y
             64, // target width
             64 // target height
         ); 
@@ -937,8 +1028,8 @@ function waterBlock2(x,y){
         var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
+            600+(this.x-player.x),  // target x
+            330+(this.y-player.y), // target y
             64, // target width
             64 // target height
         );  
@@ -961,7 +1052,7 @@ function endOfLevel(x,y){
     var tags=[];
     id="end";
     type="static";
-    layer=0;
+    layer=1;
     Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
 
@@ -970,8 +1061,13 @@ function endOfLevel(x,y){
         var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
+<<<<<<< HEAD
             256+(this.x-player.x),  // target x
             256+(this.y-player.y), // target y
+=======
+            600+(this.x-player.x),  // target x
+            330+(this.y-player.y), // target y
+>>>>>>> 5c57b13e4321a7f2cc8f8bdf8ebc1ad82a7c4468
             64, // target width
             64 // target height
         );     
@@ -981,10 +1077,13 @@ function endOfLevel(x,y){
             if(entityC.tags.includes("player")){
                 playASound("soundEffects/levelCompletion.mp3");
                 clearInterval(gameInterval);
-                menuButton("Start Campaign");
+                menuButton(currentMenu);
                 music.pause();
                 music.currentTime=0;
                 this.toggleFinish();
+                if(currentMenu=="Level Editor"){
+                    stopLevel();
+                }
             }
         }
     }
@@ -1007,8 +1106,8 @@ function medKit(x,y){
         var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
+            600+(this.x-player.x),  // target x
+            330+(this.y-player.y), // target y
             64, // target width
             64 // target height
         );  
@@ -1041,8 +1140,8 @@ function bombPickup(x,y){
         var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
+            600+(this.x-player.x),  // target x
+            330+(this.y-player.y), // target y
             64, // target width
             64 // target height
         );  
@@ -1075,8 +1174,13 @@ function fireBallPickup(x,y){
         var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
+<<<<<<< HEAD
             256+(this.x-player.x),  // target x
             256+(this.y-player.y), // target y
+=======
+            600+(this.x-player.x),  // target x
+            330+(this.y-player.y), // target y
+>>>>>>> 5c57b13e4321a7f2cc8f8bdf8ebc1ad82a7c4468
             64, // target width
             64 // target height
         );    
@@ -1110,8 +1214,13 @@ function checkPoint(x,y){
         var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
+<<<<<<< HEAD
             256+(this.x-player.x),  // target x
             256+(this.y-player.y), // target y
+=======
+            600+(this.x-player.x),  // target x
+            330+(this.y-player.y), // target y
+>>>>>>> 5c57b13e4321a7f2cc8f8bdf8ebc1ad82a7c4468
             64, // target width
             64 // target height
         );     
@@ -1130,6 +1239,96 @@ function checkPoint(x,y){
 }
 checkPoint.prototype=Object.create(Entity.prototype);
 checkPoint.prototype.constructor = checkPoint;
+
+function slimeBoss(x,y){
+    this.width = 128;
+    this.height = 128;
+    id="slimeBoss";
+    type="motion";
+    layer=2;
+    var tags=["damaging","enemy"];
+    Entity.call(this,x,y,id,layer,type,tags);
+    this.yVel=0;
+    this.hp=150;
+    this.timesSplit=0;
+    this.flashFrames=0;
+    this.update = function(){
+        if(this.flashFrames>0){
+            this.flashFrames=this.flashFrames-1;
+        }
+        distance=getDistance(this, game.currentLevelData.playerRef);
+        if(this.hp<=0){
+            playASound("soundEffects/slimeEnemyDeath.mp3")
+            if(this.timesSplit==3){
+                this.remove();
+            }
+            else{
+                newSlime1=new slimeBoss(this.x,this.y);
+                newSlime1.timesSplit=this.timesSplit+1;
+                newSlime1.width=this.width-20;
+                newSlime1.height=this.height-20;
+                newSlime2=new slimeBoss(this.x+this.width,this.y);
+                newSlime2.timesSplit=this.timesSplit+1;
+                newSlime2.width=this.width-20;
+                newSlime2.height=this.height-20;
+                this.addToList(newSlime1);
+                this.addToList(newSlime2);
+                this.remove();
+            }
+        }
+        if(distance<=700){
+            this.yVel=this.yVel+1
+            if(this.yVel>30){
+                (this.yVel=30);
+            }
+            this.y=this.y+this.yVel;
+            if(player.x-this.x <= 0){
+                this.x=this.x-3;
+            }
+            else{
+                this.x=this.x+3;
+            }
+        }
+    }
+    this.draw = function(){
+        ctx.fillStyle=("#FFFFFF");
+        ctx.fillRect(600+(this.x-player.x),330+(this.y-player.y),this.height,this.width);
+        //if(this.flashFrames%2==0){
+        //    var img = ImageAtlas[this.id];
+        //    ctx.drawImage(
+        //        img, // image
+        //        600+(this.x-player.x),  // target x
+        //        330+(this.y-player.y), // target y
+        //        this.width, // target width
+        //        this.height // target height
+        //    ); 
+        //}
+    }
+    this.collision = function(entityC){
+        entitySide=checkSide(this,entityC);
+        if(entityC.tags.includes("block")){
+            sideColided=checkSide(this , entityC)
+            if(sideColided=="bottom"){
+                this.y=entityC.y-this.height;
+                this.yVel=0;
+            }
+            if(sideColided=="top"){
+                this.y=entityC.y+this.height;
+            }
+            if(sideColided=="left"){
+                this.x=entityC.x+this.width;
+            }
+            if(sideColided=="right"){
+                this.x=entityC.x-this.width;
+            }
+        }
+        if(entityC.tags.includes("ladder")){
+            this.y=this.y+2;
+        }
+    }
+}
+slimeBoss.prototype=Object.create(Entity.prototype);
+slimeBoss.prototype.constructor = slimeBoss;
 
 
 ////////menu GUI/////////
