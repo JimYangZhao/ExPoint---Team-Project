@@ -14,7 +14,7 @@ function Entity(x,y,id,layer,type,tags) {
 
 //------------------
 
-function playerChar(x,y,layer){
+function playerChar(x,y){
     var id="player";
     var layer=2;
     var type="motion";
@@ -274,6 +274,7 @@ function enemy(x,y){
     this.yVel=0;
     this.hp=100;
     this.flashFrames=0;
+    this.facing="left";
     this.update = function(){
         this.wentUp=false;
         if(this.flashFrames>0){
@@ -292,22 +293,29 @@ function enemy(x,y){
             this.y=this.y+this.yVel;
             if(player.x-this.x <= 0){
                 this.x=this.x-3;
+                this.facing="left";
             }
             else{
                 this.x=this.x+3;
+                this.facing="right";
             }
         }
     }
     this.draw = function(){
         if(this.flashFrames%2==0){
-            var img = ImageAtlas[this.id];
-            ctx.drawImage(
-                img, // image
-                600+(this.x-player.x),  // target x
-                330+(this.y-player.y), // target y
-                64, // target width
-                64 // target height
-            ); 
+            if(this.facing=="left"){
+                var img = ImageAtlas[this.id];
+                ctx.drawImage(
+                    img, // image
+                    600+(this.x-player.x),  // target x
+                    330+(this.y-player.y), // target y
+                    64, // target width
+                    64 // target height
+                );
+            }
+            else{
+
+            } 
         }
     }
     this.collision = function(entityC){
@@ -369,6 +377,7 @@ function dumbEnemy(x,y){
     layer=2;
     var tags=["damaging","enemy"];
     Entity.call(this,x,y,id,layer,type,tags);
+    this.facing="left"
     this.yVel=0;
     this.hp=100;
     this.flashFrames=0;
@@ -389,22 +398,29 @@ function dumbEnemy(x,y){
             this.y=this.y+this.yVel;
             if(player.x-this.x <= 0){
                 this.x=this.x-3;
+                this.facing="left";
             }
             else{
                 this.x=this.x+3;
+                this.facing="right";
             }
         }
     }
     this.draw = function(){
         if(this.flashFrames%2==0){
-            var img = ImageAtlas[this.id];
-            ctx.drawImage(
-                img, // image
-                600+(this.x-player.x),  // target x
-                330+(this.y-player.y), // target y
-                64, // target width
-                64 // target height
-            ); 
+            if(this.facing=="left"){
+                var img = ImageAtlas[this.id];
+                ctx.drawImage(
+                    img, // image
+                    600+(this.x-player.x),  // target x
+                    330+(this.y-player.y), // target y
+                    64, // target width
+                    64 // target height
+                ); 
+            }
+            else{
+                //right image
+            }
         }
     }
     this.collision = function(entityC){
@@ -991,7 +1007,7 @@ function endOfLevel(x,y){
     var tags=[];
     id="end";
     type="static";
-    layer=0;
+    layer=1;
     Entity.call(this,x,y,id,layer,type,tags);
     this.update = function(){
 
@@ -1015,6 +1031,9 @@ function endOfLevel(x,y){
                 music.pause();
                 music.currentTime=0;
                 this.toggleFinish();
+                if(currentMenu=="Level Editor"){
+                    LevelEditor.stopLevel()
+                }
             }
         }
     }
@@ -1197,7 +1216,7 @@ function slimeBoss(x,y){
                 this.remove();
             }
         }
-        if(distance<=500){
+        if(distance<=700){
             this.yVel=this.yVel+1
             if(this.yVel>30){
                 (this.yVel=30);
