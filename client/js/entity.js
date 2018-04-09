@@ -20,7 +20,7 @@ function playerChar(x,y){
     var type="motion";
     var tags=["player"];
     Entity.call(this,x,y,id,layer,type,tags);
-    this.facing="right"
+    this.facing="right";
     this.width = 61;
     this.height = 61;
     this.yVel=0;
@@ -31,7 +31,14 @@ function playerChar(x,y){
     this.selected2="staff hit";
     this.inventory=["med kit", 2 ,"bomb", 2];
     this.powers=["staff hit", "magic missle"];
+
+    this.tickCount = 0;
+    this.ticksPerFrame = 15;
+    this.numFrames = 8;
+    this.frameIndex = 1;
+
     this.update = function(){
+
         if(pressingLeft) {this.facing="left"}
         if(pressingRight) {this.facing="right"}
         if(!pressingHalt){
@@ -122,7 +129,21 @@ function playerChar(x,y){
         }
     }
     this.draw = function(){
+        this.tickCount += 1;
+        if(this.tickCount > this.ticksPerFrame)
+            this.frameIndex += 1;
         if(this.iframes%2==0){
+
+            if(pressingLeft){
+                //Moving Left
+            }
+            else if(pressingRight){
+                //Moving Right 
+            }
+            else{
+                //Idle animation
+            }
+
             if(this.facing == "right"){
                 var img = ImageAtlas[player_right];
                 ctx.drawImage(
