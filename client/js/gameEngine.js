@@ -186,9 +186,9 @@ function gameObject(initialState){
 
     this.updateGame=function(){
         this.timeLastPause=this.timeLastPause+1;
-        ctx.clearRect(0,0,512,512);
+        ctx.clearRect(0,0,1200,600);
         ctx.fillStyle="#FFFFFF";
-        ctx.fillRect(0,0,512,512);
+        ctx.fillRect(0,0,1200,600);
         if(player.hp<=0){
             playASound("soundEffects/playerDeath.mp3")
             this.loadCheckpoint();
@@ -250,7 +250,7 @@ function gameObject(initialState){
             this.gameMenu.draw();
         }
         if(this.finish){
-            ctx.clearRect(0,0,512,512);
+            ctx.clearRect(0,0,1200,660);
         }
     }
 
