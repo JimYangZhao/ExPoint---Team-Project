@@ -23,6 +23,7 @@ var fireballKey = 'fire ball';
 var magicMissileKey = 'magic missle';
 var player_right = 'playerright';
 var player_left = 'playerleft';
+var player_run = 'playerRun';
 
 var ImageAtlas = {}
 
@@ -53,6 +54,7 @@ startLoadingImgs = function () {
         Loader.loadImage(magicMissileKey,'images/effects/magicmissile.png'),
         Loader.loadImage(slashKey,'images/effects/slash.png'),
         Loader.loadImage(swordKey,'images/items/sword.png'),
+        Loader.loadImage(player_run,'images/player/player_run.png'),
     ];
 };
 
