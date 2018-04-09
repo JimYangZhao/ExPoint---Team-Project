@@ -54,10 +54,7 @@ startLoadingImgs = function () {
         Loader.loadImage(magicMissileKey,'images/effects/magicmissile.png'),
         Loader.loadImage(slashKey,'images/effects/slash.png'),
         Loader.loadImage(swordKey,'images/items/sword.png'),
-<<<<<<< HEAD
-=======
         Loader.loadImage(player_run,'images/player/player_run.png'),
->>>>>>> 5c57b13e4321a7f2cc8f8bdf8ebc1ad82a7c4468
     ];
 };
 

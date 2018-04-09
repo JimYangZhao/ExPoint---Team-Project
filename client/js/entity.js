@@ -613,13 +613,8 @@ function playerProjectile(x,y,direction,projectile){
             }
             ctx.drawImage(
                 img, // image
-<<<<<<< HEAD
-                256+(this.x-player.x) + deltaX,  // target x
-                256+(this.y-player.y) + deltaY, // target y
-=======
                 600+(this.x-player.x) + deltaX,  // target x
                 330+(this.y-player.y) + deltaY, // target y
->>>>>>> 5c57b13e4321a7f2cc8f8bdf8ebc1ad82a7c4468
                 8, // target width
                 32 // target height
             );
@@ -636,13 +631,8 @@ function playerProjectile(x,y,direction,projectile){
             var img = ImageAtlas[fireballKey];
             ctx.drawImage(
                 img, // image
-<<<<<<< HEAD
-                256+(this.x-player.x),  // target x
-                256+(this.y-player.y), // target y
-=======
                 600+(this.x-player.x),  // target x
                 330+(this.y-player.y), // target y
->>>>>>> 5c57b13e4321a7f2cc8f8bdf8ebc1ad82a7c4468
                 32, // target width
                 32 // target height
             );
@@ -664,10 +654,7 @@ function playerProjectile(x,y,direction,projectile){
         if(this.id=="staff hit"){
             if(entityC.tags.includes("enemy")){
                 entityC.hp=entityC.hp-4;
-<<<<<<< HEAD
-=======
                 this.enemyFlash(entityC);
->>>>>>> 5c57b13e4321a7f2cc8f8bdf8ebc1ad82a7c4468
             }
         }
         if(this.id=="bomb2"){
@@ -875,16 +862,6 @@ function turret(x,y){
         }
     }
     this.draw = function(){
-<<<<<<< HEAD
-        var img = ImageAtlas[this.id];
-        ctx.drawImage(
-            img, // image
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
-            64, // target width
-            64 // target height
-        );  
-=======
         if(this.flashFrames%2==0){
             var img = ImageAtlas[this.id];
             ctx.drawImage(
@@ -895,7 +872,6 @@ function turret(x,y){
                 64 // target height
             );
         }
->>>>>>> 5c57b13e4321a7f2cc8f8bdf8ebc1ad82a7c4468
     }
     this.collision = function(entityC){
         entitySide=checkSide(this,entityC);
@@ -1061,13 +1037,8 @@ function endOfLevel(x,y){
         var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
-<<<<<<< HEAD
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
-=======
             600+(this.x-player.x),  // target x
             330+(this.y-player.y), // target y
->>>>>>> 5c57b13e4321a7f2cc8f8bdf8ebc1ad82a7c4468
             64, // target width
             64 // target height
         );     
@@ -1174,13 +1145,8 @@ function fireBallPickup(x,y){
         var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
-<<<<<<< HEAD
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
-=======
             600+(this.x-player.x),  // target x
             330+(this.y-player.y), // target y
->>>>>>> 5c57b13e4321a7f2cc8f8bdf8ebc1ad82a7c4468
             64, // target width
             64 // target height
         );    
@@ -1214,13 +1180,8 @@ function checkPoint(x,y){
         var img = ImageAtlas[this.id];
         ctx.drawImage(
             img, // image
-<<<<<<< HEAD
-            256+(this.x-player.x),  // target x
-            256+(this.y-player.y), // target y
-=======
             600+(this.x-player.x),  // target x
             330+(this.y-player.y), // target y
->>>>>>> 5c57b13e4321a7f2cc8f8bdf8ebc1ad82a7c4468
             64, // target width
             64 // target height
         );     
