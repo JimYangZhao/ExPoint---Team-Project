@@ -117,21 +117,6 @@ io.sockets.on('connection', function(socket){
    
 });
 
-
-
-
-
-//2018/4/12 
-//First change, open the database file.
-
-public class PlayerProgress
-{
-    public int highestScore = 0;
-}
-
-
-
-
 Database = {};
 Database.isValidPassword = function(data,cb){
     if(!USE_DB)
