@@ -112,8 +112,7 @@
 <div id='Play'>
   <button onclick="menuButton('Start Campaign')">Start Campaign</button>
 
-  <button onclick="menuButton('LevelE')">LvlEditor</button>
-  <button onclick="openEditorBtn()">Level Editor</button>
+  <button onclick="menuButton('LevelE')">Level Editor</button>
   <button onclick="menuButton('Leaderboard')">Leaderboard</button>
   <button onclick="menuButton('Options')">Options</button>
   <button onclick="menuButton('MainMenu')">Logout</button>
@@ -226,10 +225,15 @@ The kingdom is under attack!<br> The prince managed to escape into the jungle, b
 
 
 <div id='LevelE'>
-!!
+    <button onclick="openEditorBtn()">Create New Level</button>
+    <button onclick="menuButton('ExistingLvl')">Open Existing Level</button>
+
+  <button onclick="menuButton('Play')">Back</button>
 </div>
 
-
+<div id='ExisitngLvl'>
+    <button onclick="menuButton('LevelE')">Back</button>
+</div>
 
 <canvas id="ctx" width="1200" height="600"> </canvas>
 <div id='Level Editor'> 
