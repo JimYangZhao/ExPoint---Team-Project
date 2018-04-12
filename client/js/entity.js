@@ -33,12 +33,23 @@ function playerChar(x,y){
     this.powers=["staff hit", "magic missle"];
 
     this.tickCount = 0;
-    this.ticksPerFrame = 15;
-    this.numFrames = 8;
-    this.frameIndex = 1;
+    this.ticksPerFrame = 6;
 
+    this.runFrames = 8;
+    this.runFrameIndex = 0;
+    this.idleFrames = 4;
+    this.idleFrameIndex = 0;
+    this.jumpFrames = 1;
+    this.jumpFrameIndex = 0;
+
+    this.falling = false;
     this.update = function(){
-
+        if(this.yVel > 20){
+            this.falling=true;
+        }
+        else{
+            this.falling = false;
+        }
         if(pressingLeft) {this.facing="left"}
         if(pressingRight) {this.facing="right"}
         if(!pressingHalt){
@@ -129,40 +140,124 @@ function playerChar(x,y){
         }
     }
     this.draw = function(){
-        this.tickCount += 1;
-        if(this.tickCount > this.ticksPerFrame)
-            this.frameIndex += 1;
-        if(this.iframes%2==0){
 
-            if(pressingLeft){
+        this.tickCount += 1;
+        if(this.tickCount > this.ticksPerFrame){
+            this.runFrameIndex++;
+            this.idleFrameIndex++;
+            this.jumpFrameIndex++;
+            this.tickCount = 0;
+            if(this.runFrameIndex >= this.runFrames)
+                this.runFrameIndex = 0;
+            if(this.idleFrameIndex >= this.idleFrames)
+                this.idleFrameIndex = 0;
+            if(this.jumpFrameIndex >= this.jumpFrames)
+                this.jumpFrameIndex = 0;
+        }
+
+        if(this.iframes%2==0){
+            var img = ImageAtlas[playerKey];
+
+            if(pressingUp){  //JUMPING
+
+                offset = 8*64+64;
+                if(this.falling){
+                    var paraImg = ImageAtlas[parachuteKey];
+                    ctx.drawImage(
+                        paraImg, // image
+                        600+5,  // target x
+                        330-35, // target y
+                        45, // target width
+                        45 // target height
+                    );
+                  //Deploy parachute
+                }
+                
+                //Idle animation
+                if(this.facing == "right"){
+                    ctx.drawImage(
+                        img, // image
+                        64*this.jumpFrameIndex + offset,//sx 	Source x 	
+                        64, //sy 	Source y 	
+                        64,//sw 	Source width 	Frame width
+                        64,//sh 	Source height 	Frame height
+                        600,  // target x
+                        330, // target y
+                        61, // target width
+                        61 // target height
+                    );
+                }
+                else if(this.facing == "left"){
+                    ctx.drawImage(
+                        img, // image
+                        ((this.jumpFrames*2)*64-64) - (64*this.jumpFrameIndex) + offset,//sx 	Source x 	
+                        64, //sy 	Source y 	
+                        64,//sw 	Source width 	Frame width
+                        64,//sh 	Source height 	Frame height
+                        600,  // target x
+                        330, // target y
+                        61, // target width
+                        61 // target height
+                    );
+                }
+            }
+            else if(pressingLeft){
                 //Moving Left
+                //Starts of the far right of sprite sheet
+                ctx.drawImage(
+                    img, // image
+                    (img.width-64) - (64*this.runFrameIndex),//sx 	Source x 	
+                    0, //sy 	Source y 	
+                    64,//sw 	Source width 	Frame width
+                    64,//sh 	Source height 	Frame height
+                    600,  // target x
+                    330, // target y
+                    61, // target width
+                    61 // target height
+                );
             }
             else if(pressingRight){
                 //Moving Right 
+                ctx.drawImage(
+                    img, // image
+                    64*this.runFrameIndex,//sx 	Source x 	
+                    0, //sy 	Source y 	
+                    64,//sw 	Source width 	Frame width
+                    64,//sh 	Source height 	Frame height
+                    600,  // target x
+                    330, // target y
+                    61, // target width
+                    61 // target height
+                );
             }
             else{
                 //Idle animation
-            }
-
-            if(this.facing == "right"){
-                var img = ImageAtlas[player_right];
-                ctx.drawImage(
-                    img, // image
-                    600,  // target x
-                    330, // target y
-                    61, // target width
-                    61 // target height
-                );
-            }
-            else if(this.facing == "left"){
-                var img = ImageAtlas[player_left];
-                ctx.drawImage(
-                    img, // image
-                    600,  // target x
-                    330, // target y
-                    61, // target width
-                    61 // target height
-                );
+                if(this.facing == "right"){
+                    ctx.drawImage(
+                        img, // image
+                        64*this.idleFrameIndex,//sx 	Source x 	
+                        64, //sy 	Source y 	
+                        64,//sw 	Source width 	Frame width
+                        64,//sh 	Source height 	Frame height
+                        600,  // target x
+                        330, // target y
+                        61, // target width
+                        61 // target height
+                    );
+                }
+                else if(this.facing == "left"){
+                    ctx.drawImage(
+                        img, // image
+                        ((this.idleFrames*2)*64-64) - (64*this.idleFrameIndex),//sx 	Source x 	
+                        64, //sy 	Source y 	
+                        64,//sw 	Source width 	Frame width
+                        64,//sh 	Source height 	Frame height
+                        600,  // target x
+                        330, // target y
+                        61, // target width
+                        61 // target height
+                    );
+                } 
             }
         }
     }
@@ -1233,18 +1328,16 @@ function slimeBoss(x,y){
         }
     }
     this.draw = function(){
-        ctx.fillStyle=("#FFFFFF");
-        ctx.fillRect(600+(this.x-player.x),330+(this.y-player.y),this.height,this.width);
-        //if(this.flashFrames%2==0){
-        //    var img = ImageAtlas[this.id];
-        //    ctx.drawImage(
-        //        img, // image
-        //        600+(this.x-player.x),  // target x
-        //        330+(this.y-player.y), // target y
-        //        this.width, // target width
-        //        this.height // target height
-        //    ); 
-        //}
+        if(this.flashFrames%2==0){
+            var img = ImageAtlas[this.id];
+            ctx.drawImage(
+                img, // image
+                600+(this.x-player.x),  // target x
+                330+(this.y-player.y), // target y
+                this.width, // target width
+                this.height // target height
+            ); 
+        }
     }
     this.collision = function(entityC){
         entitySide=checkSide(this,entityC);

@@ -7,7 +7,8 @@ for(i=0;i<70;i++){
         backgroundList.push(new backgroundTile(i*64,j*64-640,sky1Key))
     }
 }
-motionEntityList.push(new slimeBoss(128,1000));
+
+//motionEntityList.push(new slimeBoss(128,1000));
 
 //grass floor
 for(i=0;i<70;i++){
