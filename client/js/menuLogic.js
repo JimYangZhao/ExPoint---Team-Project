@@ -36,7 +36,7 @@ function editorBackBtn() {
     menuButton("Play");
     LevelEditor.isRunning = false;
     var ctx = document.getElementById("ctx").getContext("2d");
-    ctx.clearRect(0,0,512,512);
+    ctx.clearRect(0,0,1200,600);
 }
 function openEditorBtn() {
     menuButton('Level Editor');
@@ -108,9 +108,23 @@ function KB(event, id){
     }
     document.getElementById(id).value=key;
     
-    
+   
     ChangeKey(id,keyCode);
-    
+
     
 }
- 
+
+//Lvl Editor Tabs
+var Tabs= ['Environment','Items','Enemy'];
+
+function openTab(event,divID) {
+    for (i=0;i<Tabs.length;i++){
+        if(divID == Tabs[i]){
+            document.getElementById(Tabs[i]).style.display="block";
+        }
+        else{
+            if(document.getElementById(Tabs[i]) != null)
+                document.getElementById(Tabs[i]).style.display="none";
+        }
+    }
+}

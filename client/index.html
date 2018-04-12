@@ -118,7 +118,9 @@
 </div>
 
 <div id='Start Campaign'>
-  <h4 id="Progression">Game Progression: 0%</h4>
+
+The kingdom is under attack!<br> The prince managed to escape into the jungle, but he must rescue his town from the evil Goblin King<br> Get back into the kingdom and defeat the Goblin's minions!
+  <h4 id="Progression">Game Progression:</h4> <div id="Progrss">0%</div>
  
   <ul class="columns" id="One">
     <li class="header">Level One</li>
@@ -223,29 +225,58 @@
 
 <canvas id="ctx" width="1200" height="600"> </canvas>
 <div id='Level Editor'> 
-    
+ 
   
-  <div class="Tiles"> 
-     <button onclick="selectTile('player')"><img src="images/player/player_right.png"></button>
-     <button onclick="selectTile('grass1')"><img src="images/enviroment/grass1.png"></button>
-    <button onclick="selectTile('grass2')"><img src="images/enviroment/grass2.png"></button>
-    <button onclick="selectTile('dirt1')"><img src="images/enviroment/dirt1.png"></button>
-    <button onclick="selectTile('cloud1')"><img src="images/enviroment/cloud1.png"></button>
-    <button onclick="selectTile('sky1')"><img src="images/enviroment/sky.png"></button>
-    <button onclick="selectTile('water1')"><img src="images/enviroment/water1.png"></button>
-    <button onclick="selectTile('water2')"><img src="images/enviroment/water2.png"></button>
-    <button onclick="selectTile('ladder')"><img src="images/enviroment/ladder.png"></button>
-    <button onclick="selectTile('rock1')"><img src="images/enviroment/rock1.png"></button>
-    <button onclick="selectTile('enemy1')"><img src="images/enemy/slime1_right.png"></button>
-    <button onclick="selectTile('enemy2')"><img src="images/enemy/slime2_right.png"></button>
-    <button onclick="selectTile('medkit')"><img src="images/items/FirstAid.png"></button>
-    <button onclick="selectTile('bomb1')"><img src="images/items/bomb.png"></button>
-    <button onclick="selectTile('lava1')"><img src="images/enviroment/lava1.jpg"></button>
-    <button onclick="selectTile('spike')"><img src="images/enviroment/spike.png"></button>
-    <button onclick="selectTile('end')"><img src="images/enviroment/portal.png"></button>
-    <button onclick="runLevel()">Run Level</button>
-    <button onclick="stopLevel()">Stop Level</button>
+ <div class="tab">
+    <button onclick="openTab(event, 'Environment')">Environment</button>
+    <button onclick="openTab(event, 'Enemy')">Enemies</button>
+    <button onclick="openTab(event, 'Items')">Items</button>    
+    <button onclick="selectTile('player')"><img src="images/player/player_right.png"></button>  
+  
+  </div>
+ 
+ 
+ <div class="Tiles"> 
+  
+      <div id="Environment"> 
+        <button onclick="selectTile('grass1')"><img src="images/enviroment/grass1.png"></button>
+        <button onclick="selectTile('grass2')"><img src="images/enviroment/grass2.png"></button>
+        <button onclick="selectTile('dirt1')"><img src="images/enviroment/dirt1.png"></button>
+        <button onclick="selectTile('cloud1')"><img src="images/enviroment/cloud1.png"></button>
+        <button onclick="selectTile('sky1')"><img src="images/enviroment/sky.png"></button>
+        <button onclick="selectTile('water1')"><img src="images/enviroment/water1.png"></button>
+        <button onclick="selectTile('water2')"><img src="images/enviroment/water2.png"></button>
+        <button onclick="selectTile('ladder')"><img src="images/enviroment/ladder.png"></button>
+        <button onclick="selectTile('rock1')"><img src="images/enviroment/rock1.png"></button>
+        <button onclick="selectTile('lava1')"><img src="images/enviroment/lava1.jpg"></button>
+        <button onclick="selectTile('end')"><img src="images/enviroment/portal.png"></button>
+      </div>
+     
+    
+      <div id="Enemy" >
+        <button onclick="selectTile('enemy1')"><img src="images/enemy/slime1_right.png"></button>
+        <button onclick="selectTile('enemy2')"><img src="images/enemy/slime2_right.png"></button>
+      </div>
+   
+    <div id="Items">
+       <button onclick="selectTile('medkit')"><img src="images/items/FirstAid.png"></button>
+      <button onclick="selectTile('bomb1')"><img src="images/items/bomb.png"></button>
+      <button onclick="selectTile('spike')"><img src="images/enviroment/spike.png"></button>
+    </div>
+
+ 
 </div>
+  
+ <div class="Tile"> 
+   <button onclick="runLevel()">Run Level</button>
+    <button onclick="stopLevel()">Stop Level</button> 
+   <button>Save Level</button> 
+    <button><img src="images/items/Upload.png"></button> 
+  </div>
+     
+
+ 
+
 
   <button onclick="editorBackBtn()">Back</button>
 

@@ -34,20 +34,22 @@ function ChangeKey(id,key){
     else if(id=='Down'){
         Down=key;
     }
-    else if(id='Power1'){
+    else if(id=='Power1'){
         Power1=key;
     }
-    else if(id='Power2'){
+    else if(id=='Power2'){
      Power2=key; 
      }
-     else if(id='Halt'){
+     else if(id=='Halt'){
      Halt=key;
      }
-     else if(id='Pause'){
-        Pause = key;
-        }
+     else if(id=='Pause'){
+     Pause = key;
+     }
      
  }
+
+
  
  document.onkeydown= function(event){
      if(event.keyCode == Right)
