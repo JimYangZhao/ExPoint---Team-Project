@@ -21,9 +21,9 @@ var endOfLevelKey = 'end';
 var slashKey = 'slash';
 var fireballKey = 'fire ball';
 var magicMissileKey = 'magic missle';
-var player_right = 'playerright';
-var player_left = 'playerleft';
-var player_run = 'playerRun';
+
+var parachuteKey = 'parachute';
+var slimeBossKey = 'slimeBoss';
 
 var ImageAtlas = {}
 
@@ -32,7 +32,8 @@ startLoadingImgs = function () {
         Loader.loadImage(grass1Key, 'images/enviroment/grass1.png'),
         Loader.loadImage(grass2Key, 'images/enviroment/grass2.png'),
         Loader.loadImage(dirt1Key, 'images/enviroment/dirt1.png'),
-        Loader.loadImage(playerKey,'images/player/player_right.png'),
+        Loader.loadImage(playerKey,'images/player/player.png'),
+        Loader.loadImage(parachuteKey,'images/player/parachute.png'),
         Loader.loadImage(water1Key,'images/enviroment/water1.png'),
         Loader.loadImage(water2Key,'images/enviroment/water2.png'),
         Loader.loadImage(sky1Key,'images/enviroment/sky.png'),
@@ -45,16 +46,14 @@ startLoadingImgs = function () {
         Loader.loadImage(enemy1Key,'images/enemy/slime1_left.png'),
         Loader.loadImage(enemy2Key,'images/enemy/slime2_left.png'),
         Loader.loadImage(turretKey,'images/enemy/turret.png'),
+        Loader.loadImage(slimeBossKey,'images/enemy/slimeBoss.png'),
         Loader.loadImage(spikeKey,'images/enviroment/spike.png'),
         Loader.loadImage(bombKey,'images/items/bomb.png'),
         Loader.loadImage(medkitKey,'images/items/FirstAid.png'),
-        Loader.loadImage(player_right,'images/player/player_right.png'),
-        Loader.loadImage(player_left,'images/player/player_left.png'),
         Loader.loadImage(fireballKey,'images/effects/fireball_right.png'),
         Loader.loadImage(magicMissileKey,'images/effects/magicmissile.png'),
         Loader.loadImage(slashKey,'images/effects/slash.png'),
         Loader.loadImage(swordKey,'images/items/sword.png'),
-        Loader.loadImage(player_run,'images/player/player_run.png'),
     ];
 };
 

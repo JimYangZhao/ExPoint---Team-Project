@@ -1,4 +1,6 @@
   <!DOCTYPE html>
+  <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+  <script src="js/dbWrapper.js"></script>
   <script src="js/jQuery.js"></script>
   <script src="js/imageLoader.js"></script>
 <script src="js/levelEditor.js"></script>
@@ -26,8 +28,6 @@
     Username: <input id="Login-username" type="text"></input><br>
     Password: <input id="Login-password" type="password"></input><br>
     <input id="Login-signIn" type="submit" value="Submit"></input>
-
-    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
     <script>
       var socket = io();
       
@@ -282,7 +282,7 @@ The kingdom is under attack!<br> The prince managed to escape into the jungle, b
  <div class="Tile"> 
    <button onclick="runLevel()">Run Level</button>
     <button onclick="stopLevel()">Stop Level</button> 
-   <button>Save Level</button> 
+     <button onclick="saveLevel()">Save Level</button> 
     <button>Publish</button>  
   </div>
      
