@@ -1,6 +1,6 @@
 
 var mongojs = require("mongojs");
-var db = mongojs("localhost:27017/ExPoint", ['account','progress']);
+var db = mongojs("localhost:27017/ExPoint", ['account','progress','levels']);
 
 db.account.insert({username:"b",password:"bb"});
 var express = require('express');
@@ -111,6 +111,17 @@ io.sockets.on('connection', function(socket){
             return;
         var res = eval(data);
         socket.emit('evalAnswer',res);     
+    });
+
+    socket.on('saveLevel',function(data){
+        console.log("Data Recieved. \n" + data);
+        x = data.playerPos[0];
+        y = data.playerPos[1];
+        console.log(data.rows);
+        id = data.id;
+        console.log(data.layers[2][x][y].width);
+        db.levels.insert({id:data});
+
     });
    
    

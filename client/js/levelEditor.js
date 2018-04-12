@@ -428,6 +428,10 @@ stopLevel = function(){
   LevelEditor.run(context);
 }
 
+saveLevel = function(){
+  saveEditorLevel("Level1",blankMap);
+}
+
 //Change the selected Tile on mouse click
 selectTile = function(tileName){
   

@@ -13,3 +13,12 @@ var findPlayer = function(level){
         }
     }
 };
+
+function editorLevel(id,c,r,ts,l,pPos) {
+    this.id = i;
+    this.cols = c;
+    this.rows = r;
+    this.tsize = ts;
+    this.layers = l;
+    this.playerPos = pPos;
+};
