@@ -114,6 +114,11 @@ function KB(event, id){
     
 }
 
+
+function OptionsBttn(){
+    menuButton('Play');
+}
+
 //Lvl Editor Tabs
 var Tabs= ['Environment','Items','Enemy'];
 
