@@ -1,6 +1,6 @@
 
 var mongojs = require("mongojs");
-var db = mongojs("localhost:27017/ExPoint", ['account','progress','levels']);
+var db = mongojs("localhost:27017/ExPoint", ['account','levels']);
 
 db.account.insert({username:"b",password:"bb"});
 var express = require('express');

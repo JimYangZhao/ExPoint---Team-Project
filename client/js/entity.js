@@ -156,7 +156,7 @@ function playerChar(x,y){
         }
 
         if(this.iframes%2==0){
-            var img = ImageAtlas[playerKey];
+            var img = ImageAtlas[playerAnimKey];
 
             if(pressingUp){  //JUMPING
 

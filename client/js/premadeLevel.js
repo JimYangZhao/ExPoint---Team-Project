@@ -8,7 +8,7 @@ for(i=0;i<70;i++){
     }
 }
 
-//motionEntityList.push(new slimeBoss(128,1000));
+motionEntityList.push(new slimeBoss(128,1000));
 
 //grass floor
 for(i=0;i<70;i++){
