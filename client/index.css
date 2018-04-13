@@ -1,3 +1,59 @@
+.logo {
+	font: 124px 'Arial Narrow', sans-serif;/* credit to https://codepen.io/rblakejohnson/pen/uLsvH*/          
+	color: #fefefe;
+	text-transform: uppercase;
+	letter-spacing: -4px;
+  }
+  
+ 
+  .logo span {
+	position: relative;
+  }
+  .logo span:before,
+  .logo span:after {
+	content: '';
+	position: absolute;
+	border-width: 32px; 
+	border-style: solid;
+	border-color: transparent;
+	height: 0;
+	z-index: 10;
+  }
+  
+ 
+  .logo .word1 {
+	color: #dc006c;
+	margin-right: -38px;
+	transform: rotateY(180deg); 
+	display: inline-block; 
+	z-index: 10; 
+  }
+  .logo .word1:before {
+	right: -4px; 
+	top: -9px;
+	 
+  }
+  .logo .word1:after {
+	left: 17px; 
+	bottom: -15px;
+	 
+  }
+  
+  
+  .logo .word2 {
+	z-index: 0; 
+  }
+  .logo .word2:before {
+	left: -4px;
+	top: -6px;
+	 
+  }
+  .logo .word2:after {
+	right: -4px;  
+	bottom: 4px;
+	 
+  }
+  
 #ctx{
  
 	clear: none;
@@ -7,20 +63,33 @@
 
 
 div {
-    display : none
+	display : none;
+	 
 
 }
+ #Play, #Offline, #LevelE,#Options {
+	background-color: rgba(17, 17, 17, 0.452);
+	padding: 110px;
+	margin-left: 150px;
+	margin-right: 150px;
+	margin-top: 40px;
+	
+}
 
-
-#MainMenu, #Progrss {
+#MainMenu {
     display : block;
-    hover-color: black;
+	hover-color: black;
+	background-color: rgba(17, 17, 17, 0.452);
+	padding: 110px;
+	margin-left: 150px;
+	margin-right: 150px;
+	margin-top: 40px;
+
 }
 body{
     text-align: center;
     font-family: 'Mina', sans-serif;
     font-size: 20px;
-
     width: 100wh;
 	height: 90vh;
 	color: #fff;
@@ -104,7 +173,7 @@ button:hover {
 /*Tiled LvlEditor Bttns */
 .Tiles{
 	display: block;
-	background-color: rgba(0,0,0,0.2);
+	background-color: rgba(0, 0, 0, 0.541);
 	border: solid 1px black;
 	padding: 4px; 
 	 
@@ -113,13 +182,14 @@ button:hover {
 .Tiles button {
 	border-radius: 50%;
     background-color: rgba(81, 78, 95, 0.212);  
-    border: 1px solid rgb(22, 22, 22); 
+    border: 3px ridge rgb(22, 22, 22); 
     color: white;  
     padding: 10px 10px; 
     cursor: pointer;  
 	float: left;  
 	margin: 7px;
 	width: 10%;
+ 
 }
 
  
@@ -143,8 +213,8 @@ button:hover {
     margin: 20px;
 	float: left;
     width: 20%;
-	height: 400px;
 	display: block; 
+ 
  
 }
 
@@ -157,6 +227,7 @@ button:hover {
     width: 100%;
     text-align: center;
 	transition: 0.3s;
+	font-size: 20px;
  
 }
  

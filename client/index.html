@@ -18,6 +18,11 @@
 <body>
 
 <div id='MainMenu'>
+  <h1 class="logo">
+    <span class="word1">xe</span>
+    <span class="word2">POINT</span>
+  </h1>
+
     <!-- <button onclick="menuButton('Login')">Login</button> -->
     <button onclick="menuButton('Create Account')">Sign In/Sign Up</button>
     <button onclick="menuButton('Play')">Offline</button>
@@ -111,7 +116,8 @@
 
 <div id='Play'>
   <button onclick="menuButton('Start Campaign')">Start Campaign</button>
-  <button onclick="openEditorBtn()">Level Editor</button>
+
+  <button onclick="menuButton('LevelE')">Level Editor</button>
   <button onclick="menuButton('Leaderboard')">Leaderboard</button>
   <button onclick="menuButton('Options')">Options</button>
   <button onclick="menuButton('MainMenu')">Logout</button>
@@ -218,10 +224,21 @@ The kingdom is under attack!<br> The prince managed to escape into the jungle, b
     Halt <input type="button" value="z" id="Halt" onkeydown="KB(event,'Halt')"><br>
     Inventory Menu/Pause <input type="button" value="p" id="Pause" onkeydown="KB(event,'Pause')"><br>
 
-  <button onclick="menuButton('Play')">Apply</button>
+  <button id ='Opt' onclick="menuButton('Play')">Apply</button>
 
 </div>
 
+
+<div id='LevelE'>
+    <button onclick="openEditorBtn()">Create New Level</button>
+    <button onclick="menuButton('ExistingLvl')">Open Existing Level</button>
+
+  <button onclick="menuButton('Play')">Back</button>
+</div>
+
+<div id='ExistingLvl'>
+    <button onclick="menuButton('LevelE')">Back</button>
+</div>
 
 <canvas id="ctx" width="1200" height="600"> </canvas>
 <div id='Level Editor'> 
@@ -270,8 +287,8 @@ The kingdom is under attack!<br> The prince managed to escape into the jungle, b
  <div class="Tile"> 
    <button onclick="runLevel()">Run Level</button>
     <button onclick="stopLevel()">Stop Level</button> 
-   <button onclick="saveLevel()">Save Level</button> 
-    <button><img src="images/items/Upload.png"></button> 
+     <button onclick="saveLevel()">Save Level</button> 
+    <button>Publish</button>  
   </div>
      
 

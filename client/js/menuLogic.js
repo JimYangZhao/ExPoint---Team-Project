@@ -1,7 +1,7 @@
 //Handles the logic for changing game menus
 //Done with HTML
 var currentMenu='MainMenu'
-var divList= ['MainMenu' ,'Login','Create Account','Offline','Play','Start Campaign','Level Editor','Leaderboard','Options','Logout'];
+var divList= ['MainMenu' ,'Login','Create Account','Offline','Play','Start Campaign','Level Editor','LevelE','ExistingLvl','Leaderboard','Options','Logout'];
 
 function menuButton(divID) {
     for (i=0;i<divList.length;i++){
@@ -33,7 +33,7 @@ function gameButton(levelData) {
 }
 
 function editorBackBtn() {
-    menuButton("Play");
+    menuButton("LevelE");
     LevelEditor.isRunning = false;
     var ctx = document.getElementById("ctx").getContext("2d");
     ctx.clearRect(0,0,1200,600);
@@ -112,6 +112,11 @@ function KB(event, id){
     ChangeKey(id,keyCode);
 
     
+}
+
+
+function OptionsBttn(){
+    menuButton('Play');
 }
 
 //Lvl Editor Tabs
