@@ -16,13 +16,6 @@ function menuButton(divID) {
     }
 }
 
-//test lvl editor canvas display
-function EditorButton(){
-     
-    document.getElementById("ctx").style.display="block";
-
-}
-
 function gameButton(levelData) {
     levelDataCopy = DeepCopy(levelData);
     game = new gameObject(levelDataCopy);
@@ -34,15 +27,55 @@ function gameButton(levelData) {
 
 function editorBackBtn() {
     menuButton("LevelE");
-    LevelEditor.isRunning = false;
-    var ctx = document.getElementById("ctx").getContext("2d");
-    ctx.clearRect(0,0,1200,600);
-}
-function openEditorBtn() {
-    menuButton('Level Editor');
-    openLevelEditor(); //levelEditor.js
+    LevelEditor.shutDown();   
 }
 
+function openEditorBtn(levelId = null) {
+    //DEBUG
+    //levelId = null;
+
+    menuButton('Level Editor');
+    openLevelEditor(levelId); //levelEditor.js
+}
+
+function openExistingLvlBtn(){
+    menuButton('ExistingLvl');
+    sendToDB("getLevelNames",currentUser);
+}
+
+//Called from dbWrapper.js when names are retrieved from DB
+function populateExistingLvlPage(lvlNames){
+    var eLvlDiv = document.getElementById("ExistingLvl");
+    clearBtnsInDiv(eLvlDiv);
+    for(var i in lvlNames){
+        var name = lvlNames[i];
+        var btn = document.createElement("BUTTON");
+        btn.addEventListener('click', function(){
+            //openEditorBtn(name);
+            openEditorBtn(this.textContent); 
+        }); 
+              
+        var t = document.createTextNode(name);       
+        btn.appendChild(t);
+        //console.log(btn.textContent);                                
+        eLvlDiv.appendChild(btn);  
+    }
+
+    //Add the back button after removing all nodes
+    var btn = document.createElement("BUTTON");       
+    var t = document.createTextNode("Back");  
+    btn.addEventListener('click', function(){
+        menuButton('LevelE'); 
+    });    
+    btn.appendChild(t);                                
+    eLvlDiv.appendChild(btn); 
+}
+
+function clearBtnsInDiv(div){
+    while (div.firstChild) {
+        div.removeChild(div.firstChild);
+    }
+}
 
 
 //handles logic for user login

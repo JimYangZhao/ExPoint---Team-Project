@@ -1,14 +1,33 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
+  <!--EXTERNAL LIBRARIES-->
   <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-  <script src="js/dbWrapper.js"></script>
   <script src="js/jQuery.js"></script>
+  <!--INITIALIZATION-->
+  <script src="js/init.js"></script>
+  <!--UTILITY-->
+  <script src="js/dbWrapper.js"></script>
+  <script src="js/entityFactory.js"></script>
   <script src="js/imageLoader.js"></script>
-<script src="js/levelEditor.js"></script>
-<script src="js/level.js"></script>
-<script src="js/entity.js"></script>
-<script src="js/gameEngine.js"></script>
-<script src="js/menuLogic.js"></script>
-<script src="js/premadeLevel.js"></script>
+  <!--GUI-->
+  
+  <script src="js/menuLogic.js"></script>
+  <script src="js/login.js"></script>
+  <!--INPUT-->
+  <script src="js/input.js"></script>
+  <!--LEVEL/LEVEL EDITOR-->
+  <script src="js/levelEditor.js"></script>
+  <script src="js/level.js"></script>
+  <!--ENTITIES -->
+  <script src="js/entities/entity.js"></script>
+  <script src="js/entities/playerEntity.js"></script>
+  <script src="js/entities/enemyEntities.js"></script>
+  <script src="js/entities/levelEntities.js"></script>
+  <script src="js/entities/pickupableEntities.js"></script>
+  <script src="js/entities/environmentEntities.js"></script>
+  <!--ENGINE-->
+  <script src="js/gameEngine.js"></script>
+  <!--TEST LEVEL-->
+  <script src="js/premadeLevel.js"></script>
 <html>
 <head>
   <meta charset="UTF-8"> 
@@ -28,86 +47,12 @@
     <button onclick="menuButton('Play')">Offline</button>
 </div>
 
-<div id='Login'>
-    <button onclick="menuButton('MainMenu')">Back</button>
-    Username: <input id="Login-username" type="text"></input><br>
-    Password: <input id="Login-password" type="password"></input><br>
-    <input id="Login-signIn" type="submit" value="Submit"></input>
-    <script>
-      var socket = io();
-      
-      //sign
-      var Login = document.getElementById('Login');
-      var LoginUsername = document.getElementById('Login-username');
-      var LoginSignIn = document.getElementById('Login-signIn');
-      var LoginSignUp = document.getElementById('Login-signUp');
-      var LoginPassword = document.getElementById('Login-password');
-      
-      LoginSignIn.onclick = function(){
-        socket.emit('signIn',{username:LoginUsername.value,password:LoginPassword.value});
-      }
-      LoginSignUp.onclick = function(){
-        socket.emit('signUp',{username:LoginUsername.value,password:LoginPassword.value});
-      }
-      socket.on('signInResponse',function(data){
-        if(data.success){
-          menuButton('Play');
-        } else
-          alert("Sign in unsuccessul.");
-      });
-      socket.on('signUpResponse',function(data){
-        if(data.success){
-          alert("Sign up successul.");
-        } else
-          alert("Sign up unsuccessul, try to use another username.");
-      });
-
-
-    </script>  
-
-</div>
-
 <div id='Create Account'>
     <button onclick="menuButton('MainMenu')">Back</button>
     Username: <input id="Create Account-username" type="text"></input><br>
     Password: <input id="Create Account-password" type="password"></input><br>
     <input id="Create Account-signIn" type="submit" value="Submit"></input>
     <input id="Create Account-signUp" type="submit" value="Sign up"></input>
-
-    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-    <script>
-      var socket = io();
-      
-      var Login = document.getElementById('Login');
-      var LoginUsername = document.getElementById('Create Account-username');
-      var LoginSignIn = document.getElementById('Create Account-signIn');
-      var LoginSignUp = document.getElementById('Create Account-signUp');
-      var LoginPassword = document.getElementById('Create Account-password');
-      
-      LoginSignIn.onclick = function(){
-        socket.emit('signIn',{username:LoginUsername.value,password:LoginPassword.value});
-      }
-      LoginSignUp.onclick = function(){
-        socket.emit('signUp',{username:LoginUsername.value,password:LoginPassword.value});
-      }
-      socket.on('signInResponse',function(data){
-        if(data.success){
-          menuButton('Play');
-        } else
-          alert("Sign in unsuccessul.");
-      });
-      socket.on('signUpResponse',function(data){
-        if(data.success){
-          alert("Sign up successul.");
-        } else
-          alert("Sign up unsuccessul, try to use another username.");
-      });
-
-    </script>  
-
-
-
-
 </div>
 
 <div id='Offline'>
@@ -231,7 +176,7 @@ The kingdom is under attack!<br> The prince managed to escape into the jungle, b
 
 <div id='LevelE'>
     <button onclick="openEditorBtn()">Create New Level</button>
-    <button onclick="menuButton('ExistingLvl')">Open Existing Level</button>
+    <button onclick="openExistingLvlBtn()">Open Existing Level</button>
 
   <button onclick="menuButton('Play')">Back</button>
 </div>
@@ -249,6 +194,7 @@ The kingdom is under attack!<br> The prince managed to escape into the jungle, b
     <button onclick="openTab(event, 'Enemy')">Enemies</button>
     <button onclick="openTab(event, 'Items')">Items</button>    
     <button onclick="selectTile('player')"><img src="images/player/player_right.png"></button>  
+    <button onclick="selectTile('remove')">Remove Tile</button>
   
   </div>
  
@@ -267,12 +213,14 @@ The kingdom is under attack!<br> The prince managed to escape into the jungle, b
         <button onclick="selectTile('rock1')"><img src="images/enviroment/rock1.png"></button>
         <button onclick="selectTile('lava1')"><img src="images/enviroment/lava1.jpg"></button>
         <button onclick="selectTile('end')"><img src="images/enviroment/portal.png"></button>
+        <button onclick="selectTile('check point')"><img src="images/enviroment/checkpoint.png"></button>
       </div>
      
     
       <div id="Enemy" >
         <button onclick="selectTile('enemy1')"><img src="images/enemy/slime1_right.png"></button>
         <button onclick="selectTile('enemy2')"><img src="images/enemy/slime2_right.png"></button>
+        <button onclick="selectTile('slimeBoss')"><img src="images/enemy/slimeBoss.png"></button>
       </div>
    
     <div id="Items">
@@ -288,7 +236,7 @@ The kingdom is under attack!<br> The prince managed to escape into the jungle, b
    <button onclick="runLevel()">Run Level</button>
     <button onclick="stopLevel()">Stop Level</button> 
      <button onclick="saveLevel()">Save Level</button> 
-    <button>Publish</button>  
+    <!-- <button>Publish</button> -->  
   </div>
      
 

@@ -2,7 +2,6 @@
 var mongojs = require("mongojs");
 var db = mongojs("localhost:27017/ExPoint", ['account','levels']);
 
-db.account.insert({username:"b",password:"bb"});
 var express = require('express');
 var app = express();
 var serv = require('http').Server(app);
@@ -114,18 +113,36 @@ io.sockets.on('connection', function(socket){
     });
 
     socket.on('saveLevel',function(data){
-        console.log("Data Recieved. \n" + data);
-        x = data.playerPos[0];
-        y = data.playerPos[1];
-        console.log(data.rows);
-        id = data.id;
-        console.log(data.layers[2][x][y].width);
-        db.levels.insert({id:data});
-
+        console.log("Search Database For (Saving Level):");
+        console.log(data.id);
+        db.levels.find({name:data.id}, function(err, doc){
+            console.log("Saved Level:");
+            console.log(doc);
+            console.log(doc.length);
+            if(doc.length > 0)
+                db.levels.update({name:data.id,},{level:data,name:data.id,userName:data.user});
+            else
+                db.levels.insert({name:data.id,level:data,userName:data.user});
+        });
     });
-   
-   
-   
+
+    socket.on('loadLevel',function(data){
+        db.levels.find({name:data}, function(err, doc){
+            console.log("Loaded Level:");
+            console.log(doc);
+            if(doc.length > 0)
+                socket.emit('loadLevelResponse',doc);
+            else
+                console.log("Level not found.");
+        });
+    });
+
+    socket.on('getLevelNames',function(data){
+        var currentUser = data;
+        db.levels.find({userName:currentUser},{_id:0, name:1}, function(err, doc){
+            socket.emit('getLevelNamesResponse',doc);
+        });
+    });
 });
 
 Database = {};

@@ -7,12 +7,13 @@ var blankMap = {
   layers: [[],[],[]],
   playerPos:[],
   createLayer: function(){
-    var numLayers = this.layers.length;
+    /* var numLayers = this.layers.length;
     for(var l = 0; l < numLayers;l++){
       for(var r = 0; r<this.rows; r++){
         this.addRow(l,r);
       }
-    }
+    } */
+    this.layers = initLayer(this.rows,this.cols);
   },
   getTile: function (layer, col, row) {
     try{
@@ -46,7 +47,9 @@ var blankMap = {
 var xClient = 0;
 var yClient = 0;
 
-var selectedTile; //The selected tile
+var currLvlName = null;
+
+var selectedTile = ""; //The selected tile
 var cameraCache; //Used for mouse events. Updates every time the camera moves.
 
 //
@@ -106,64 +109,36 @@ canPlaceTile = function(xGrid,yGrid){
   return canPlace;
 }
 
-//
-//-----END UTILITY FUNCTIONS-----
-//
-
-//
-//-----Start Keyboard handler-----
-//
-var Keyboard = {};
-
-Keyboard.LEFT = 37;
-Keyboard.RIGHT = 39;
-Keyboard.UP = 38;
-Keyboard.DOWN = 40;
-Keyboard.REMOVE = 82; //Key code for the 'r' key. Removes a tile
-
-Keyboard._keys = {};
-
-Keyboard.listenForEvents = function (keys) {
-    window.addEventListener('keydown', this._onKeyDown.bind(this));
-    window.addEventListener('keyup', this._onKeyUp.bind(this));
-
-    keys.forEach(function (key) {
-        this._keys[key] = false;
-    }.bind(this));
+clearOrLoadLevel = function(lvlId){
+  if(lvlId == null)
+    blankMap.createLayer();
+  else {
+    //Load the level from the level.js file
+    currLvlName = lvlId;
+    loadLevel(lvlId);   
+  }
 }
 
-Keyboard._onKeyDown = function (event) {
-    var keyCode = event.keyCode;
-    if (keyCode in this._keys) {
-        event.preventDefault();
-        this._keys[keyCode] = true;
-    }
-};
+displayLvlInEditor = function(lvlDat){
+  updateBlankMap(lvlDat);
+  //currLvlName = lvlDat.id;
+}
 
-Keyboard._onKeyUp = function (event) {
-    var keyCode = event.keyCode;
-    if (keyCode in this._keys) {
-        event.preventDefault();
-        this._keys[keyCode] = false;
-    }
-};
-
-Keyboard.isDown = function (keyCode) {
-    if (!keyCode in this._keys) {
-        throw new Error('Keycode ' + keyCode + ' is not being listened to');
-    }
-    return this._keys[keyCode];
-};
+updateBlankMap = function(lvlDat){
+  blankMap.cols = lvlDat.cols;
+  blankMap.rows = lvlDat.rows;
+  blankMap.tsize = lvlDat.tsize;
+  blankMap.playerPos = lvlDat.playerPos;
+  var filledLvlLayers = fillLayers(lvlDat.layers,blankMap.rows,blankMap.cols) //objectFactory.js
+  blankMap.layers = filledLvlLayers;
+}
 //
-//-----End Keyboard handler-----
+//-----END UTILITY FUNCTIONS-----
 //
 
 LevelEditor = {}
 LevelEditor.init = function () {
 
-  //Listen for keyboard events
-  Keyboard.listenForEvents(
-      [Keyboard.LEFT, Keyboard.RIGHT, Keyboard.UP, Keyboard.DOWN, Keyboard.REMOVE]);
   this.camera = new Camera(blankMap, 1200, 600);
   this.isRunning = true;
   blankMap.createLayer();
@@ -172,38 +147,37 @@ LevelEditor.init = function () {
   //Listen for Mouse events
   var canvas = document.getElementById('ctx');
   canvas.addEventListener('click', function(evt) {
+    if(selectedTile != 'remove'){
+      var mousePos = getMousePos(canvas);
+      //console.log('Mouse position: ' + mousePos.x + ',' + mousePos.y);
 
-    var mousePos = getMousePos(canvas);
-    //console.log('Mouse position: ' + mousePos.x + ',' + mousePos.y);
+      //Gets position relative to the entire level
+      var levelPos_x = mousePos.x + cameraCache.x;
+      var levelPos_y = mousePos.y + cameraCache.y;
+      //console.log('Level position: ' + levelPos_x + ',' + levelPos_y);
 
-    //Gets position relative to the entire level
-    var levelPos_x = mousePos.x + cameraCache.x;
-    var levelPos_y = mousePos.y + cameraCache.y;
-    //console.log('Level position: ' + levelPos_x + ',' + levelPos_y);
+      //Gets the position of nearest multiple of 64
+      var x64 = Math.ceil(levelPos_x / 64.0) * 64.0;
+      var y64 = Math.ceil(levelPos_y / 64.0) * 64.0;
+      //console.log('Nearest Multiple (64): ' + x64 + ',' + y64);
 
-    //Gets the position of nearest multiple of 64
-    var x64 = Math.ceil(levelPos_x / 64.0) * 64.0;
-    var y64 = Math.ceil(levelPos_y / 64.0) * 64.0;
-    //console.log('Nearest Multiple (64): ' + x64 + ',' + y64);
+      //Get the center of the grid where mouse was click
+      var center_x = x64 - 32; //Subtract half tile size
+      var center_y = y64 - 32;
+      //console.log('Center of Selected tile: ' + center_x + ',' + center_y);
 
-    //Get the center of the grid where mouse was click
-    var center_x = x64 - 32; //Subtract half tile size
-    var center_y = y64 - 32;
-    //console.log('Center of Selected tile: ' + center_x + ',' + center_y);
+      //Find block on grid
+      var pix_on_row = blankMap.tsize * blankMap.rows;
+      var xGrid = Math.ceil(x64 / blankMap.tsize) - 1;
+      var yGrid = Math.ceil(y64 / blankMap.tsize) - 1;
+      var gridIdx = (yGrid * blankMap.rows) + xGrid;
+      //console.log('Grid: ' + xGrid + ',' + yGrid + " : Grid IDX: " + gridIdx);
 
-    //Find block on grid
-    var pix_on_row = blankMap.tsize * blankMap.rows;
-    var xGrid = Math.ceil(x64 / blankMap.tsize) - 1;
-    var yGrid = Math.ceil(y64 / blankMap.tsize) - 1;
-    var gridIdx = (yGrid * blankMap.rows) + xGrid;
-    //console.log('Grid: ' + xGrid + ',' + yGrid + " : Grid IDX: " + gridIdx);
+      //Creates a new tile object based on the name of the selected tile.
+      selectTile(selectedTile.id);
+      var tile = selectedTile;
 
-    //Creates a new tile object based on the name of the selected tile.
-    selectTile(selectedTile.id);
-    var tile = selectedTile;
-
-    //Checks if the selected tile can be placed at the current position
-   // if(canPlaceTile(xGrid,yGrid)){
+      //Checks if the selected tile can be placed at the current position
       tile.x = center_x;
       tile.y = center_y;
 
@@ -221,9 +195,11 @@ LevelEditor.init = function () {
       }
 
       //Add Image at mouse position on canvas
-      //blankMap.layers[tileLayer][gridIdx] = tile;
       blankMap.layers[tileLayer][xGrid][yGrid] = tile;
-    //}
+    }
+    else
+      LevelEditor.removeTile();
+
   }, false);
 };
 
@@ -238,6 +214,47 @@ LevelEditor.run = function (context) {
       window.requestAnimationFrame(this.tick);
   //}.bind(this));
 };
+LevelEditor.resume = function(context){
+  this.isRunning = true;
+  window.requestAnimationFrame(this.tick);
+}
+
+LevelEditor.shutDown = function(){
+  clearInterval(gameInterval);
+  this.isRunning = false;
+  currLvlName = null;
+  blankMap.createLayer();
+  ctx.clearRect(0,0,1200,600);
+}
+
+//Removes the tile at the mouse position
+LevelEditor.removeTile = function(){
+  var canvas = document.getElementById('ctx');
+  var mousePos = getMousePos(canvas);
+  //Gets position relative to the entire level
+  var levelPos_x = mousePos.x + cameraCache.x;
+  var levelPos_y = mousePos.y + cameraCache.y;
+  //console.log('Level position: ' + levelPos_x + ',' + levelPos_y);
+
+  //Gets the position of nearest multiple of 64
+  var x64 = Math.ceil(levelPos_x / 64.0) * 64.0;
+  var y64 = Math.ceil(levelPos_y / 64.0) * 64.0;
+  //console.log('Nearest Multiple (64): ' + x64 + ',' + y64);
+
+  //Get the center of the grid where mouse was click
+  var center_x = x64 - 32; //Subtract half tile size
+  var center_y = y64 - 32;
+  //console.log('Center of Selected tile: ' + center_x + ',' + center_y);
+
+  //Find block on grid
+  var pix_on_row = blankMap.tsize * blankMap.rows;
+  var xGrid = Math.ceil(x64 / blankMap.tsize) - 1;
+  var yGrid = Math.ceil(y64 / blankMap.tsize) - 1;
+  var gridIdx = (yGrid * blankMap.rows) + xGrid;
+  blankMap.layers[0][xGrid][yGrid] = 0;
+  blankMap.layers[1][xGrid][yGrid] = 0;
+  blankMap.layers[2][xGrid][yGrid] = 0;
+}.bind(LevelEditor);
 
 LevelEditor.tick = function (elapsed) {
   if(this.isRunning){
@@ -262,12 +279,10 @@ LevelEditor.updateEditor = function (delta) {
     // handle camera movement with arrow keys
     var dirx = 0;
     var diry = 0;
-    if (Keyboard.isDown(Keyboard.LEFT)) { dirx = -1; }
-    if (Keyboard.isDown(Keyboard.RIGHT)) { dirx = 1; }
-    if (Keyboard.isDown(Keyboard.UP)) { diry = -1; }
-    if (Keyboard.isDown(Keyboard.DOWN)) { diry = 1; }
-    // handle removal of tile with r key
-    if(Keyboard.isDown(Keyboard.REMOVE)) {this.removeTile();}
+    if (pressingLeft) { dirx = -1; }
+    if (pressingRight) { dirx = 1; }
+    if (pressingUp) { diry = -1; }
+    if (pressingDown) { diry = 1; }
 
     this.camera.move(delta, dirx, diry);
     cameraCache = this.camera; //Update cameraCache used for mouse events
@@ -337,35 +352,6 @@ LevelEditor._drawLayer = function (layer) {
   }
 };
 
-//Removes the tile at the mouse position
-LevelEditor.removeTile = function(){
-  var canvas = document.getElementById('ctx');
-  var mousePos = getMousePos(canvas);
-  //Gets position relative to the entire level
-  var levelPos_x = mousePos.x + cameraCache.x;
-  var levelPos_y = mousePos.y + cameraCache.y;
-  //console.log('Level position: ' + levelPos_x + ',' + levelPos_y);
-
-  //Gets the position of nearest multiple of 64
-  var x64 = Math.ceil(levelPos_x / 64.0) * 64.0;
-  var y64 = Math.ceil(levelPos_y / 64.0) * 64.0;
-  //console.log('Nearest Multiple (64): ' + x64 + ',' + y64);
-
-  //Get the center of the grid where mouse was click
-  var center_x = x64 - 32; //Subtract half tile size
-  var center_y = y64 - 32;
-  //console.log('Center of Selected tile: ' + center_x + ',' + center_y);
-
-  //Find block on grid
-  var pix_on_row = blankMap.tsize * blankMap.rows;
-  var xGrid = Math.ceil(x64 / blankMap.tsize) - 1;
-  var yGrid = Math.ceil(y64 / blankMap.tsize) - 1;
-  var gridIdx = (yGrid * blankMap.rows) + xGrid;
-  blankMap.layers[0][xGrid][yGrid] = 0;
-  blankMap.layers[1][xGrid][yGrid] = 0;
-  blankMap.layers[2][xGrid][yGrid] = 0;
-}.bind(LevelEditor);
-
 function Camera(blankMap, width, height) {
   this.x = 0;
   this.y = 320;
@@ -375,7 +361,7 @@ function Camera(blankMap, width, height) {
   this.maxY = blankMap.rows * blankMap.tsize - height;
 }
 
-Camera.SPEED = 256; // pixels per second
+Camera.SPEED = 256*2; // pixels per second
 
 Camera.prototype.updateMaxXY = function(){
   this.maxX = blankMap.cols * blankMap.tsize - this.width;
@@ -406,14 +392,14 @@ Camera.prototype.move = function (delta, dirx, diry) {
 
 //
 // start up function
-//
-openLevelEditor = function(){
+// 
+openLevelEditor = function(lvlId){
   //show level editor div, closes other divs
-  
   var context = document.getElementById('ctx').getContext('2d');
+  clearOrLoadLevel(lvlId);
   LevelEditor.run(context);
 }
-var gameInterval;
+var gameInterval; //Cache gameInterval
 runLevel = function(){
   LevelEditor.isRunning = false;
   entityLists = packageEditorData(); //Motion list and static list of entities
@@ -423,71 +409,30 @@ runLevel = function(){
 }
 stopLevel = function(){
   clearInterval(gameInterval);
-  LevelEditor.isRunning = true;
   var context = document.getElementById('ctx').getContext('2d');
-  LevelEditor.run(context);
+  LevelEditor.resume(context);
 }
 
 saveLevel = function(){
-  saveEditorLevel("Level1",blankMap);
+
+  level = blankMap;
+
+  if(currLvlName == null)
+    currLvlName = prompt("Please enter your level name.\nWARNING: If there is an existing level with the same name on your account, it will be overwritten.");
+  
+  levelToSave = new editorLevel(currLvlName,level.cols,level.rows,level.tsize,level.layers,level.playerPos, currentUser);
+  sendToDB("saveLevel", levelToSave, false);
 }
 
 //Change the selected Tile on mouse click
 selectTile = function(tileName){
-  
-  if(tileName == grass1Key){
-    var tile = new enviromentTile(0,0,grass1Key);
+  var tile;
+  if(tileName != "remove"){
+    tile = createEntity({id:tileName,x:0,y:0});
+    if(tile == null)
+      console.log("Error: Tile Not Properly Selected.");
   }
-  else if(tileName == dirt1Key){
-    var tile = new backgroundTile(0,0,dirt1Key);
-  }
-  else if(tileName == grass2Key){
-    var tile = new enviromentTile(0,0,grass2Key);
-  }
-  else if(tileName == playerKey){
-    var tile = new playerChar(0,0);
-  }
-  else if(tileName == water1Key){
-    var tile = new waterBlock(0,0);
-  }
-  else if(tileName == lava1Key){
-    var tile = new lavaBlock(0,0);;
-  }
-  else if(tileName == sky1Key){
-    var tile = new backgroundTile(0,0,sky1Key);
-  }
-  else if(tileName == cloud1Key){
-    var tile = new backgroundTile(0,0,cloud1Key);
-  }
-  else if(tileName == ladder1Key){
-    var tile = new ladderBlock(0,0);
-  }
-  else if(tileName == rock1Key){
-    var tile = new enviromentTile(0,0,rock1Key);
-  }
-  else if(tileName == enemy1Key){
-    var tile = new enemy(0,0);
-  }
-  else if(tileName == enemy2Key){
-    var tile = new enemy(0,0);
-  }
-  else if(tileName == turretKey){
-    var tile = new turret(0,0);
-  }
-  else if(tileName == bombKey){
-    var tile = new bombPickup(0,0);
-  }
-  else if(tileName == medkitKey){
-    var tile = new medKit(0,0);
-  }
-  else if(tileName == spikeKey){
-    var tile = new spikeBlock(0,0);
-  }
-  else if(tileName == endOfLevelKey){
-    var tile = new endOfLevel(0,0);
-  }
-  else{
-    console.log("Error: Tile Not Properly Selected.");
-  }
+  else
+    tile = tileName;
   selectedTile = tile;
 }

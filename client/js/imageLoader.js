@@ -1,30 +1,3 @@
-var grass1Key = 'grass1';
-var grass2Key = 'grass2';
-var dirt1Key = 'dirt1';
-var playerKey = 'player';
-var water1Key = 'water1';
-var water2Key = 'water2';
-var sky1Key = 'sky1';
-var cloud1Key = 'cloud1';
-var rock1Key = 'rock1';
-var ladder1Key = 'ladder';
-var medkitKey = 'medkit';
-var bombKey = 'bomb1';
-var swordKey = 'staff hit'
-var enemy1Key = 'enemy1';
-var enemy2Key = 'enemy2';
-var turretKey = 'turret';
-var spikeKey = 'spike';
-var lava1Key = 'lava1';
-var checkpointKey = "check point";
-var endOfLevelKey = 'end';
-var slashKey = 'slash';
-var fireballKey = 'fire ball';
-var magicMissileKey = 'magic missle';
-var playerAnimKey = 'playerAnim';
-var parachuteKey = 'parachute';
-var slimeBossKey = 'slimeBoss';
-
 var ImageAtlas = {}
 
 startLoadingImgs = function () {
@@ -46,6 +19,8 @@ startLoadingImgs = function () {
         Loader.loadImage(endOfLevelKey,'images/enviroment/portal.png'),
         Loader.loadImage(enemy1Key,'images/enemy/slime1_left.png'),
         Loader.loadImage(enemy2Key,'images/enemy/slime2_left.png'),
+        Loader.loadImage(enemy1RKey,'images/enemy/slime1_right.png'),
+        Loader.loadImage(enemy2RKey,'images/enemy/slime2_right.png'),
         Loader.loadImage(turretKey,'images/enemy/turret.png'),
         Loader.loadImage(slimeBossKey,'images/enemy/slimeBoss.png'),
         Loader.loadImage(spikeKey,'images/enviroment/spike.png'),
