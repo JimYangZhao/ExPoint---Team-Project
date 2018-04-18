@@ -364,9 +364,8 @@ function slimeBoss(x,y){
         }
     }
     this.collision = function(entityC){
-        entitySide=checkSide(this,entityC);
         if(entityC.tags.includes("block")){
-            sideColided=checkSide(this , entityC)
+            sideColided=slimeBosscheckSide(this , entityC)
             if(sideColided=="bottom"){
                 this.y=entityC.y-this.height;
                 this.yVel=0;

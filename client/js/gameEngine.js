@@ -41,6 +41,31 @@ function checkSide(entity1,entity2){
     }
 }
 
+function slimeBosscheckSide(entity1,entity2){
+    w = 0.49*(entity1.width + entity2.width);
+    h = 0.51*(entity1.height+entity2.height);
+    dx = entity1.x - entity2.x;
+    dy = entity1.y - entity2.y;
+    wy=w*dy;
+    hx=h*dx;
+    if(wy>hx){
+        if(wy>-hx){
+            return "top";
+        }
+        else{
+            return "right";
+        }
+    }
+    else{
+        if(wy > -hx){
+            return "left";
+        }
+        else{
+            return "bottom";
+        }
+    }
+}
+
 // This is identical to the one above, but has values to adjust to the players movement speeds and other movements. 
 // Using the above, the player is able to "climb walls", whch is the reason we adjust these values for the player.
 function playercheckSide(entity1,entity2){

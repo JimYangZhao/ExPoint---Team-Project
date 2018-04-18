@@ -409,6 +409,8 @@ runLevel = function(){
 }
 stopLevel = function(){
   clearInterval(gameInterval);
+  music.pause();
+  music.currentTime=0;
   var context = document.getElementById('ctx').getContext('2d');
   LevelEditor.resume(context);
 }
