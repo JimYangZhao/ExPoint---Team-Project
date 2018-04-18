@@ -77,27 +77,33 @@ function playerMenu(player){
         }
     }
     this.draw = function(){
+        ctx.fillStyle="#FFFFFF";
+        ctx.fillRect(298,163,604,334);
         ctx.fillStyle="#000000";
-        ctx.fillRect(64,64,384,384);
+        ctx.fillRect(300,165,600,330);
+        ctx.fillStyle="#FFFFFF";
+        ctx.font = "30px Arial";
+        ctx.fillText("Powers",600-40,200);
+        ctx.fillText("Items",600-40,200+40+64);
         if(this.toggle==false){
             ctx.fillStyle="#FFFFFF";
-            ctx.fillRect(64+(64*this.selectorPower)+20,64+20,64,64);
+            ctx.fillRect(300+(64*this.selectorPower)+20,150+64,64,64);
             ctx.fillStyle="#505050";
-            ctx.fillRect(64+(64*this.selectorItems)+20,128+40,64,64);
+            ctx.fillRect(300+(64*this.selectorItems)+20,150+128+40,64,64);
         }
         else{
             ctx.fillStyle="#505050";
-            ctx.fillRect(64+(64*this.selectorPower)+20,64+20,64,64);
+            ctx.fillRect(300+(64*this.selectorPower)+20,150+64,64,64);
             ctx.fillStyle="#FFFFFF";
-            ctx.fillRect(64+(64*this.selectorItems)+20,128+40,64,64);
+            ctx.fillRect(300+(64*this.selectorItems)+20,150+128+40,64,64);
         }
         for(i=0;i<this.player.powers.length;i++){
             if(this.player.powers[i]=="magic missle"){
                 var img = ImageAtlas[magicMissileKey];
                     ctx.drawImage(
                     img, // image
-                    i*64+64+20,  // target x
-                    64+20, // target y
+                    i*64+300+20,  // target x
+                    64+150, // target y
                     64, // target width
                     64 // target height
                 );
@@ -106,8 +112,8 @@ function playerMenu(player){
                 var img = ImageAtlas[swordKey];
                     ctx.drawImage(
                     img, // image
-                    i*64+64+20,  // target x
-                    64+20, // target y
+                    i*64+300+20,  // target x
+                    64+150, // target y
                     64, // target width
                     64 // target height
                 );
@@ -116,8 +122,8 @@ function playerMenu(player){
                 var img = ImageAtlas[fireballKey];
                     ctx.drawImage(
                     img, // image
-                    i*64+64+20,  // target x
-                    64+20, // target y
+                    i*64+300+20,  // target x
+                    64+150, // target y
                     64, // target width
                     64 // target height
                 );
@@ -132,12 +138,14 @@ function playerMenu(player){
                 var img = ImageAtlas[medkitKey];
                 ctx.drawImage(
                     img, // image
-                    i/2*64+64+20,  // target x
-                    128+40, // target y
+                    i/2*64+300+20,  // target x
+                    128+150+40, // target y
                     64, // target width
                     64 // target height
                 );
-                ctx.fillText(this.player.inventory[i+1],134,228);
+                ctx.fillStyle="#FF0000";
+                ctx.font = "20px Arial";
+                ctx.fillText(this.player.inventory[i+1],320,382);
             }
             if(this.player.inventory[i]=="bomb"){
                 ctx.fillStyle="#505050";
@@ -147,12 +155,14 @@ function playerMenu(player){
                 var img = ImageAtlas[bombKey];
                 ctx.drawImage(
                     img, // image
-                    i/2*64+64+20,  // target x
-                    128+40, // target y
+                    i/2*64+300+20,  // target x
+                    128+150+40, // target y
                     64, // target width
                     64 // target height
                 );
-                ctx.fillText(this.player.inventory[i+1],202,228);
+                ctx.fillStyle="#FF0000";
+                ctx.font = "20px Arial";
+                ctx.fillText(this.player.inventory[i+1],384,382);
             }
         }
     }
