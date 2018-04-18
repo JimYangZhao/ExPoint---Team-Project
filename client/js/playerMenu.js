@@ -1,12 +1,21 @@
+// This is the ingame menu that happens when one presses the Inventory menu button. It keeps track of the player to 
+//   keep updated on its inventory, as well as uses the reference to set the players button 1 and button 2. It has its own update
+//   function that will be rapidly called when the game is paused.
 function playerMenu(player){
+    // The Player Reference
     this.player=player;
+    // The current Index Selected
     this.selectorPower=0;
     this.selectorItems=0;
     this.menuCooldown=0;
+    // This is to keep track if the player is selecting items or powers
     this.toggle=false;
+    // Used to update the player when the player dies and respawns
     this.setPlayer = function(player){
         this.player=player;
     }
+    // The update function. Logic here pertains to keeping track of the player's Cursor. 
+    // We have a menu cooldown so the given item isnt rapidly selected, and one can reasonably navigate the menu.
     this.update = function(){
         if(this.menuCooldown>0){
             this.menuCooldown=this.menuCooldown-1;
@@ -76,6 +85,8 @@ function playerMenu(player){
             }
         }
     }
+    // The draw function of the menu. It begins by drawing the menu Box, then the menu Labels, then the Selector, 
+    //   then the Items and Power Icons, and then finally the Item Quanities.
     this.draw = function(){
         ctx.fillStyle="#FFFFFF";
         ctx.fillRect(298,163,604,334);
