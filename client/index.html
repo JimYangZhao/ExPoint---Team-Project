@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+<!-- Stuff fromm the serverside-->
   <!--EXTERNAL LIBRARIES-->
   <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
   <script src="js/jQuery.js"></script>
+<!-- Stuff from the client folder -->
   <!--INITIALIZATION-->
   <script src="js/init.js"></script>
   <!--UTILITY-->
@@ -25,24 +27,30 @@
   <script src="js/entities/pickupableEntities.js"></script>
   <script src="js/entities/environmentEntities.js"></script>
   <!--ENGINE-->
+  <script src="js/playerMenu.js"></script>
   <script src="js/gameEngine.js"></script>
   <!--TEST LEVEL-->
   <script src="js/premadeLevel.js"></script>
+
+  <!-- The html. Note that none of the styling is done on this page. All the CSS is applied through index.css-->
 <html>
 <head>
   <meta charset="UTF-8"> 
+  <!-- Links to the style sheet-->
   <link rel="stylesheet" type="text/css" href="index.css">
+  <!-- Links to the font we use-->
   <link href="https://fonts.googleapis.com/css?family=Mina" rel="stylesheet">
 </head>
 <body>
-
+<!-- Our menu works by hiding and showing Divs. It does this by using buttons to call 
+  javascript functions which will show the desired menu, and hide the rest. The JS can be found in  the 
+  menuLogic.js File.
+-->
 <div id='MainMenu'>
   <h1 class="logo">
     <span class="word1">xe</span>
     <span class="word2">POINT</span>
   </h1>
-
-    <!-- <button onclick="menuButton('Login')">Login</button> -->
     <button onclick="menuButton('Create Account')">Sign In/Sign Up</button>
     <button onclick="menuButton('Play')">Offline</button>
 </div>

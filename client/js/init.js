@@ -1,5 +1,4 @@
 //Handles all the initial configurations for the client and stores the globals used by the whole project
-
 var grass1Key = 'grass1';
 var grass2Key = 'grass2';
 var dirt1Key = 'dirt1';

@@ -1,6 +1,6 @@
-//Defines all the environment Entities
+//Defines all the environment Entities, all of the static kind
 
-//Collides with the player
+//This function is setup differently to avoid having several objects that all share the same stuff, with the exception of the image.
 function enviromentTile(x,y,id){
     var id = id;
     var layer=1;
@@ -27,9 +27,9 @@ function enviromentTile(x,y,id){
 enviromentTile.prototype=Object.create(Entity.prototype);
 enviromentTile.prototype.constructor =  enviromentTile;
 
-//-------------
-
-//Does not collide with the player
+// We do a simillar thing for background tiles
+// Background tiles do not collide with the player due to them being added to the 
+// background layer
 function backgroundTile(x,y,id){
     var id = id;
     var layer=0;
@@ -55,7 +55,7 @@ function backgroundTile(x,y,id){
 }
 backgroundTile.prototype=Object.create(Entity.prototype);
 backgroundTile.prototype.constructor =  backgroundTile;
-
+// A vanilla block that damages the player on touch. We are able to make this one using the tag system quite easily
 function spikeBlock(x,y){
     this.width = 64;
     this.height = 64;
@@ -82,7 +82,8 @@ function spikeBlock(x,y){
 }
 spikeBlock.prototype=Object.create(Entity.prototype);
 spikeBlock.prototype.constructor = spikeBlock;
-
+// A lava block that damages the player on touch. The damaging effect comes from the tag system.
+// Also behaves similar to a water block.
 function lavaBlock(x,y){
     this.width = 64;
     this.height = 64;
@@ -114,7 +115,8 @@ function lavaBlock(x,y){
 }
 lavaBlock.prototype=Object.create(Entity.prototype);
 lavaBlock.prototype.constructor = lavaBlock;
-
+// A water block the player can pass and swimm through. This one is the top surface. 
+//  Its properties come from the water tag
 function waterBlock(x,y){
     this.width = 64;
     this.height = 64;
@@ -147,7 +149,7 @@ function waterBlock(x,y){
 }
 waterBlock.prototype=Object.create(Entity.prototype);
 waterBlock.prototype.constructor = waterBlock;
-
+// Same as above, but a different image.
 function waterBlock2(x,y){
     this.width = 64;
     this.height = 64;
@@ -180,7 +182,7 @@ function waterBlock2(x,y){
 }
 waterBlock2.prototype=Object.create(Entity.prototype);
 waterBlock2.prototype.constructor = waterBlock2;
-
+// A ladder block. Its properties mostly come from the tag.
 function ladderBlock(x,y){
     this.width = 64;
     this.height = 64;

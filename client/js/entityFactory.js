@@ -1,5 +1,6 @@
 //Handle's the creation of objects(entities) from raw data 
-
+// This code is used to turn the data from a level editor object from the database into a 
+//  level that the game engine can play
 fillLayers = function(layerDat,rows,cols){
 
     var layer = initLayer(rows,cols);

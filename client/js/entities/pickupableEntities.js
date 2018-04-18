@@ -1,3 +1,6 @@
+// These are objects that one can pickup. They all share a collision function that calls the prototype method 
+//    remove() to remove themselves fromm the gamelist. This gives the appearence of being picked up.
+// They all update the players inventory in one way or another.
 function medKit(x,y){
     this.width = 64;
     this.height = 64;

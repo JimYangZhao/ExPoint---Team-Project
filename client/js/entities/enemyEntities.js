@@ -1,3 +1,8 @@
+// The js file that contains the code for enemies. Note the use of prototype functions remove() and addToList(entity), that can be found in the game engine js file.
+
+// This is the standard "smart" enemy. It really only chooses to go left and right. It follows the the player 
+//    as presented by its collision function. It chooses to jump if a block is in its way. It chooses to ascend 
+//    and descend if it is on a block that allows that kind of movement. The player is tracked using the reference in the level object.
 function enemy(x,y){
     this.width = 64;
     this.height = 64;
@@ -112,6 +117,7 @@ function enemy(x,y){
 enemy.prototype=Object.create(Entity.prototype);
 enemy.prototype.constructor = enemy;
 
+// Same as the smart enemy, though when it collides with an object, chooses not to use it.
 function dumbEnemy(x,y){
     this.width = 64;
     this.height = 64;
@@ -199,6 +205,9 @@ function dumbEnemy(x,y){
 dumbEnemy.prototype=Object.create(Entity.prototype);
 dumbEnemy.prototype.constructor = dumbEnemy;
 
+// The turret enemy. It fires a projectile at stuff within its firing range. 
+//    It is also a block, so players cant pass through it.
+
 function turret(x,y){
     this.width = 64;
     this.height = 64;
@@ -257,6 +266,7 @@ function turret(x,y){
 turret.prototype=Object.create(Entity.prototype);
 turret.prototype.constructor = turret;
 
+// A turretn Projectile. Its paramaters are used to determine its x and y velocity
 function turretProjectile(x,y,xDir,yDir,turret){
     this.width = 8;
     this.height = 8;
@@ -287,6 +297,9 @@ function turretProjectile(x,y,xDir,yDir,turret){
 }
 turretProjectile.prototype=Object.create(Entity.prototype);
 turretProjectile.prototype.constructor = turretProjectile;
+
+// The slime boss is an enemy that behaves like a normal dumb enemy, but it 
+//  splits into greater number upon being defeated, until it is too small.
 
 function slimeBoss(x,y){
     this.width = 128;

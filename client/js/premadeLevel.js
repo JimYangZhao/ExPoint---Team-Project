@@ -1,3 +1,7 @@
+//Our one premade level. It does not use the database. Instead, it is created by directly 
+//  pushing objects into the three lists that levels are made from, and creating a level 
+//  with those three lists.
+
 staticEntityList=[];
 motionEntityList=[];
 backgroundList=[];

@@ -1,5 +1,6 @@
 var ImageAtlas = {}
-
+// Used to load images. While this puts constraints on our ids, we only have many references to the one loaded image, 
+// instead of having many objects that contain their own images(not performance ideal).
 startLoadingImgs = function () {
     return [
         Loader.loadImage(grass1Key, 'images/enviroment/grass1.png'),

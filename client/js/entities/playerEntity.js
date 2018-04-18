@@ -1,9 +1,15 @@
+// stuff related to the player Character goes into this file.
+
+//The player character entity. It contatins the logic for the player character.
 function playerChar(x,y){
+    // The player character's stored stuff
+// the players info
     var id="player";
     var layer=2;
     var type="motion";
     var tags=["player"];
     Entity.call(this,x,y,id,layer,type,tags);
+// stuff that pertains to the players state
     this.facing="right";
     this.width = 61;
     this.height = 61;
@@ -11,11 +17,13 @@ function playerChar(x,y){
     this.hp=10;
     this.iframes=0;
     this.cooldown=0;
+// players selected powers
     this.selected1="magic missle";
     this.selected2="staff hit";
+// players inventory
     this.inventory=["med kit", 2 ,"bomb", 2];
     this.powers=["staff hit", "magic missle"];
-
+// used for animating
     this.tickCount = 0;
     this.ticksPerFrame = 6;
 
@@ -27,31 +35,41 @@ function playerChar(x,y){
     this.jumpFrameIndex = 0;
 
     this.falling = false;
+// players update function. It updates the players above state.
     this.update = function(){
+// checks if falling. Used to draw the parachute
         if(this.yVel > 20){
             this.falling=true;
         }
         else{
             this.falling = false;
         }
+// used to check if the player is facing left or right. Used to determine if it should be drawn
+//  left or right, aswell as fire direction if another direction is not held
         if(pressingLeft) {this.facing="left"}
         if(pressingRight) {this.facing="right"}
+// moves the player if not pressing halt
         if(!pressingHalt){
             if(pressingDown) this.y = this.y+12;
             if(pressingUp) this.y = this.y-20;
             if(pressingLeft) this.x = this.x-12;
             if(pressingRight) this.x = this.x+12;
         }
+// Updates the players gravity.
         this.yVel=this.yVel+1
         if(this.yVel>30){
             (this.yVel=30);
         }
         this.y=this.y+this.yVel;
+// If the player ions invicible, decreases the Iframes by one
         if(this.iframes>0){
             this.iframes=this.iframes-1;
         }
+// If the cooldown is 0 (player is ready to use an ability), checks for the following
         if(this.cooldown==0){
+        // We priortize the power on button one over button two.
             if(pressingPower1==true){
+            //We pass the direction, aswell as the current power, to the player projectile function.
                 if(pressingLeft){
                     this.addToList(new playerProjectile(this.x,this.y+this.height/2,"left",this.selected1));
                     this.cooldown=this.cooldown+getProjectileCooldown(this.selected1);
@@ -72,6 +90,7 @@ function playerChar(x,y){
                     this.cooldown=this.cooldown+getProjectileCooldown(this.selected1);
                     playProjectileSound(this.selected1);
                 }
+                // If no direction is held, we check the direction facing rto determine where it should fire from
                 else{
                     if(this.facing=="right"){
                         this.addToList(new playerProjectile(this.x+61,this.y+this.height/2,"right",this.selected1));
@@ -85,6 +104,7 @@ function playerChar(x,y){
                     }
                 }
             }
+            // same as above, but with the other button
             else if(pressingPower2==true){
                 if(pressingLeft){
                     this.addToList(new playerProjectile(this.x,this.y+this.height/2,"left",this.selected2));
@@ -119,12 +139,15 @@ function playerChar(x,y){
                     }
                 }
             }
+    //If not ready to use an ability(on cooldwon), lower the cooldown counter
         }else{
             this.cooldown=this.cooldown-1
         }
     }
+    //the draw function for the player Uses the indexes in the playerChar variables to draw and 
+    //  properly animate the player character. It chooses the image to drawn based on these indexes
+    //  and state
     this.draw = function(){
-
         this.tickCount += 1;
         if(this.tickCount > this.ticksPerFrame){
             this.runFrameIndex++;
@@ -245,6 +268,9 @@ function playerChar(x,y){
             }
         }
     }
+
+// The functions for player colliosion. When the player collides with an object, will select the 
+//  appropiate collision function based on the parameter.
     this.collision = function(entityC){
         if(entityC.tags.includes("block")){
             sideColided=playercheckSide(this , entityC)
@@ -274,6 +300,9 @@ function playerChar(x,y){
 } 
 playerChar.prototype=Object.create(Entity.prototype);
 playerChar.prototype.constructor = playerChar;
+
+// The "playerProjectile" function is mislabled a bit. It is actually used to handle all the players powers, not just projectiles. 
+//  We use this function to have the player be able to use a variety of different powers and abilites.
 
 function playerProjectile(x,y,direction,projectile){
     id=projectile;
@@ -500,6 +529,7 @@ function playerProjectile(x,y,direction,projectile){
     }
 }
 
+// If the projectile has a height, fetches it. Else, the ability does not use or initially use height
 function getProjectileHeight(projectile){
     if(projectile=="magic missle"){
        return 8;
@@ -517,6 +547,7 @@ function getProjectileHeight(projectile){
         return 0;
     }
 }
+// same as above, but for width
 function getProjectileWidth(projectile){
     if(projectile=="magic missle"){
         return 8;
@@ -534,7 +565,8 @@ function getProjectileWidth(projectile){
         return 0;
     }
 }
-
+// Used to determine the wait time before being able to use another ability. Stronger abilites are limited
+// either through inventory or cooldown
 function getProjectileCooldown(projectile){
     if(projectile=="magic missle"){
         return 60;
@@ -552,7 +584,7 @@ function getProjectileCooldown(projectile){
         return 120;
     }
 }
-
+// retreives the sound for when a power is cast, if such a sound is required. Not used for all powers
 function playProjectileSound(projectile){
     if(projectile=="magic missle"){
         playASound("soundEffects/magicMissle.mp3");
@@ -570,169 +602,3 @@ function playProjectileSound(projectile){
 
 playerProjectile.prototype=Object.create(Entity.prototype);
 playerProjectile.prototype.constructor = playerProjectile;
-
-
-
-
-
-function playerMenu(player){
-    this.player=player;
-    //this.powers= player.powers;
-    //this.inventory=player.inventory;
-    this.selectorPower=0;
-    this.selectorItems=0;
-    this.menuCooldown=0;
-    this.toggle=false;
-    this.setPlayer = function(player){
-        this.player=player;
-    }
-    this.update = function(){
-        if(this.menuCooldown>0){
-            this.menuCooldown=this.menuCooldown-1;
-        }
-        else{
-            if(pressingDown){
-                if(this.player.inventory.length != 0 && this.toggle==false){
-                    this.toggle=true;
-                    this.menuCooldown=this.menuCooldown+18;
-                    playASound("soundEffects/inventoryMove.mp3");
-                }
-            } 
-            if(pressingUp){
-                if(this.player.powers.length != 0 && this.toggle==true){
-                    this.toggle=false;
-                    this.menuCooldown=this.menuCooldown+18;
-                    playASound("soundEffects/inventoryMove.mp3");
-                }
-            }
-            if(pressingLeft){
-                if(this.toggle==false && this.selectorPower-1 >= 0){
-                    this.selectorPower=this.selectorPower-1;
-                    this.menuCooldown=this.menuCooldown+18;
-                    playASound("soundEffects/inventoryMove.mp3");
-                }
-                if(this.toggle==true && this.selectorItems-1 >= 0){
-                    this.selectorItems=this.selectorItems-1;
-                    this.menuCooldown=this.menuCooldown+18;
-                    playASound("soundEffects/inventoryMove.mp3");
-                }
-            }
-            if(pressingRight){
-                if((this.toggle==false) && (this.selectorPower+1 < this.player.powers.length)){
-                    this.selectorPower=this.selectorPower+1;
-                    this.menuCooldown=this.menuCooldown+18;
-                    playASound("soundEffects/inventoryMove.mp3");
-                }
-                if(this.toggle==true && this.selectorItems+1 < this.player.inventory.length/2){
-                    this.selectorItems=this.selectorItems+1;
-                    this.menuCooldown=this.menuCooldown+18;
-                    playASound("soundEffects/inventoryMove.mp3");
-                }
-            }
-            if(pressingPower1){
-                if(this.toggle==false){
-                    this.player.selected1=this.player.powers[this.selectorPower];
-                    this.menuCooldown=this.menuCooldown+18;
-                    playASound("soundEffects/inventorySet.mp3");
-                }
-                else{
-                    this.player.selected1=this.player.inventory[this.selectorItems*2];
-                    this.menuCooldown=this.menuCooldown+18;
-                    playASound("soundEffects/inventorySet.mp3");
-                }
-            }
-            if(pressingPower2){
-                if(this.toggle==false){
-                    this.player.selected2=this.player.powers[this.selectorPower];
-                    this.menuCooldown=this.menuCooldown+18;
-                    playASound("soundEffects/inventorySet.mp3");
-                }
-                else{
-                    this.player.selected2=this.player.inventory[this.selectorItems*2];
-                    this.menuCooldown=this.menuCooldown+18;
-                    playASound("soundEffects/inventorySet.mp3");
-                }
-            }
-        }
-    }
-    this.draw = function(){
-        ctx.fillStyle="#000000";
-        ctx.fillRect(64,64,384,384);
-        if(this.toggle==false){
-            ctx.fillStyle="#FFFFFF";
-            ctx.fillRect(64+(64*this.selectorPower)+20,64+20,64,64);
-            ctx.fillStyle="#505050";
-            ctx.fillRect(64+(64*this.selectorItems)+20,128+40,64,64);
-        }
-        else{
-            ctx.fillStyle="#505050";
-            ctx.fillRect(64+(64*this.selectorPower)+20,64+20,64,64);
-            ctx.fillStyle="#FFFFFF";
-            ctx.fillRect(64+(64*this.selectorItems)+20,128+40,64,64);
-        }
-        for(i=0;i<this.player.powers.length;i++){
-            if(this.player.powers[i]=="magic missle"){
-                var img = ImageAtlas[magicMissileKey];
-                    ctx.drawImage(
-                    img, // image
-                    128+20,  // target x
-                    64+20, // target y
-                    64, // target width
-                    64 // target height
-                );
-            }
-            else if(this.player.powers[i]=="staff hit"){
-                var img = ImageAtlas[swordKey];
-                    ctx.drawImage(
-                    img, // image
-                    64+20,  // target x
-                    64+20, // target y
-                    64, // target width
-                    64 // target height
-                );
-            }
-            else if(this.player.powers[i]=="fire ball"){
-                var img = ImageAtlas[fireballKey];
-                    ctx.drawImage(
-                    img, // image
-                    192+20,  // target x
-                    64+20, // target y
-                    64, // target width
-                    64 // target height
-                );
-            }
-        }
-        for(i=0;i<this.player.inventory.length;i=i+2){
-            if(this.player.inventory[i]=="med kit"){
-                ctx.fillStyle="#505050";
-                if(this.selectorItems==0 && this.toggle==true){
-                    ctx.fillStyle="#FFFFFF";
-                }
-                var img = ImageAtlas[medkitKey];
-                ctx.drawImage(
-                    img, // image
-                    64+20,  // target x
-                    128+40, // target y
-                    64, // target width
-                    64 // target height
-                );
-                ctx.fillText(this.player.inventory[i+1],134,228);
-            }
-            if(this.player.inventory[i]=="bomb"){
-                ctx.fillStyle="#505050";
-                if(this.selectorItems==1 && this.toggle==true){
-                    ctx.fillStyle="#FFFFFF";
-                }
-                var img = ImageAtlas[bombKey];
-                ctx.drawImage(
-                    img, // image
-                    128+20,  // target x
-                    128+40, // target y
-                    64, // target width
-                    64 // target height
-                );
-                ctx.fillText(this.player.inventory[i+1],202,228);
-            }
-        }
-    }
-}

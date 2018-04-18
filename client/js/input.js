@@ -1,6 +1,6 @@
 //Defines/Handles user input
 
-//code for checking button preses
+//booleans for checking button preses
 pressingRight = false;
 pressingLeft = false;
 pressingUp = false;
@@ -48,7 +48,7 @@ function ChangeKey(id,key){
         Pause = key;
      }    
  }
-
+//Checks if the key is being pressed or held Down.
 keyDownCheck = function(event){
     if(event.keyCode == Right)
          pressingRight=true;
@@ -67,7 +67,7 @@ keyDownCheck = function(event){
     else if(event.keyCode == Pause)
         pressingPause=true;
 }
-
+// Checks if the key was released(no longer being held down).
 keyUpCheck = function(event){
     if(event.keyCode == Right)
          pressingRight=false;

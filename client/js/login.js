@@ -3,6 +3,7 @@
 var currentUser = "";
 var attemptedUser = "";
 
+//Used for logging in
 accountLogin = function(){
     var socket = io();
     var LoginUsername = document.getElementById('Create Account-username');
@@ -11,7 +12,7 @@ accountLogin = function(){
     attemptedUser = LoginUsername.value;
     sendToDB(event,{username:LoginUsername.value,password:LoginPassword.value});
 }
-
+//Used for account creation
 createAccount = function(){
     var LoginUsername = document.getElementById('Create Account-username');
     var LoginPassword = document.getElementById('Create Account-password');

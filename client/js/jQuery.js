@@ -1,3 +1,7 @@
+//The only reason that Query is used in this project is to deepclone objects. 
+//  Using the prototype Clone mehtod does not carry over its prototype functions, 
+//  which are needed for adding and removing entities dynamically.
+
 /*!
  * jQuery JavaScript Library v3.3.1
  * https://jquery.com/
