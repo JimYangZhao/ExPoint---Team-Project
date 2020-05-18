@@ -1,4 +1,3 @@
-# CS4770
 # ExPoint
 
 ExPoint is a game developed in HTML5 and Javascript for CS4770. It is developed by Group 4, consisting of Alex Gillis, Shamiso Jaravaza, Yang Zhao, and Scott Normor.
